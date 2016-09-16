@@ -8,8 +8,9 @@ public class Deck {
     // Data fields
     private int deckID;
     private String deckName;
-    public static final int DECKSIZE = 52; // A deck is made up of 52 cards
     private ArrayList<Card> blankDeck = new ArrayList<Card>(DECKSIZE);
+    public static final int DECKSIZE = 52; // A deck is made up of 52 cards
+    public static final int OPENINGHANDSIZE = 7; // An opening hand is made up of 7 cards
 
     
     // Constructors
@@ -33,7 +34,7 @@ public class Deck {
     
 
     // Getter methods
-    public ArrayList<Card> getDeckArrayList() {
+    public ArrayList<Card> getBlankDeck() {
         return blankDeck;
     }
     
@@ -83,7 +84,7 @@ public class Deck {
     // Deal seven cards from the top of the deck
     public ArrayList<Card> dealSevenCards(ArrayList<Card> deck) {
     	ArrayList<Card> sevenCards = new ArrayList<Card>();
-    	for (int i = 0, n = 7; i < n; i++) {
+    	for (int i = 0, n = OPENINGHANDSIZE; i < n; i++) {
     		sevenCards.add(deck.get(i));
     	    deck.remove(i);
     	}
