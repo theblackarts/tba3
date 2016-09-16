@@ -7,7 +7,7 @@ public class Game {
      *  what we are using it for in a game and distinguish
      *  it from each of the player's decks.
      */
-	public Deck deckManager = new Deck("Deck Manager Two");
+	public Deck deckManager = new Deck("Deck Manager");
 	
     /** Each game is played by two players */
     private Player playerOne = new Player();
@@ -21,13 +21,12 @@ public class Game {
     public void shuffleDeck(ArrayList<Card> deck) {
     	deckManager.shuffleDeck(deck);
     }
-
     
     /** Each player has one hand */
-    public ArrayList<Card> playerOneHand = new ArrayList<Card>();
-    public ArrayList<Card> playerTwoHand = new ArrayList<Card>(); 
+    private ArrayList<Card> playerOneHand = new ArrayList<Card>();
+    private ArrayList<Card> playerTwoHand = new ArrayList<Card>();
     
-    
+      
     /** Each player has an activatorResource pool */
     // Player one's resource pool
     
@@ -56,19 +55,27 @@ public class Game {
     
     /** Getters */
     public Player getPlayerOne() {
-        return playerOne;
+        return this.playerOne;
     }
     
     public Player getPlayerTwo() {
-        return playerTwo;
+        return this.playerTwo;
     }
     
     public ArrayList<Card> getDeckOne() {
-        return deckOne;
+        return this.deckOne;
     }
     
     public ArrayList<Card> getDeckTwo() {
-        return deckTwo;
+        return this.deckTwo;
+    }
+    
+    public ArrayList<Card> getPlayerOneHand() {
+    	return this.playerOneHand;
+    }
+    
+    public ArrayList<Card> getPlayerTwoHand() {
+    	return this.playerTwoHand;
     }
     
     
@@ -81,11 +88,9 @@ public class Game {
     // Create a deck object from Deck (half activator, half bear)
     public ArrayList<Card> buildDeck() {
        Deck deck = new Deck();
-       ArrayList<Card> myDeck = deck.getDeckArrayList();
-       deck.buildDeckOfHalfActivatorClubs(myDeck);
+       ArrayList<Card> myDeck = deck.getBlankDeck();
+       deck.buildDeckOfHalfGoldClubs(myDeck);
        deck.addToDeckTwentySixBears(myDeck);
        return myDeck;
     }
-    
-    
 }
