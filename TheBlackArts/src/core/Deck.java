@@ -10,7 +10,7 @@ public class Deck {
     private String deckName;
     private ArrayList<Card> blankDeck = new ArrayList<Card>(DECKSIZE);
     public static final int DECKSIZE = 52; // A deck is made up of 52 cards
-    public static final int OPENINGHANDSIZE = 7; // An opening hand is made up of 7 cards
+    public static final int OPENINGHANDSIZE = 7; // An opening hand is made up of 7 cards; should this be in game or player?
 
     
     // Constructors
