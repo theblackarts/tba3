@@ -42,9 +42,9 @@ public class Deck {
     }
     
     // Method to populate an array that contains 52 new cards
-    public void buildGenericDeck(ArrayList<Card> d) {
+    public void buildGenericDeck(ArrayList<Card> deck) {
         for (int i = 0, n = DECKSIZE; i < n; i++) {
-           d.add(new Card(i)); 
+           deck.add(new Card(i)); 
         }
     }
     
