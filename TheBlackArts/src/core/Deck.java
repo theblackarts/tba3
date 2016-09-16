@@ -73,9 +73,9 @@ public class Deck {
     }
     
     // Deal one card from the top of the deck
-    public Card dealOneCard(ArrayList<Card> d, int index) {
-        Card oneCard = d.get(index);
-        d.remove(index);
+    public Card dealOneCard(ArrayList<Card> deck, int index) {
+        Card oneCard = deck.get(index);
+        deck.remove(index);
         return oneCard;
     }
     
