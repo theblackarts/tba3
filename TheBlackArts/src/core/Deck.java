@@ -80,11 +80,11 @@ public class Deck {
     }
     
     // Deal seven cards from the top of the deck
-    public ArrayList<Card> dealSevenCards(ArrayList<Card> d) {
+    public ArrayList<Card> dealSevenCards(ArrayList<Card> deck) {
     	ArrayList<Card> sevenCards = new ArrayList<Card>();
     	for (int i = 0, n = 7; i < n; i++) {
-    		sevenCards.add(d.get(i));
-    	    d.remove(i);
+    		sevenCards.add(deck.get(i));
+    	    deck.remove(i);
     	}
     	
     	return sevenCards;
