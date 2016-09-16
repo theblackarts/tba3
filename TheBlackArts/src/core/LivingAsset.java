@@ -6,7 +6,7 @@ public class LivingAsset extends Card {
     private String cardType = "Living Asset";
     private int attack = 0;
     private int hitPoints = 1;
-    private boolean attacked = false;
+    private boolean isAttacked = false;
     
     // Constructors
     public LivingAsset() {
