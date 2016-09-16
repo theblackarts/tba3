@@ -52,7 +52,7 @@ public class Deck {
     // Need a pool of card objects to choose from
     // TODO: Create a pool of cards
     
-    /** Create a deck of half activator cards and half bear assets */
+    /** Create a deck of half gold cards and half bear assets */
     // Make 26 Club Activators and store them in a deck
     public void buildDeckOfHalfGoldClubs(ArrayList<Card> deck) {
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
@@ -73,9 +73,10 @@ public class Deck {
     }
     
     // Deal one card from the top of the deck
-    public Card dealOneCard(ArrayList<Card> deck, int index) {
-        Card oneCard = deck.get(index);
-        deck.remove(index);
+    public Card dealOneCard(ArrayList<Card> deck) {
+        // index 0 is just the top of the deck
+    	Card oneCard = deck.get(0);
+        deck.remove(0);
         return oneCard;
     }
     
