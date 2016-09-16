@@ -54,9 +54,9 @@ public class Deck {
     
     /** Create a deck of half activator cards and half bear assets */
     // Make 26 Club Activators and store them in a deck
-    public void buildDeckOfHalfActivatorClubs(ArrayList<Card> deck) {
+    public void buildDeckOfHalfGoldClubs(ArrayList<Card> deck) {
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
-            deck.add(new Gold("Spade Activator", "Spade"));
+            deck.add(new Gold("Gold Club", "Gold"));
         }
     }
     
