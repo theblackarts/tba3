@@ -68,8 +68,8 @@ public class Deck {
     }
         
     // Shuffle the deck
-    public void shuffleDeck(ArrayList<Card> d) {
-        Collections.shuffle(d);
+    public void shuffleDeck(ArrayList<Card> deck) {
+        Collections.shuffle(deck);
     }
     
     // Deal one card from the top of the deck
