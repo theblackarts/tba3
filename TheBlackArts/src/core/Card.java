@@ -13,7 +13,7 @@
  */
 
 package core;
-//change to card
+
 public class Card {
     
     private int cardID = -1; // Each card will eventually be uniquely identified
