@@ -10,7 +10,7 @@ package core;
 public class Gold extends Card {
     
     // Data fields
-    private boolean isActivated = false;     // TODO: Check that Activator is inPlay
+    private boolean isUsed = false;     // TODO: Check that gold card is inPlay
                                            //before allowing it to be used.
     private String cardType = "Gold";
 
@@ -30,11 +30,11 @@ public class Gold extends Card {
     
     // Setter
     public void setUsed(boolean used) {
-        this.isActivated = used;
+        this.isUsed = used;
     }
     
     // Getter
     public boolean getUsed() {
-        return this.isActivated;
+        return this.isUsed;
     } 
 }
