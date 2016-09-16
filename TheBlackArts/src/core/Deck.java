@@ -9,7 +9,7 @@ public class Deck {
     private int deckID;
     private String deckName;
     public static final int DECKSIZE = 52; // A deck is made up of 52 cards
-    private ArrayList<Card> deck = new ArrayList<Card>(DECKSIZE);
+    private ArrayList<Card> blankDeck = new ArrayList<Card>(DECKSIZE);
 
     
     // Constructors
@@ -34,7 +34,7 @@ public class Deck {
 
     // Getter methods
     public ArrayList<Card> getDeckArrayList() {
-        return deck;
+        return blankDeck;
     }
     
     public String getDeckName() {
