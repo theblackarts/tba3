@@ -47,5 +47,4 @@ public class TestDeck {
 		System.out.println("\n" + testDeck.size());
 		
 	}
-
 }

@@ -40,7 +40,7 @@ public class Deck {
     	return deckName;
     }
     
-    // Method to populate an array that contains 52 new cards
+    // Method to populate an array that contains 52 "generic" cards
     public void buildGenericDeck(ArrayList<Card> deck) {
         for (int i = 0, n = DECKSIZE; i < n; i++) {
            deck.add(new Card(i)); 
@@ -49,17 +49,15 @@ public class Deck {
     
     
     /** Create a deck of half gold cards and half bear assets */
-    // Make 26 Club Activators and store them in a deck
-    public void buildDeckOfHalfGoldClubs(ArrayList<Card> deck) {
-        for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
+    public void buildDeckOfHalfGoldClubsAndHalfBears(ArrayList<Card> deck) {
+        // Half the deck is made of Gold Clubs Cards
+    	for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
             deck.add(new Gold("Gold Club", "Gold"));
         }
-    }
-    
-    // Make 26 Bear Assets and store them in a deck
-    public void addToDeckTwentySixBears(ArrayList<Card> deck) {
+        
+    	// The other half of the deck is made of Bear Cards
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
-            deck.add(new LivingAsset("Bear", 10, 10));
+            deck.add(new LivingAsset("Bear", 10, 10));   
         }
     }
         
