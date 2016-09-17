@@ -14,10 +14,7 @@ public class TestDeck {
 		Card oneCardFromTestDeck;
 		
 		// A "blank" deck of 52 elements (an ArrayList of size 52)
-		ArrayList<Card> testDeck = deckManager.getBlankDeck();
-		
-		// Assign Cards to the "blank" deck
-		deckManager.buildGenericDeck(testDeck);
+		ArrayList<Card> testDeck = deckManager.buildGenericDeck();
 		
 		// Print out the cards
 		System.out.println(testDeck);
