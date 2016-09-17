@@ -14,8 +14,13 @@ public class Player {
     private String lastName;
     private String userName;
     private int hitPoints = 100;
+    public static final int OPENINGHANDSIZE = 7;
     
-    private ArrayList<Card> hand = new ArrayList<Card>(7);
+    // Each player has one deck
+    private ArrayList<Card> deck = new ArrayList<Card>(Deck.DECKSIZE);
+    
+    // Each player has one hand
+    private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
     
     private int clubResourcePool = 0;
     private int spadeResourcePool = 0;
