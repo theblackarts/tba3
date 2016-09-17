@@ -65,6 +65,8 @@ public class Deck {
             deck.add(new LivingAsset("Bear", 10, 10));
         }
     }
+    
+    // Make Deck method
         
     // Shuffle the deck
     public void shuffleDeck(ArrayList<Card> deck) {

@@ -14,8 +14,8 @@ public class Game {
     private Player playerTwo = new Player();
     
     /** Each player has one deck in a game */
-    private ArrayList<Card> deckOne = buildDeck(); 
-    private ArrayList<Card> deckTwo = buildDeck();
+    // Player one's deck
+    // Player two's deck
     
     /** Shuffle each deck */
     public void shuffleDeck(ArrayList<Card> deck) {
@@ -61,7 +61,7 @@ public class Game {
     public Player getPlayerTwo() {
         return this.playerTwo;
     }
-    
+    /* TODO: Make sure we can make the two decks
     public ArrayList<Card> getDeckOne() {
         return this.deckOne;
     }
@@ -69,7 +69,7 @@ public class Game {
     public ArrayList<Card> getDeckTwo() {
         return this.deckTwo;
     }
-    
+    */
     public ArrayList<Card> getPlayerOneHand() {
     	return this.playerOneHand;
     }
@@ -82,15 +82,5 @@ public class Game {
     /** Announce the game! */
     public void announceGame() {
         System.out.println("** Welcome to The Dark Arts game **\n");   
-    }
-    
-    /** Make the decks */
-    // Create a deck object from Deck (half activator, half bear)
-    public ArrayList<Card> buildDeck() {
-       Deck deck = new Deck();
-       ArrayList<Card> myDeck = deck.getBlankDeck();
-       deck.buildDeckOfHalfGoldClubs(myDeck);
-       deck.addToDeckTwentySixBears(myDeck);
-       return myDeck;
     }
 }
