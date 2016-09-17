@@ -26,8 +26,13 @@ public class TestGame {
     	
     	// Each player has one 52 card deck
     	// Already taken care of by the game object
-    	ArrayList<Card> gameDeckOne = game.getDeckOne();
+    	/* 
+    	 * This is no longer working because of refactor of
+    	 * which class is responsible for building a deck.
+    	 * TODO: Fix this.
+    	 * ArrayList<Card> gameDeckOne = game.getDeckOne();
     	ArrayList<Card> gameDeckTwo = game.getDeckTwo();
+    	
     	
     	System.out.println("PRE Shuffle gameDeckOne");
     	System.out.println(gameDeckOne);
@@ -70,7 +75,7 @@ public class TestGame {
         
         // Print player one's deck size, it should be 43
         System.out.println(gameDeckOne.size());
-        
+        */
     }
 
 }

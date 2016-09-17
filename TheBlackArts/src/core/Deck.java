@@ -47,9 +47,6 @@ public class Deck {
         }
     }
     
-    // Method to build a deck of cards
-    // Need a pool of card objects to choose from
-    // TODO: Create a pool of cards
     
     /** Create a deck of half gold cards and half bear assets */
     // Make 26 Club Activators and store them in a deck
@@ -65,8 +62,6 @@ public class Deck {
             deck.add(new LivingAsset("Bear", 10, 10));
         }
     }
-    
-    // Make Deck method
         
     // Shuffle the deck
     public void shuffleDeck(ArrayList<Card> deck) {
