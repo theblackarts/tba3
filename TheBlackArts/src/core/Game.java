@@ -3,47 +3,55 @@ package core;
 import java.util.ArrayList;
 
 public class Game {
-    /** Let's call a Deck a deck manager to make it clear
-     *  what we are using it for in a game and distinguish
-     *  it from each of the player's decks.
-     */
-	public Deck deckManager = new Deck("Deck Manager");
+	
+	private int gameID;
+	private int totalTurns;
+	private int playerTurn; // Who's turn is it (1) Player One, (2) Player Two
 	
     /** Each game is played by two players */
     private Player playerOne = new Player();
     private Player playerTwo = new Player();
-    
-    /** Each player has one deck in a game */
-    // Player one's deck
-    // Player two's deck
-    
-    /** Shuffle each deck */
-    public void shuffleDeck(ArrayList<Card> deck) {
-    	deckManager.shuffleDeck(deck);
-    }
-    
-    /** Each player has one hand */
-    private ArrayList<Card> playerOneHand = new ArrayList<Card>();
-    private ArrayList<Card> playerTwoHand = new ArrayList<Card>();
-    
-      
-    /** Each player has an activatorResource pool */
-    // Player one's resource pool
-    
-    
-    // Player two's resource pool
+
+	private boolean playerOneWin = false;
+    private boolean playerTwoWin = false;
+
     /** Constructors */
-    public Game() {
-        
+    public Game(int gameID) {
+        this.gameID = gameID;
     }
     
-    public Game(Player p1, Player p2) {
-        this.playerOne = p1;
-        this.playerTwo = p2;
+    public Game(int gameID, Player playerOne, Player playerTwo) {
+    	this.gameID = gameID;
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
     }
     
     
     /** Setters */
+	public void setPlayerOneWin(boolean playerOneWin) {
+		this.playerOneWin = playerOneWin;
+	}
+
+	public void setPlayerTwoWin(boolean playerTwoWin) {
+		this.playerTwoWin = playerTwoWin;
+	}
+
+	public void setPlayerTurn(int playerTurn) {
+		this.playerTurn = playerTurn;
+	}
+
+	public void setTotalTurns(int totalTurns) {
+		this.totalTurns = totalTurns;
+	}
+    
+    public int getTotalTurns() {
+		return totalTurns;
+	}
+    
+    public void setGameID(int gameID) {
+    	this.gameID = gameID;
+    }
+    
     public void setPlayerOne(Player player) {
         this.playerOne = player;
     }
@@ -54,30 +62,29 @@ public class Game {
     
     
     /** Getters */
-    public Player getPlayerOne() {
-        return this.playerOne;
+    public boolean getIsPlayerOneWin() {
+		return playerOneWin;
+	}
+    
+	public boolean getIsPlayerTwoWin() {
+		return playerTwoWin;
+	}
+    
+	public int getPlayerTurn() {
+		return playerTurn;
+	}
+	
+    public int getGameID() {
+    	return this.gameID;
     }
     
-    public Player getPlayerTwo() {
-        return this.playerTwo;
-    }
-    /* TODO: Make sure we can make the two decks
-    public ArrayList<Card> getDeckOne() {
-        return this.deckOne;
-    }
-    
-    public ArrayList<Card> getDeckTwo() {
-        return this.deckTwo;
-    }
-    */
-    public ArrayList<Card> getPlayerOneHand() {
-    	return this.playerOneHand;
-    }
-    
-    public ArrayList<Card> getPlayerTwoHand() {
-    	return this.playerTwoHand;
-    }
-    
+	public Player getPlayerOne() {
+		return playerOne;
+	}
+
+	public Player getPlayerTwo() {
+		return playerTwo;
+	}
     
     /** Announce the game! */
     public void announceGame() {
