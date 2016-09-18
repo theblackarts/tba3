@@ -57,13 +57,13 @@ public class TestGame {
         // Deal one card to the "game"
         System.out.println("Hi, I'm the deck manager, and I just dealt" +
         		" one card from player one's deck," + " " +
-        		game.deckManager.dealOneCard(gameDeckOne, 0));
+        		game.deckManager.dealOneCard(gameDeckOne));
         
         // Validate that the card has been removed from player one's deck
         System.out.println(gameDeckOne.size());
         
         // Deal one card to player one's hand
-        playerOneHand.add(game.deckManager.dealOneCard(gameDeckOne, 0));
+        playerOneHand.add(game.deckManager.dealOneCard(gameDeckOne));
         
         // Print player one's hand size (it should be 8)
         System.out.println(playerOneHand.size());
