@@ -12,22 +12,21 @@ public class TestBasicHandUI {
 
 	public static void main(String[] args) {
 		// Make a new game
-		Game game = new Game();
+		Game game = new Game(1);
 		
 		// Build a deck for Player One
-		ArrayList<Card> gameDeckOne = game.getDeckOne();
+		
 		
 		// Get Player One's Hand
-		ArrayList<Card> playerOneHand = game.getPlayerOneHand();
+		
 		
 		// Make a "Deck Manager"
-		Deck deckManager = new Deck("Deck Manager");
+
 		
 		// Shuffle the deck
-		deckManager.shuffleDeck(gameDeckOne);
+
 	    
 		// Deal Player One's starting hand
-		playerOneHand = deckManager.dealSevenCards(gameDeckOne);
 		
 		// Display each card on it's own line
 		for (int i = 0, n = playerOneHand.size(); i < n; i++) {

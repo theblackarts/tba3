@@ -6,6 +6,8 @@ package core;
 
 import java.util.ArrayList;
 
+import core.Deck;
+
 public class Player {
    
     // Data fields
@@ -14,8 +16,15 @@ public class Player {
     private String lastName;
     private String userName;
     private int hitPoints = 100;
+    public static final int OPENINGHANDSIZE = 7;
     
-    private ArrayList<Card> hand = new ArrayList<Card>(7);
+    // Each player has one deck
+    Deck deckManager = new Deck();
+    private ArrayList<Card> deck = deckManager.buildGenericDeck();
+    
+
+    // Each player has one hand
+    private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
     
     private int clubResourcePool = 0;
     private int spadeResourcePool = 0;
@@ -114,5 +123,9 @@ public class Player {
     
     public ArrayList<Card> getHand() {
         return hand;
+    }
+    
+    public ArrayList<Card> getDeck() {
+    	return deck;
     }
 }

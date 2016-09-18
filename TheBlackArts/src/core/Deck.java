@@ -10,9 +10,7 @@ public class Deck {
     private String deckName;
     private ArrayList<Card> blankDeck = new ArrayList<Card>(DECKSIZE);
     public static final int DECKSIZE = 52; // A deck is made up of 52 cards
-    public static final int OPENINGHANDSIZE = 7; // An opening hand is made up of 7 cards; should this be in game or player?
 
-    
     // Constructors
     public Deck() {
         
@@ -42,29 +40,25 @@ public class Deck {
     	return deckName;
     }
     
-    // Method to populate an array that contains 52 new cards
-    public void buildGenericDeck(ArrayList<Card> deck) {
+    // Method to populate an array that contains 52 "generic" cards
+    public ArrayList<Card> buildGenericDeck() {
         for (int i = 0, n = DECKSIZE; i < n; i++) {
-           deck.add(new Card(i)); 
+           this.blankDeck.add(new Card(i)); 
         }
+        return blankDeck;
     }
     
-    // Method to build a deck of cards
-    // Need a pool of card objects to choose from
-    // TODO: Create a pool of cards
     
     /** Create a deck of half gold cards and half bear assets */
-    // Make 26 Club Activators and store them in a deck
-    public void buildDeckOfHalfGoldClubs(ArrayList<Card> deck) {
-        for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
+    public void buildDeckOfHalfGoldClubsAndHalfBears(ArrayList<Card> deck) {
+        // Half the deck is made of Gold Clubs Cards
+    	for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
             deck.add(new Gold("Gold Club", "Gold"));
         }
-    }
-    
-    // Make 26 Bear Assets and store them in a deck
-    public void addToDeckTwentySixBears(ArrayList<Card> deck) {
+        
+    	// The other half of the deck is made of Bear Cards
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
-            deck.add(new LivingAsset("Bear", 10, 10));
+            deck.add(new LivingAsset("Bear", 10, 10));   
         }
     }
         
@@ -84,7 +78,7 @@ public class Deck {
     // Deal seven cards from the top of the deck
     public ArrayList<Card> dealSevenCards(ArrayList<Card> deck) {
     	ArrayList<Card> sevenCards = new ArrayList<Card>();
-    	for (int i = 0, n = OPENINGHANDSIZE; i < n; i++) {
+    	for (int i = 0, n = Player.OPENINGHANDSIZE; i < n; i++) {
     		sevenCards.add(deck.get(i));
     	    deck.remove(i);
     	}
