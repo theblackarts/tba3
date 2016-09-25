@@ -24,6 +24,13 @@ public class LivingAsset extends Card {
         this.hitPoints = hitPoints;
     }
     
+    public LivingAsset(String name, int attack, int hitPoints, int clubCost) {
+    	super.setCardName(name);
+    	this.attack = attack;
+    	this.hitPoints = hitPoints;
+    	super.setClubCost(clubCost);
+    }
+    
     
     // Setters
     public void setAttack(int attack) {

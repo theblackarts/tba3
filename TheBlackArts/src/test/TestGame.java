@@ -23,26 +23,35 @@ public class TestGame {
     	Player playerOne = game.getPlayerOne();
     	Player playerTwo = game.getPlayerTwo();
     	
-    	System.out.println(playerOne);
-    	System.out.println(playerTwo);
+    	System.out.println("This match is between " + playerOne.getFirstName() + " and " + playerTwo.getFirstName()
+    			+ ".");
+    	System.out.println("Good luck & have fun!");
+    	System.out.println();
     	
     	// Each player has one 52 card deck
     	ArrayList<Card> deckOne = playerOne.getDeck();
     	ArrayList<Card> deckTwo = playerTwo.getDeck();
     	
-    	// Print the decks pre shuffle
-    	System.out.println("\n***\n");
-    	System.out.println(deckOne);
-    	System.out.println(deckTwo);
-    	
     	// Shuffle each deck
     	deck.shuffleDeck(deckOne);
     	deck.shuffleDeck(deckTwo);
     	
-    	// Print the decks post shuffle
-    	System.out.println("\n***\n");
-    	System.out.println(deckOne);
-    	System.out.println(deckTwo);
-  
+    	System.out.println("The decks have been shuffled.");
+    	
+    	System.out.println(playerOne.getFirstName() +
+    			" will play first."); // TODO: A way to randomly select first player
+    	
+    	game.nextTurn();
+    	System.out.println("\n:: Turn " + game.getTotalTurns() + "::\n");
+    	    	
+    	// Show the player's hand (for now it is just the references to the objects)
+    	playerOne.setHand(deck.dealSevenCards(deckOne));
+    	ArrayList<Card> handOne = playerOne.getHand();    	
+    	
+    	// Ask Alice to pick a card
+    	game.pickOneCard(handOne);
+    	
+    	
+
     }
 }

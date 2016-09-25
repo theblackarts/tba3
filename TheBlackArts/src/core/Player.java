@@ -20,9 +20,9 @@ public class Player {
     
     // Each player has one deck
     Deck deckManager = new Deck();
-    private ArrayList<Card> deck = deckManager.buildGenericDeck();
+    private ArrayList<Card> deck =
+    		deckManager.buildDeckOfHalfGoldClubsAndHalfBears(); // this will be an empty ArrayList
     
-
     // Each player has one hand
     private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
     
@@ -30,6 +30,7 @@ public class Player {
     private int spadeResourcePool = 0;
     private int heartResourcePool = 0;
     private int diamondResourcePool = 0;
+    
     
     // Constructors
     public Player(){
@@ -48,6 +49,10 @@ public class Player {
     }
     
     // Setters
+    public void setHand(ArrayList<Card> hand) {
+    	this.hand = hand;
+    }
+    
     public void setPlayerID(int id) {
         this.playerID = id;
     }
@@ -83,6 +88,7 @@ public class Player {
     public void setDiamondResourcePool(int diamondResourcePool) {
         this.diamondResourcePool = diamondResourcePool;
     }
+    
     
     // Getters
     public int getPlayerID() {
@@ -127,5 +133,13 @@ public class Player {
     
     public ArrayList<Card> getDeck() {
     	return deck;
+    }
+    
+    
+    // print the human readable form of the hand
+    public void getHumanReadableHand(ArrayList<Card> hand) {
+    	for (int i = 0, n = hand.size(); i < n; i++) {
+    		System.out.println(hand.get(i).getCardName());
+    	}
     }
 }
