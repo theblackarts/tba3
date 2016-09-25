@@ -6,8 +6,7 @@ import java.util.Scanner;
 public class Game {
 	
 	private int gameID;
-	private int totalTurns = 0;
-	private int playerTurn; // Who's turn is it (1) Player One, (2) Player Two
+	private int totalTurns = 0; // Who's turn it is, is based on modulo 2 (0 is player 1, 1 is player 2)
 	
 	// Turn Phases
 	private boolean refreshPhase;
@@ -49,12 +48,13 @@ public class Game {
      * Main game loop
      */
     public void startGame(Player playerOne, Player playerTwo) {
+    	System.out.println("Game ID: " + this.getGameID());
     	// There needs to be some sort of loop that allows players to take turns until one of them goes to 0 HP
         while (!playerOneWin || !playerTwoWin) {
         	// Increment totalTurns
         	nextTurn();
         	
-        	// Announce that it is player one's turn
+        	// Announce that it is player one (two)'s turn
         	if (totalTurns % 2 == 0) {
         		System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
         	} else if (totalTurns % 2 == 1) {
@@ -128,9 +128,6 @@ public class Game {
 		this.playerTwoWin = playerTwoWin;
 	}
 
-	public void setPlayerTurn(int playerTurn) {
-		this.playerTurn = playerTurn;
-	}
 
 	public void setTotalTurns(int totalTurns) {
 		this.totalTurns = totalTurns;
@@ -160,10 +157,6 @@ public class Game {
     
 	public boolean getIsPlayerTwoWin() {
 		return playerTwoWin;
-	}
-    
-	public int getPlayerTurn() {
-		return playerTurn;
 	}
 	
     public int getGameID() {
