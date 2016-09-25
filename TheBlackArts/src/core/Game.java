@@ -51,9 +51,7 @@ public class Game {
     	System.out.println("Game ID: " + this.getGameID());
     	// There needs to be some sort of loop that allows players to take turns until one of them goes to 0 HP
         while (!playerOneWin || !playerTwoWin) {
-        	// Increment totalTurns
-        	nextTurn();
-        	
+
         	// Announce that it is player one (two)'s turn
         	if (totalTurns % 2 == 0) {
         		System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
@@ -64,7 +62,7 @@ public class Game {
         	}
         	
         	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
-        	System.out.println(":: Turn :: " + totalTurns);
+        	System.out.println(":: Turn :: " + (totalTurns + 1));
 
         	char decideYN;
         	
@@ -73,6 +71,9 @@ public class Game {
         		System.out.print("Would you like to pass your turn? (Y/N):");
             	decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
         	} while (decideYN != 'Y');
+        	
+        	// Increment totalTurns
+        	nextTurn();
         }
     }
     
