@@ -61,71 +61,106 @@ public class Game {
     	deckManager.shuffleDeck(deckOne);
     	deckManager.shuffleDeck(deckTwo);
     	
+    	
+    	
     	// Deal Each Player's starting hand
     	playerOne.setHand(deckManager.dealSevenCards(deckOne));
     	playerTwo.setHand(deckManager.dealSevenCards(deckTwo));
     	
+    	// Create a reference variable for each Player's hand
+    	ArrayList<Card> handOne = playerOne.getHand();
+    	ArrayList<Card> handTwo = playerTwo.getHand();
+    	
     	// There needs to be some sort of loop that allows players to take turns until one of them goes to 0 HP
         while (!playerOneWin || !playerTwoWin) {
-
-        	// Announce that it is player one (two)'s turn
-        	if (totalTurns % 2 == 0) {
-        		System.out.println("It is " + playerOne.getFirstName() + "'s turn."); // everything in here for Player
-        																			  // One's turn?
-        	} else if (totalTurns % 2 == 1) {
-        		System.out.println("It is " + playerTwo.getFirstName() + "'s turn."); // and everything here for Player
-        		  																      // Two's turn?
-        	} else {
-        		System.out.println("playerTurn variable is broken; FIX!"); 
-        	}
+        	
+        	char decideYN;
         	
         	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
         	System.out.println(":: Turn :: " + (totalTurns + 1));
+        	
+        	// Announce that it is player one (two)'s turn
+        	if (totalTurns % 2 == 0) {
+        		// We know it is playerOne's turn
+        		System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
-        	// Go through all the phases of a player's turn
-        	
-        	// ** (1) Refresh **
-        	refreshPhase = true;
-        	
-        	// For each Gold card, it should go from used to unused
-        	
-        	// For each Living Asset (Monster) it should go from attacked to not attacked
-        	
-        	// For each card that has a game mechanic that is triggered by Refresh, it should have it's behavior here
-        	
-        	refreshPhase = false;
-        	
-        	// ** (2) Draw **
-        	
-        	drawPhase = true;
-        	if (totalTurns != 0) {
-        		if (totalTurns % 2 == 0) {
-        			// deal from deck one to player one
-        		} else if (totalTurns % 2 == 1) {
-        			// deal from deck two to player two
-        		} else {
-        			System.out.println("Draw phase is broken. FIX!");
-        		}
+            	// Go through all the phases of a player's turn
+            	
+            	// ** (1) Refresh **
+            	refreshPhase = true; // begin refresh phase
+            	System.out.println("Start [REFRESH PHASE]");
+            	// For each Gold card that playerOne owns, it should go from used to unused
+            	
+            	// For each Living Asset (Monster) it should go from attacked to not attacked
+            	
+            	// For each card that has a game mechanic that is triggered by Refresh,
+            	// it should have it's behavior here
+            	
+            	refreshPhase = false; // end refresh phase
+            	System.out.println("End [REFRESH PHASE]");
+            	
+            	// ** (2) Draw **
+            	drawPhase = true; // begin draw phase
+            	System.out.println("Start [DRAW PHASE]");
+            	if (totalTurns != 0) { // if it is not the first turn then deal one card to the Player
+            		Card dealtCard = deckManager.dealOneCard(deckOne);
+            		handOne.add(dealtCard);
+            		System.out.println(playerOne.getFirstName() + ", you drew a " + dealtCard.getCardName());
+            	}
+            	drawPhase = false; // end draw phase
+            	System.out.println("End [DRAW PHASE]");
+            	
+            	// ** (3) Attack **
+            	attackPhase = true; // start attack phase
+            	System.out.println("Start [ATTACK PHASE]");
+            	
+            	attackPhase = false; // end attack phase
+            	System.out.println("End [ATTACK PHASE]");
+            	
+            	// ** (4) Mine **
+            	minePhase = true; // start minePhase
+            	System.out.println("Start [MINE PHASE]");
+            	
+            	minePhase = false; // end minePhase
+            	System.out.println("End [MINE PHASE]");
+            	
+            	// ** (5) Purchase **
+            	purchasePhase = true; // start purchase phase
+            	System.out.println("Start [PURCHASE PHASE]");
+            	
+            	purchasePhase = false; // end purchase phase
+            	System.out.println("End [PURCHASE PHASE]");
+            	
+            	// ** (6) End **
+            	endPhase = true;
+            	System.out.println("Start [END PHASE]");
+            	
+            	// Give player one the option to pass his or her turn
+            	
+            	do {
+            		System.out.print("Would you like to pass your turn? (Y/N):");
+                	decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
+            	} while (decideYN != 'Y');
+            	
+            	endPhase = false;
+            	System.out.println("End [END PHASE]");
+            			
+        	} else if (totalTurns % 2 == 1) {
+        		// We know it is playerTwo's turn
+        		System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
         		
+        		// TODO Phases here
+        		System.out.println("All of player two's phases");
+        		
+        		do {
+            		System.out.print("Would you like to pass your turn? (Y/N):");
+                	decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
+            	} while (decideYN != 'Y');
+        		
+        	} else {
+        		System.out.println("playerTurn variable is broken; FIX!"); 
         	}
-        	
-        	drawPhase = false;
-        	
-        	// ** (3) Attack **
-        	
-        	// ** (4) Mine ** <-- start with this Phase and then work backwards
-        	
-        	// ** (5) Purchase **
-        	
-        	// ** (6) End **
-        	
-        	// Give player one the option to pass his or her turn
-        	char decideYN;
-        	do {
-        		System.out.print("Would you like to pass your turn? (Y/N):");
-            	decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-        	} while (decideYN != 'Y');
-        	
+    	
         	// Increment totalTurns
         	nextTurn();
         }
