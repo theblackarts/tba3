@@ -9,6 +9,14 @@ public class Game {
 	private int totalTurns = 0;
 	private int playerTurn; // Who's turn is it (1) Player One, (2) Player Two
 	
+	// Turn Phases
+	private boolean refreshPhase;
+	private boolean drawPhase;
+	private boolean attackPhase;
+	private boolean minePhase; // This is when a player can play one gold card each turn
+	private boolean purchasePhase;
+	private boolean endPhase;
+	
 	// Game Zones
 	ArrayList<Card> playerOneInPlayZone = new ArrayList<Card>();
 	ArrayList<Card> playerTwoInPlayZone = new ArrayList<Card>();
@@ -23,7 +31,7 @@ public class Game {
 	private boolean playerOneWin = false;
     private boolean playerTwoWin = false;
 
-    private Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in); // useful for text based UI
     
     /** Constructors */
     public Game(int gameID) {
@@ -36,31 +44,44 @@ public class Game {
         this.playerTwo = playerTwo;
     }
     
+    
+    /**
+     * Main game loop
+     */
+    public void startGame(Player playerOne, Player playerTwo) {
+    	// There needs to be some sort of loop that allows players to take turns until one of them goes to 0 HP
+        while (!playerOneWin || !playerTwoWin) {
+        	// Increment totalTurns
+        	nextTurn();
+        	
+        	// Announce that it is player one's turn
+        	if (totalTurns % 2 == 0) {
+        		System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
+        	} else if (totalTurns % 2 == 1) {
+        		System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
+        	} else {
+        		System.out.println("playerTurn variable is broken; FIX!"); 
+        	}
+        	
+        	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
+        	System.out.println(":: Turn :: " + totalTurns);
+
+        	char decideYN;
+        	
+        	// Give player one the option to pass his or her turn
+        	do {
+        		System.out.print("Would you like to pass your turn? (Y/N):");
+            	decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
+        	} while (decideYN != 'Y');
+        }
+    }
+    
+    
     /**
      * UI methods for a Game
      */
     // Allow player to choose a card from his or her hand
-    public void simplePickOneCard(ArrayList<Card> hand) {
-    	// Prompt the player which card to choose
-    	System.out.println("Which card would you like to select?");
-    	
-    	// Display all the cards with a number
-    	for (int i = 0, n = hand.size(); i < n; i++) {
-    		System.out.println((i + 1) + ": " + hand.get(i));
-    	}
-    	
-    	// Prompt player for selection
-    	System.out.print("Select (enter a number): ");
-        
-    	// Get the selection
-    	int selection = input.nextInt();
-    	
-    	// Output the card selected
-    	System.out.println(hand.get(selection - 1));
-    	
-    }
-    
-    public void pickOneCard(ArrayList<Card> hand) {
+    public void selectOneHandCard(ArrayList<Card> hand) {
     	// Prompt the player which card to choose
     	System.out.println("Which card would you like to select?");
     	System.out.println("HAND");

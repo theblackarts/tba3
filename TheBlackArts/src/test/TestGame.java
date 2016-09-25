@@ -41,17 +41,14 @@ public class TestGame {
     	System.out.println(playerOne.getFirstName() +
     			" will play first."); // TODO: A way to randomly select first player
     	
-    	game.nextTurn();
+    	game.nextTurn(); // turn "0" to turn 1
     	System.out.println("\n:: Turn " + game.getTotalTurns() + "::\n");
     	    	
-    	// Show the player's hand (for now it is just the references to the objects)
+    	// Deal an opening hand of 7 cards to Alice
     	playerOne.setHand(deck.dealSevenCards(deckOne));
     	ArrayList<Card> handOne = playerOne.getHand();    	
     	
     	// Ask Alice to pick a card
-    	game.pickOneCard(handOne);
-    	
-    	
-
+    	game.selectOneHandCard(handOne);
     }
 }

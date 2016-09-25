@@ -19,9 +19,11 @@ public class Player {
     public static final int OPENINGHANDSIZE = 7;
     
     // Each player has one deck
+    // NOTE: This is where the player's deck is being built
+    // TODO: Make a setDeck to change out a player's deck
     Deck deckManager = new Deck();
     private ArrayList<Card> deck =
-    		deckManager.buildDeckOfHalfGoldClubsAndHalfBears(); // this will be an empty ArrayList
+    		deckManager.buildDeckOfHalfGoldClubsAndHalfBears();
     
     // Each player has one hand
     private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
