@@ -32,7 +32,7 @@ public class Card {
     // Game zone the card is in
     private boolean inHandZone = false;
     private boolean inPlayZone = false;
-    private boolean inDeckZone = false;
+    private boolean inDeckZone = true;
     private boolean inDeadZone = false;
 
     
@@ -84,6 +84,22 @@ public class Card {
     
     public void setDiamondCost(int cost) {
         this.clubCost = cost;
+    }
+    
+    public void setInHandZone(boolean z) {
+    	this.inHandZone = z;
+    }
+    
+    public void setInPlayZone(boolean z) {
+    	this.inPlayZone = z;
+    }
+    
+    public void setInDeckZone(boolean z) {
+    	this.inPlayZone = z;
+    }
+    
+    public void setInDeadZone(boolean z) {
+    	this.inDeadZone = z;
     }
     
     

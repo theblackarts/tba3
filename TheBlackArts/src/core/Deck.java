@@ -76,16 +76,20 @@ public class Deck {
         // index 0 is just the top of the deck
     	Card oneCard = deck.get(0);
         deck.remove(0);
+        oneCard.setInHandZone(false);
+        oneCard.setInHandZone(true);
         return oneCard;
     }
     
     // Deal seven cards from the top of the deck
-    // This needs some work to deal cards properly
     public ArrayList<Card> dealSevenCards(ArrayList<Card> deck) {
     	ArrayList<Card> sevenCards = new ArrayList<Card>();
     	for (int i = 0, n = Player.OPENINGHANDSIZE; i < n; i++) {
-    		sevenCards.add(deck.get(i));
-    	    deck.remove(i);
+    		Card oneCard = deck.get(i);
+    		deck.remove(i);
+    		oneCard.setInDeckZone(false);
+    		sevenCards.add(oneCard);
+    		oneCard.setInHandZone(true);
     	}
     	
     	 return sevenCards;

@@ -60,9 +60,7 @@ public class Game {
     	// Shuffle each Player's Deck
     	deckManager.shuffleDeck(deckOne);
     	deckManager.shuffleDeck(deckTwo);
-    	
-    	
-    	
+
     	// Deal Each Player's starting hand
     	playerOne.setHand(deckManager.dealSevenCards(deckOne));
     	playerTwo.setHand(deckManager.dealSevenCards(deckTwo));
@@ -121,6 +119,33 @@ public class Game {
             	minePhase = true; // start minePhase
             	System.out.println("Start [MINE PHASE]");
             	
+            	// for each card in Player One's hand, is there at least one Gold card?
+            	// If yes, give the Player an option to play it
+            	// If no, give the Player the option to bluff? This might be a feature we could do in a later phase
+            	
+            	for (int i = 0, n = handOne.size(); i < n; i++) {
+            		Card card = handOne.get(i);
+            		if (card instanceof Gold) {
+            			System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
+            			decideYN = input.next().charAt(0);
+            			if (decideYN == 'Y') {
+            				// remove the card from players hand
+            				handOne.remove(i);
+            				
+            				// switch inHandZone to false
+            				card.setInHandZone(false);
+            				
+            				// add the card to playerOneInPlayZone
+            				playerOneInPlayZone.add(card);
+            				
+            				// switch the inPlayZone to true
+            				card.setInPlayZone(true);
+            				
+            				break;
+            			}
+            		}
+            	}
+            	            	
             	minePhase = false; // end minePhase
             	System.out.println("End [MINE PHASE]");
             	
@@ -133,6 +158,9 @@ public class Game {
             	
             	// ** (6) End **
             	endPhase = true;
+            	
+            	// Mechanism to allow player to discard down to 7 cards (this is the max hand size for a game)
+            	
             	System.out.println("Start [END PHASE]");
             	
             	// Give player one the option to pass his or her turn
