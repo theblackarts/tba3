@@ -1,7 +1,9 @@
 package core;
 
-public class NonlivingAsset {
+public class NonlivingAsset extends Card {
 	
 	// TODO implement
+	NonlivingAsset() {
+	}
 
 }

@@ -69,17 +69,21 @@ public class Game {
     	ArrayList<Card> handOne = playerOne.getHand();
     	ArrayList<Card> handTwo = playerTwo.getHand();
     	
-    	// There needs to be some sort of loop that allows players to take turns until one of them goes to 0 HP
-        while (!playerOneWin || !playerTwoWin) {
-        	
-        	char decideYN;
+    	
+    	char decideYN; // UI input for YN
+    	int cardChoice; // used for UI input for picking a card via an integer value 
+    	Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
+    	
+    	// Main game loop that allows players to take turns until one of them goes to 0 HP
+        while (!playerOneWin || !playerTwoWin) { // This might not make sense given that the game should stop
+        									     // immediately upon either player winning.
         	
         	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
         	System.out.println(":: Turn :: " + (totalTurns + 1));
         	
-        	// Announce that it is player one (two)'s turn
-        	if (totalTurns % 2 == 0) {
-        		// We know it is playerOne's turn
+        	if (totalTurns % 2 == 0) { // We know it is playerOne's turn
+        		
+            	// Announce that it is player one (two)'s turn
         		System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
             	// Go through all the phases of a player's turn
@@ -106,6 +110,8 @@ public class Game {
             		System.out.println(playerOne.getFirstName() + ", you drew a " + dealtCard.getCardName());
             	}
             	drawPhase = false; // end draw phase
+            	// TODO: Implement method to shuffle Dead Zone cards back into the deck when there are no more cards
+            	//       to draw from a Player's deck.
             	System.out.println("End [DRAW PHASE]");
             	
             	// ** (3) Attack **
@@ -124,7 +130,7 @@ public class Game {
             	// If no, give the Player the option to bluff? This might be a feature we could do in a later phase
             	
             	for (int i = 0, n = handOne.size(); i < n; i++) {
-            		Card card = handOne.get(i);
+            		card = handOne.get(i);
             		if (card instanceof Gold) {
             			System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
             			decideYN = input.next().charAt(0);
@@ -149,9 +155,69 @@ public class Game {
             	minePhase = false; // end minePhase
             	System.out.println("End [MINE PHASE]");
             	
-            	// ** (5) Purchase **
+            	
+            	// ********************* (5) Purchase *********************
+            	 
             	purchasePhase = true; // start purchase phase
             	System.out.println("Start [PURCHASE PHASE]");
+            	
+            	// Get the amount of gold that the player has at the start of his or her purchase phase
+            	int amountOfUnusedGold = getAmountOfUnusedGold(playerOneInPlayZone);
+            	int cardCost;
+            	
+            	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
+            	 * display it along with an integer value that will act as an affordance to select
+            	 * and pay for it, to bring the card into play.
+            	 */
+            	
+            	// Display all cards that can be purchased with an associated integer value
+            	for (int i = 0, n = handOne.size(); i < n; i++) {
+            		if (handOne.get(i) instanceof LivingAsset || handOne.get(i) instanceof NonlivingAsset
+            				|| handOne.get(i) instanceof Action) {
+            			System.out.println((i + 1) + ": " + handOne.get(i).getCardName() + ", " +
+            				handOne.get(i).getClubCost()); // For now Gold Clubs will be a stand in for "Gold"
+            		}
+            	}
+            	
+            	// Prompt the user for input
+            	System.out.print("Pick a card by typing the associated integer value: ");
+
+            	// Get the Player's card choice
+            	cardChoice = input.nextInt();
+            	
+            	// Store the card in a variable that the Player selected
+            	card = handOne.get(cardChoice - 1); // Subtract one to account for 0 index
+            	
+            	// Store the card cost
+            	cardCost = card.getClubCost();
+            	
+            	// Does the player have enough unused gold to purchase the selected card?
+            	if (cardCost <= amountOfUnusedGold) {
+            		
+            		// For the amount of gold the card costs, set each unused Gold card to used
+            		// This should really be a method
+            		
+            		// Whatever the card cost is, set the respective number of gold cards to used
+            		for (int i = 0, n = playerOneInPlayZone.size(); i < n; i++) {
+            			for (int j = 0, k = cardCost; j < k; j++) {
+            				if (playerOneInPlayZone.get(i) instanceof Gold) {
+                				Gold gold = (Gold) playerOneInPlayZone.get(i);
+                				gold.setUsed(true); // Q: Will this set the Gold element i to used as we want, or no?
+                			}
+            			}
+            		}
+            		
+            		// TODO: Remove the card from player's hand
+            		
+            		// TODO: Add the card to the player's inPlayZone
+            		
+            	} else { // They do not have enough unused gold to pay for the card
+            		System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+            	}
+            	
+            	// Display all cards in play for player one
+            	System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
+            	
             	
             	purchasePhase = false; // end purchase phase
             	System.out.println("End [PURCHASE PHASE]");
@@ -228,12 +294,31 @@ public class Game {
     }
     
     /**
-     * Other Game methods
+     * Game Utility Methods
      */
     
     /** Announce the game! */
     public void announceGame() {
         System.out.println("** Welcome to The Dark Arts game **\n");   
+    }
+    
+    /** Count the amount of unused gold a player has in their play zone */
+    public int getAmountOfUnusedGold(ArrayList<Card> inPlayZone) {
+    	int amountOfUnusedGold = 0;
+    	for (int i = 0, n = inPlayZone.size(); i < n; i++) {
+    		if (inPlayZone.get(i) instanceof Gold) {
+    			
+    			// Cast the superclass to subclass
+    			// See http://stackoverflow.com/questions/4862960/explicit-casting-from-super-class-to-subclass
+    			Gold gold = (Gold) inPlayZone.get(i);
+    			
+    			if (!gold.getUsed()) {
+    				amountOfUnusedGold++;
+    			}
+    		}
+    	}
+    	
+    	return amountOfUnusedGold;
     }
     
     
