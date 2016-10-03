@@ -88,7 +88,7 @@ public class Game {
 
             	// Go through all the phases of a player's turn
             	
-            	// ** (1) Refresh **
+            	// ********************* (1) Refresh *********************
             	refreshPhase = true; // begin refresh phase
             	System.out.println("Start [REFRESH PHASE]");
             	// For each Gold card that playerOne owns, it should go from used to unused
@@ -101,7 +101,7 @@ public class Game {
             	refreshPhase = false; // end refresh phase
             	System.out.println("End [REFRESH PHASE]");
             	
-            	// ** (2) Draw **
+            	// ********************* (2) Draw *********************
             	drawPhase = true; // begin draw phase
             	System.out.println("Start [DRAW PHASE]");
             	if (totalTurns != 0) { // if it is not the first turn then deal one card to the Player
@@ -121,7 +121,7 @@ public class Game {
             	attackPhase = false; // end attack phase
             	System.out.println("End [ATTACK PHASE]");
             	
-            	// ** (4) Mine **
+            	// ********************* (4) Mine *********************
             	minePhase = true; // start minePhase
             	System.out.println("Start [MINE PHASE]");
             	
