@@ -168,7 +168,7 @@ public class Game {
             		if (handOne.get(i) instanceof Monster || handOne.get(i) instanceof Accessory
             				|| handOne.get(i) instanceof Action) {
             			System.out.println((i + 1) + ": " + handOne.get(i).getCardName() + ", " +
-            				handOne.get(i).getClubCost()); // For now Gold Clubs will be a stand in for "Gold"
+            				handOne.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
             		}
             	}
             	
@@ -182,7 +182,7 @@ public class Game {
             	card = handOne.get(cardChoice - 1); // Subtract one to account for 0 index
             	
             	// Store the card cost
-            	cardCost = card.getClubCost(); // We're using clubCost as a stand in for Gold until we refactor
+            	cardCost = card.getGoldCost(); // We're using clubCost as a stand in for Gold until we refactor
             	
             	// Does the player have enough unused gold to purchase the selected card?
             	if (cardCost <= amountOfUnusedGold) {
@@ -277,7 +277,7 @@ public class Game {
     	// Check if the card is a Living Asset or Nonliving Asset
     	if (card instanceof Monster) {
     		System.out.println("You picked " + card.getCardName());
-    		System.out.println("It costs " + card.getClubCost() + " clubs (soon this will just be gold.)");
+    		System.out.println("It costs " + card.getGoldCost() + " clubs (soon this will just be gold.)");
     	} else if (card instanceof Gold) {
     		System.out.println("You picked " + card.getCardName());
     	}

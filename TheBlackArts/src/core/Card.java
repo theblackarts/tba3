@@ -1,14 +1,14 @@
 /*
  * Cards represent the fundamental building blocks of
- * The Black Arts. Cards can be of three types which will be
+ * The Black Arts. Cards can be of four types which are
  * defined in subclases of this superclass.
  * 
- * - Activator (resources to pay for Assets and Actions),
- * - LivingAsset (attack and defend other Living Assets or your opponent)
- * - NonLivingAsset (these cards stay on the board and have global or specific effects)
+ * - Gold (resources to pay for Monsters, Actions, and Accessories),
+ * - Monster (attack and defend other Monsters or your opponent)
+ * - Accessory (these cards stay on the board and have global or specific effects)
  * - Action (Actions; have an effect on the game and are either fast or slow)
  * 
- * This might be a candidate for an abstract class -- one never instantiates a Card
+ * NOTE: This might be a candidate for an abstract class -- one never instantiates a Card
  * by itself - it is always a subclass.
  */
 
@@ -24,10 +24,7 @@ public class Card {
     private String suit = suitList[0];
     
     // What does it cost to activate this card?
-    private int clubCost = 0; // This will be our "Gold" until a complete refactor of suits -> only gold
-    private int spadeCost = 0;
-    private int heartCost = 0;
-    private int diamondCost = 0;
+    private int goldCost = 0; // This will be our "Gold" until a complete refactor of suits -> only gold
     
     // Game zone the card is in
     private boolean inHandZone = false;
@@ -69,20 +66,8 @@ public class Card {
         this.suit = suit;
     }
     
-    public void setClubCost(int cost) {
-        this.clubCost = cost;
-    }
-    
-    public void setSpadeCost(int cost) {
-        this.clubCost = cost;
-    }
-    
-    public void setHeartCost(int cost) {
-        this.clubCost = cost;
-    }
-    
-    public void setDiamondCost(int cost) {
-        this.clubCost = cost;
+    public void setGoldCost(int cost) {
+        this.goldCost = cost;
     }
     
     public void setInHandZone(boolean z) {
@@ -119,19 +104,7 @@ public class Card {
         return suit;
     }
     
-    public int getClubCost() {
-        return clubCost;
-    }
-    
-    public int getSpadeCost() {
-        return spadeCost;
-    }
-    
-    public int getHeartCost() {
-        return clubCost;
-    }
-    
-    public int getDiamondCost() {
-        return clubCost;
+    public int getGoldCost() {
+        return goldCost;
     }
 }

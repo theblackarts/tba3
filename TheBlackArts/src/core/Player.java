@@ -6,8 +6,6 @@ package core;
 
 import java.util.ArrayList;
 
-import core.Deck;
-
 public class Player {
    
     // Data fields
@@ -27,13 +25,10 @@ public class Player {
     
     // Each player has one hand
     private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
-    
-    private int clubResourcePool = 0;
-    private int spadeResourcePool = 0;
-    private int heartResourcePool = 0;
-    private int diamondResourcePool = 0;
-    
-    
+
+    // Each player has a goldPool (are we using this in Game?)
+    private int goldPool = 0;
+
     // Constructors
     public Player(){
     
@@ -75,20 +70,8 @@ public class Player {
         this.hitPoints = hp;
     }
     
-    public void setClubResourcePool(int clubResourcePool) {
-        this.clubResourcePool = clubResourcePool;
-    }
-    
-    public void setSpadeResourcePool(int spadeResourcePool) {
-        this.spadeResourcePool = spadeResourcePool;
-    }
-    
-    public void setHeartResourcePool(int heartResourcePool) {
-        this.heartResourcePool = heartResourcePool;
-    }
-    
-    public void setDiamondResourcePool(int diamondResourcePool) {
-        this.diamondResourcePool = diamondResourcePool;
+    public void setGoldPool(int goldPool) {
+        this.goldPool = goldPool;
     }
     
     
@@ -113,20 +96,8 @@ public class Player {
         return hitPoints;
     }
     
-    public int getClubResourcePool() {
-        return clubResourcePool;
-    }
-    
-    public int getSpadeResourcePool() {
-        return spadeResourcePool;
-    }
-    
-    public int getHeartResourcePool() {
-        return heartResourcePool;
-    }
-    
-    public int getDiamondResourcePool() {
-        return diamondResourcePool;
+    public int getGoldPool() {
+        return goldPool;
     }
     
     public ArrayList<Card> getHand() {

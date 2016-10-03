@@ -24,11 +24,11 @@ public class Monster extends Card {
         this.hitPoints = hitPoints;
     }
     
-    public Monster(String name, int attack, int hitPoints, int clubCost) {
+    public Monster(String name, int attack, int hitPoints, int goldCost) {
     	super.setCardName(name);
     	this.attack = attack;
     	this.hitPoints = hitPoints;
-    	super.setClubCost(clubCost);
+    	super.setGoldCost(goldCost);
     }
     
     
