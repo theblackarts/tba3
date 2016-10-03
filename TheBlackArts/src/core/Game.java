@@ -27,8 +27,8 @@ public class Game {
 	ArrayList<Card> playerTwoDeadZone = new ArrayList<Card>();
 	
     /** Each game is played by two players */
-    private Player playerOne = new Player("Alice");
-    private Player playerTwo = new Player("Bob");
+    private Player playerOne;
+    private Player playerTwo;
 
 	private boolean playerOneWin = false;
     private boolean playerTwoWin = false;
