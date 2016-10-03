@@ -5,6 +5,8 @@
  * turn.
  */
 
+//TODO: Refactor to remove suits (see Card class)
+
 package core;
 
 public class Gold extends Card {
