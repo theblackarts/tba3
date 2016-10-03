@@ -12,8 +12,7 @@ package core;
 public class Gold extends Card {
     
     // Data fields
-    private boolean isUsed = false;     // TODO: Check that gold card is inPlay
-                                           //before allowing it to be used.
+    private boolean isUsed = false;
     private String cardType = "Gold";
 
     // Constructor
@@ -22,7 +21,7 @@ public class Gold extends Card {
     }
     
     public Gold(String name) {
-        super.setCardName(name); // Note that without a setter method, this would not be possible.
+        super.setCardName(name);
     }
     
     public Gold(String name, String suit) {

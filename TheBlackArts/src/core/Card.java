@@ -1,7 +1,7 @@
 /*
  * Cards represent the fundamental building blocks of
  * The Black Arts. Cards can be of three types which will be
- * defined in subclases of this superclass (TODO: Make these subclasses):
+ * defined in subclases of this superclass.
  * 
  * - Activator (resources to pay for Assets and Actions),
  * - LivingAsset (attack and defend other Living Assets or your opponent)
@@ -16,7 +16,7 @@ package core;
 
 public class Card {
     
-    private int cardID = -1; // Each card will eventually be uniquely identified
+    private int cardID; // Each card will eventually be uniquely identified
     private String cardName = "Default Card Name.";
     private String cardBodyText = "Default Card Body Text.";
     private String cardSet = "Default Set"; // For now, a Card may only belong to one set.
@@ -24,7 +24,7 @@ public class Card {
     private String suit = suitList[0];
     
     // What does it cost to activate this card?
-    private int clubCost = 0;
+    private int clubCost = 0; // This will be our "Gold" until a complete refactor of suits -> only gold
     private int spadeCost = 0;
     private int heartCost = 0;
     private int diamondCost = 0;
@@ -34,7 +34,6 @@ public class Card {
     private boolean inPlayZone = false;
     private boolean inDeckZone = true;
     private boolean inDeadZone = false;
-
     
     // Constructors
     public Card() {

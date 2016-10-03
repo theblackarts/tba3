@@ -94,7 +94,7 @@ public class Game {
             	refreshPhase = true; // begin refresh phase
             	System.out.println("Start [REFRESH PHASE]");
             	// For each Gold card that playerOne owns, it should go from used to unused
-            	// For each Monster (to be renamed LivingAsset) it should go from attacked to not attacked
+            	// For each Monster (to be renamed Monster) it should go from attacked to not attacked
             	// For each card that has a game mechanic that is triggered by Refresh,
             	// it should have it's behavior here
             	
@@ -165,7 +165,7 @@ public class Game {
             	// Display all cards that can be purchased with an associated integer value
                 // NOTE: The numbers may not be sequential because we skip Gold cards
             	for (int i = 0, n = handOne.size(); i < n; i++) {
-            		if (handOne.get(i) instanceof LivingAsset || handOne.get(i) instanceof NonlivingAsset
+            		if (handOne.get(i) instanceof Monster || handOne.get(i) instanceof Accessory
             				|| handOne.get(i) instanceof Action) {
             			System.out.println((i + 1) + ": " + handOne.get(i).getCardName() + ", " +
             				handOne.get(i).getClubCost()); // For now Gold Clubs will be a stand in for "Gold"
@@ -275,7 +275,7 @@ public class Game {
     	Card card = hand.get(selection - 1);
     	
     	// Check if the card is a Living Asset or Nonliving Asset
-    	if (card instanceof LivingAsset) {
+    	if (card instanceof Monster) {
     		System.out.println("You picked " + card.getCardName());
     		System.out.println("It costs " + card.getClubCost() + " clubs (soon this will just be gold.)");
     	} else if (card instanceof Gold) {

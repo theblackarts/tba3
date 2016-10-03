@@ -1,11 +1,11 @@
 package test;
 
-import core.LivingAsset;
+import core.Monster;
 
 public class TestLivingAsset {
 
     public static void main(String[] args) {
-        LivingAsset bear = new LivingAsset("Bear", 10, 10);
+        Monster bear = new Monster("Bear", 10, 10);
         System.out.println(
             "The card is named: " + 
              bear.getCardName() +

@@ -60,7 +60,7 @@ public class Deck {
         
     	// The other half of the deck is made of Bear Cards
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
-            tempDeck.add(new LivingAsset("Bear", 10, 10, 2)); 
+            tempDeck.add(new Monster("Bear", 10, 10, 2));
         }
         
         return tempDeck;

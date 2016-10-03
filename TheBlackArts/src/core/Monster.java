@@ -1,6 +1,6 @@
 package core;
 
-public class LivingAsset extends Card {
+public class Monster extends Card {
     
     // Data fields
     private String cardType = "Living Asset";
@@ -9,22 +9,22 @@ public class LivingAsset extends Card {
     private boolean isAttacked = false;
     
     // Constructors
-    public LivingAsset() {
+    public Monster() {
         
     }
     
-    public LivingAsset(String name, int attack, int hitPoints) {
+    public Monster(String name, int attack, int hitPoints) {
         super.setCardName(name);
         this.attack = attack;
         this.hitPoints = hitPoints;
     }
     
-    public LivingAsset(int attack, int hitPoints) {
+    public Monster(int attack, int hitPoints) {
         this.attack = attack;
         this.hitPoints = hitPoints;
     }
     
-    public LivingAsset(String name, int attack, int hitPoints, int clubCost) {
+    public Monster(String name, int attack, int hitPoints, int clubCost) {
     	super.setCardName(name);
     	this.attack = attack;
     	this.hitPoints = hitPoints;
@@ -37,10 +37,9 @@ public class LivingAsset extends Card {
         this.attack = attack;
     }
     
-    public void sethitPoints(int hitPoints) {
+    public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
-    
     
     // Getters
     public int getAttack() {
