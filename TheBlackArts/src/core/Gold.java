@@ -26,7 +26,6 @@ public class Gold extends Card {
     
     public Gold(String name, String suit) {
         super.setCardName(name);
-        super.setSuit(suit);
     }
     
     // Setter

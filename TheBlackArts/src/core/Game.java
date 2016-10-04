@@ -72,7 +72,7 @@ public class Game {
     	ArrayList<Card> handTwo = playerTwo.getHand();
 
     	char decideYN; // UI input for YN
-    	int cardChoice; // used for UI input for picking a card via an integer value 
+    	int cardChoice; // used for UI input for picking a card via an integer value
     	Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
 
 		/**
@@ -122,32 +122,8 @@ public class Game {
             	System.out.println("End [ATTACK PHASE]");
             	
             	// ********************* (4) Mine *********************
-            	minePhase = true; // start minePhase
-            	System.out.println("Start [MINE PHASE]");
-            	// TODO: This should really be refactored into its own method
-            	// For each card in Player One's hand, is there at least one Gold card?
-            	// If yes, give the Player an option to play it and stop checking for Gold cards,
-            	// If no, give the Player the option to bluff? This might be a feature we could do in a later phase
-            	for (int i = 0, n = handOne.size(); i < n; i++) {
-            		card = handOne.get(i);
-            		if (card instanceof Gold) {
-            			System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
-            			decideYN = input.next().charAt(0);
-            			if (decideYN == 'Y') {
-            				// remove the card from players hand
-            				handOne.remove(i);
-            				// switch inHandZone to false
-            				card.setInHandZone(false);
-            				// add the card to playerOneInPlayZone
-            				playerOneInPlayZone.add(card);
-            				// switch the inPlayZone to true
-            				card.setInPlayZone(true);
-            				break;
-            			}
-            		}
-            	}
-            	minePhase = false; // end minePhase
-            	System.out.println("End [MINE PHASE]");
+
+				startMinePhase(handOne);
 
             	// ********************* (5) Purchase *********************
 
@@ -174,19 +150,14 @@ public class Game {
             				handOne.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
             		}
             	}
-            	
             	// Prompt the user for input
             	System.out.print("Pick a card by typing the associated integer value: ");
-
             	// Get the Player's card choice
             	cardChoice = input.nextInt();
-            	
             	// Store the card in a variable that the Player selected
             	card = handOne.get(cardChoice - 1); // Subtract one to account for 0 index
-            	
             	// Store the card cost
             	cardCost = card.getGoldCost(); // We're using clubCost as a stand in for Gold until we refactor
-            	
             	// Does the player have enough unused gold to purchase the selected card?
             	if (cardCost <= amountOfUnusedGold) {
             		// Whatever the card cost is, set the respective number of gold cards to used
@@ -199,26 +170,19 @@ public class Game {
                 			}
             			}
             		}
-
             		// Remove the paid for card from the player's hand
-            		handOne.remove(cardChoice);
-
+            		handOne.remove(card);
                     // Change the card hand zone to false
                     card.setInHandZone(false);
-            		
             		// Add the paid for card to the player's play zone
                     playerOneInPlayZone.add(card);
-
                     // Change the card play zone to true
                     card.setInPlayZone(true);
-            		
             	} else { // They do not have enough unused gold to pay for the card
             		System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
             	}
-            	
             	// Display all cards in play for player one
             	System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
-
             	purchasePhase = false; // end purchase phase
             	System.out.println("End [PURCHASE PHASE]");
             	
@@ -313,6 +277,41 @@ public class Game {
     		}
     	}
     	return amountOfUnusedGold;
+    }
+
+    // Game phase methods
+
+    public void startMinePhase(ArrayList<Card> hand) {
+        minePhase = true;
+        char decideYN; // UI input for YN
+        int cardChoice; // used for UI input for picking a card via an integer value
+        Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
+        System.out.println("Start [MINE PHASE]");
+        // For each card in Player One's hand, is there at least one Gold card?
+        // If yes, give the Player an option to play it and stop checking for Gold cards
+        // NOTE: There is no way to bluff using this system
+        for (int i = 0, n = hand.size(); i < n; i++) {
+            card = hand.get(i);
+            if (card instanceof Gold) {
+                System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
+                decideYN = input.next().charAt(0);
+                if (decideYN == 'Y') {
+                    // Remove the card fro Player's hand
+                    hand.remove(i);
+                    // Switch inHandZone to false
+                    card.setInDeckZone(false);
+                    // Add the card to play zone
+                    playerOneInPlayZone.add(card);
+                    // Switch inPlayZone to true
+                    card.setInPlayZone(true);
+                    break;
+                }
+
+
+            }
+        }
+        minePhase = false; // end minePhase
+        System.out.println("End [MINE PHASE]");
     }
     
     /** Setters */
