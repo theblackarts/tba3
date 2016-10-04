@@ -53,6 +53,8 @@ public class Game {
     /**
      * @param playerOne Player one
      * @param playerTwo Player two
+     * This method starts a game of The Black Arts.
+     * Player's will alternate turns until one of them runs out of HP!
      */
     public void startGame(Player playerOne, Player playerTwo) {
         System.out.println("Game ID: " + this.getGameID());
@@ -78,7 +80,6 @@ public class Game {
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
 
         // Main game loop that allows players to take turns until one of them goes to 0 HP.
-
         while (true) {
             // Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
             System.out.println(":: Turn :: " + (totalTurns + 1));
@@ -87,7 +88,7 @@ public class Game {
                 // Announce that it is player one's turn
                 System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
-                // Go through all the phases of player one's turn
+                // PLAYER ONE'S TURN PHASES
 
                 // ********************* (1) Refresh *********************
                 startRefreshPhase(playerOneInPlayZone);
@@ -96,7 +97,7 @@ public class Game {
                 // ********************* (3) Attack *********************
                 startAttackPhase();
                 // ********************* (4) Mine *********************
-                startMinePhase(handOne);
+                startMinePhase(handOne, playerOneInPlayZone);
                 // ********************* (5) Purchase *********************
                 startPurchasePhase(handOne, playerOneInPlayZone);
                 // ********************* (6) End *********************
@@ -105,8 +106,20 @@ public class Game {
             } else if (totalTurns % 2 == 1) { // We know it is playerTwo's turn
                 System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
-                // TODO Phases here
-                System.out.println("All of player two's phases");
+                // PLAYER TWO'S TURN PHASES
+
+                // ********************* (1) Refresh *********************
+                startRefreshPhase(playerTwoInPlayZone);
+                // ********************* (2) Draw *********************
+                startDrawPhase(deckTwo, handTwo);
+                // ********************* (3) Attack *********************
+                startAttackPhase();
+                // ********************* (4) Mine *********************
+                startMinePhase(handTwo, playerTwoInPlayZone);
+                // ********************* (5) Purchase *********************
+                startPurchasePhase(handTwo, playerTwoInPlayZone);
+                // ********************* (6) End *********************
+                startEndPhase();
             }
         // Increment totalTurns
         nextTurn();
@@ -192,7 +205,7 @@ public class Game {
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
-    public void startMinePhase(ArrayList<Card> hand) {
+    public void startMinePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         minePhase = true;
         char decideYN; // UI input for YN
         int cardChoice; // used for UI input for picking a card via an integer value
@@ -213,7 +226,7 @@ public class Game {
                     // Switch inHandZone to false
                     card.setInDeckZone(false);
                     // Add the card to play zone
-                    playerOneInPlayZone.add(card);
+                    inPlayZone.add(card);
                     // Switch inPlayZone to true
                     card.setInPlayZone(true);
                     break;
@@ -235,7 +248,7 @@ public class Game {
         System.out.println("Start [PURCHASE PHASE]");
 
         // Get the amount of gold that the player has at the start of his or her purchase phase
-        int amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
+        int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
         int cardCost;
 
         while (amountOfUnusedGold > 0) {
@@ -272,23 +285,23 @@ public class Game {
                 // Hey, you owe the game some GOLD! Pay this off!!
                 int unpaidAmount = cardCost;
                 // Pay for the card
-                for (int i = 0, n = playerOneInPlayZone.size(); i < n && unpaidAmount != 0; i++) {
-                    if (playerOneInPlayZone.get(i) instanceof Gold) {
-                        if (!((Gold) playerOneInPlayZone.get(i)).getUsed()) {
+                for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
+                    if (inPlayZone.get(i) instanceof Gold) {
+                        if (!((Gold) inPlayZone.get(i)).getUsed()) {
                             // Set the gold card from used is false to used is true
-                            ((Gold) playerOneInPlayZone.get(i)).setUsed(true);
+                            ((Gold) inPlayZone.get(i)).setUsed(true);
                             unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
                         }
                     }
                 }
                 // Update value of amountOfUnusedGold (important for while loop to work)
-                amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
+                amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
                 // Remove the paid for card from the player's hand
                 hand.remove(card);
                 // Change the card hand zone to false
                 card.setInHandZone(false);
                 // Add the paid for card to the player's play zone
-                playerOneInPlayZone.add(card);
+                inPlayZone.add(card);
                 System.out.println("You played a " + card.getCardName() + " to your play zone.");
                 // Change the card play zone to true
                 card.setInPlayZone(true);
