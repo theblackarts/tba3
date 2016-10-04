@@ -40,6 +40,10 @@ public class Monster extends Card {
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
+
+    public void setIsAttacked(boolean isAttacked) {
+        this.isAttacked = isAttacked;
+    }
     
     // Getters
     public int getAttack() {

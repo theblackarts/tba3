@@ -9,7 +9,7 @@ public class Game {
     private int totalTurns = 0; // Who's turn it is, is based on modulo 2 (0 is player 1, 1 is player 2)
 
     // Deck Manager
-    Deck deckManager = new Deck();
+    private Deck deckManager = new Deck();
 
     // Turn Phases
     private boolean refreshPhase;
@@ -20,11 +20,11 @@ public class Game {
     private boolean endPhase;
 
     // Game Zones
-    ArrayList<Card> playerOneInPlayZone = new ArrayList<Card>();
-    ArrayList<Card> playerTwoInPlayZone = new ArrayList<Card>();
+    private ArrayList<Card> playerOneInPlayZone = new ArrayList<Card>();
+    private ArrayList<Card> playerTwoInPlayZone = new ArrayList<Card>();
 
-    ArrayList<Card> playerOneDeadZone = new ArrayList<Card>();
-    ArrayList<Card> playerTwoDeadZone = new ArrayList<Card>();
+    private ArrayList<Card> playerOneDeadZone = new ArrayList<Card>();
+    private ArrayList<Card> playerTwoDeadZone = new ArrayList<Card>();
 
     /**
      * Each game is played by two players
@@ -51,8 +51,8 @@ public class Game {
     }
 
     /**
-     * @param playerOne
-     * @param playerTwo Start a game of The Black Arts
+     * @param playerOne Player one
+     * @param playerTwo Player two
      */
     public void startGame(Player playerOne, Player playerTwo) {
         System.out.println("Game ID: " + this.getGameID());
@@ -77,9 +77,8 @@ public class Game {
         int cardChoice; // used for UI input for picking a card via an integer value
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
 
-        /**
-         * Main game loop that allows players to take turns until one of them goes to 0 HP.
-         */
+        // Main game loop that allows players to take turns until one of them goes to 0 HP.
+
         while (true) {
             // Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
             System.out.println(":: Turn :: " + (totalTurns + 1));
@@ -88,20 +87,11 @@ public class Game {
                 // Announce that it is player one's turn
                 System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
-                /**
-                 * Go through all the phases of player one's turn
-                 */
+                // Go through all the phases of player one's turn
 
                 // ********************* (1) Refresh *********************
-                refreshPhase = true; // begin refresh phase
-                System.out.println("Start [REFRESH PHASE]");
-                // For each Gold card that playerOne owns, it should go from used to unused
-                // For each Monster (to be renamed Monster) it should go from attacked to not attacked
-                // For each card that has a game mechanic that is triggered by Refresh,
-                // it should have it's behavior here
 
-                refreshPhase = false; // end refresh phase
-                System.out.println("End [REFRESH PHASE]");
+                startRefreshPhase(playerOneInPlayZone);
 
                 // ********************* (2) Draw *********************
                 drawPhase = true; // begin draw phase
@@ -217,10 +207,7 @@ public class Game {
         int amountOfUnusedGold = 0;
         for (int i = 0, n = inPlayZone.size(); i < n; i++) {
             if (inPlayZone.get(i) instanceof Gold) {
-                // Cast the superclass to subclass
-                // See http://stackoverflow.com/questions/4862960/explicit-casting-from-super-class-to-subclass
-                Gold gold = (Gold) inPlayZone.get(i);
-                if (!gold.getUsed()) {
+                if (((Gold) inPlayZone.get(i)).getUsed() == false) {
                     amountOfUnusedGold++;
                 }
             }
@@ -285,6 +272,7 @@ public class Game {
 
             // Display all cards that can be purchased with an associated integer value
             // NOTE: The numbers may not be sequential because we skip Gold cards
+            // Make this a method
             for (int i = 0, n = hand.size(); i < n; i++) {
                 if (hand.get(i) instanceof Monster || hand.get(i) instanceof Accessory
                         || hand.get(i) instanceof Action) {
@@ -292,6 +280,7 @@ public class Game {
                             hand.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
                 }
             }
+
             // Prompt the user for input
             System.out.print("Pick a card by typing the associated integer value: ");
             // Get the Player's card choice
@@ -299,19 +288,23 @@ public class Game {
             // Store the card in a variable that the Player selected
             card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
             // Store the card cost
-            cardCost = card.getGoldCost(); // We're using clubCost as a stand in for Gold until we refactor
+            cardCost = card.getGoldCost();
+
+            int unpaidAmount = cardCost;
+
             // Does the player have enough unused gold to purchase the selected card?
             if (cardCost <= amountOfUnusedGold) {
-                // Whatever the card cost is, set the respective number of gold cards to used
-                // After this for loop, it indicates that the card has been successfully paid for
-                for (int i = 0, n = playerOneInPlayZone.size(); i < n; i++) {
-                    for (int j = 0, k = cardCost; j < k; j++) {
-                        if (playerOneInPlayZone.get(i) instanceof Gold) {
-                            Gold gold = (Gold) playerOneInPlayZone.get(i);
-                            gold.setUsed(true); // Q: Will this set the Gold element i to used as we want, or no?
+                // Pay for the card
+                for (int i = 0, n = playerOneInPlayZone.size(); i < n && unpaidAmount != 0; i++) {
+                    if (playerOneInPlayZone.get(i) instanceof Gold) {
+                        if (((Gold) playerOneInPlayZone.get(i)).getUsed() == false) {
+                            // Set the gold card from used is false to used is true
+                            ((Gold) playerOneInPlayZone.get(i)).setUsed(true);
+                            unpaidAmount--;
                         }
                     }
                 }
+
                 // Update value of amountOfUnusedGold (important for while loop to work)
                 amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
                 // Remove the paid for card from the player's hand
@@ -320,17 +313,40 @@ public class Game {
                 card.setInHandZone(false);
                 // Add the paid for card to the player's play zone
                 playerOneInPlayZone.add(card);
+                System.out.println("You played a " + card.getCardName() + " to your play zone.");
                 // Change the card play zone to true
                 card.setInPlayZone(true);
+
+            // Why doesn't this stop the while loop? Is it because it is breaking out of the if block?
             } else { // They do not have enough unused gold to pay for the card
-                System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-                break;
+                    System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+                    break;
             }
-            // Display all cards in play for player one
-            // System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
-            purchasePhase = false; // end purchase phase
-            System.out.println("End [PURCHASE PHASE]");
         }
+        purchasePhase = false; // end purchase phase
+        System.out.println("End [PURCHASE PHASE]");
+    }
+
+    /**
+     * Start and end the refresh phase of a player's turn
+     */
+    public void startRefreshPhase(ArrayList<Card> inPlayZone) {
+        refreshPhase = true;
+        System.out.println("Start [REFRESH PHASE]");
+        // For each Gold card that playerOne owns, it should go from used to unused
+        // For each Monster (to be renamed Monster) it should go from attacked to not attacked
+        for (Card c : inPlayZone) {
+            if (c instanceof Gold) {
+                ((Gold) c).setUsed(false);
+            } else if (c instanceof Monster) {
+                ((Monster) c).setIsAttacked(false);
+            }
+        }
+        // For each card that has a game mechanic that is triggered by Refresh,
+        // it should have it's behavior here
+
+        refreshPhase = false; // end refresh phase
+        System.out.println("End [REFRESH PHASE]");
     }
 
     /**
