@@ -127,64 +127,9 @@ public class Game {
 
             	// ********************* (5) Purchase *********************
 
-                // TODO: Make this a loop so that a player may purchase multiple cards as gold allows
-
-            	purchasePhase = true; // start purchase phase
-            	System.out.println("Start [PURCHASE PHASE]");
-            	
-            	// Get the amount of gold that the player has at the start of his or her purchase phase
-            	int amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
-            	int cardCost;
-            	
-            	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
-            	 * display it along with an integer value that will act as an affordance to select
-            	 * and pay for it, to bring the card into play.
-            	 */
-            	
-            	// Display all cards that can be purchased with an associated integer value
-                // NOTE: The numbers may not be sequential because we skip Gold cards
-            	for (int i = 0, n = handOne.size(); i < n; i++) {
-            		if (handOne.get(i) instanceof Monster || handOne.get(i) instanceof Accessory
-            				|| handOne.get(i) instanceof Action) {
-            			System.out.println((i + 1) + ": " + handOne.get(i).getCardName() + ", " +
-            				handOne.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
-            		}
-            	}
-            	// Prompt the user for input
-            	System.out.print("Pick a card by typing the associated integer value: ");
-            	// Get the Player's card choice
-            	cardChoice = input.nextInt();
-            	// Store the card in a variable that the Player selected
-            	card = handOne.get(cardChoice - 1); // Subtract one to account for 0 index
-            	// Store the card cost
-            	cardCost = card.getGoldCost(); // We're using clubCost as a stand in for Gold until we refactor
-            	// Does the player have enough unused gold to purchase the selected card?
-            	if (cardCost <= amountOfUnusedGold) {
-            		// Whatever the card cost is, set the respective number of gold cards to used
-					// After this for loop, it indicates that the card has been successfully paid for
-            		for (int i = 0, n = playerOneInPlayZone.size(); i < n; i++) {
-            			for (int j = 0, k = cardCost; j < k; j++) {
-            				if (playerOneInPlayZone.get(i) instanceof Gold) {
-                				Gold gold = (Gold) playerOneInPlayZone.get(i);
-                				gold.setUsed(true); // Q: Will this set the Gold element i to used as we want, or no?
-                			}
-            			}
-            		}
-            		// Remove the paid for card from the player's hand
-            		handOne.remove(card);
-                    // Change the card hand zone to false
-                    card.setInHandZone(false);
-            		// Add the paid for card to the player's play zone
-                    playerOneInPlayZone.add(card);
-                    // Change the card play zone to true
-                    card.setInPlayZone(true);
-            	} else { // They do not have enough unused gold to pay for the card
-            		System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-            	}
-            	// Display all cards in play for player one
-            	System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
-            	purchasePhase = false; // end purchase phase
-            	System.out.println("End [PURCHASE PHASE]");
+                startPurchasePhase(handOne);
+                // Display what cards are in play for player one
+                System.out.println(playerOneInPlayZone);
             	
             	// ********************* (6) End *********************
             	endPhase = true;
@@ -287,9 +232,10 @@ public class Game {
         int cardChoice; // used for UI input for picking a card via an integer value
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
         System.out.println("Start [MINE PHASE]");
-        // For each card in Player One's hand, is there at least one Gold card?
-        // If yes, give the Player an option to play it and stop checking for Gold cards
-        // NOTE: There is no way to bluff using this system
+        /* For each card in Player One's hand, is there at least one Gold card?
+         * If yes, give the Player an option to play it and stop checking for Gold cards
+         * NOTE: There is no way to bluff using this system
+         */
         for (int i = 0, n = hand.size(); i < n; i++) {
             card = hand.get(i);
             if (card instanceof Gold) {
@@ -306,12 +252,73 @@ public class Game {
                     card.setInPlayZone(true);
                     break;
                 }
-
-
             }
         }
         minePhase = false; // end minePhase
         System.out.println("End [MINE PHASE]");
+    }
+    public void startPurchasePhase(ArrayList<Card> hand) {
+        char decideYN; // UI input for YN
+        int cardChoice; // used for UI input for picking a card via an integer value
+        Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
+        // TODO: Make this a loop so that a player may purchase multiple cards as gold allows
+
+        purchasePhase = true; // start purchase phase
+        System.out.println("Start [PURCHASE PHASE]");
+
+        // Get the amount of gold that the player has at the start of his or her purchase phase
+        int amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
+        int cardCost;
+
+        /* For each card in Player's hand that has a cost (Monster, Action, Accessory),
+         * display it along with an integer value that will act as an affordance to select
+         * and pay for it, to bring the card into play.
+         */
+
+        // Display all cards that can be purchased with an associated integer value
+        // NOTE: The numbers may not be sequential because we skip Gold cards
+        for (int i = 0, n = hand.size(); i < n; i++) {
+            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Accessory
+                    || hand.get(i) instanceof Action) {
+                System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
+                        hand.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
+            }
+        }
+        // Prompt the user for input
+        System.out.print("Pick a card by typing the associated integer value: ");
+        // Get the Player's card choice
+        cardChoice = input.nextInt();
+        // Store the card in a variable that the Player selected
+        card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
+        // Store the card cost
+        cardCost = card.getGoldCost(); // We're using clubCost as a stand in for Gold until we refactor
+        // Does the player have enough unused gold to purchase the selected card?
+        if (cardCost <= amountOfUnusedGold) {
+            // Whatever the card cost is, set the respective number of gold cards to used
+            // After this for loop, it indicates that the card has been successfully paid for
+            for (int i = 0, n = playerOneInPlayZone.size(); i < n; i++) {
+                for (int j = 0, k = cardCost; j < k; j++) {
+                    if (playerOneInPlayZone.get(i) instanceof Gold) {
+                        Gold gold = (Gold) playerOneInPlayZone.get(i);
+                        gold.setUsed(true); // Q: Will this set the Gold element i to used as we want, or no?
+                    }
+                }
+            }
+            // Remove the paid for card from the player's hand
+            hand.remove(card);
+            // Change the card hand zone to false
+            card.setInHandZone(false);
+            // Add the paid for card to the player's play zone
+            playerOneInPlayZone.add(card);
+            // Change the card play zone to true
+            card.setInPlayZone(true);
+        } else { // They do not have enough unused gold to pay for the card
+            System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+        }
+        // Display all cards in play for player one
+        // System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
+        purchasePhase = false; // end purchase phase
+        System.out.println("End [PURCHASE PHASE]");
     }
     
     /** Setters */
