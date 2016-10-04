@@ -1,9 +1,6 @@
 # The Black Arts
 
-The Black Arts is a turn-based strategy card game. The game is played with two players, each with a 52 card deck.
-Each player begins the game with 100 hit points (HP). A player wins the game by reducing his or her opponent's
-HP to 0.
+The Black Arts (TBA) is a turn-based strategy card game played by two players, each with a 52 card deck. Each player starts a game with 100 hit points (HP), a shuffled deck, and a hand of 7 cards. A player wins the game by using his or her cards to reduce his or her opponent from 100 to 0 HP.
 
-TODO: Update this based on the specification.
-
-Hello from IntelliJ from outside of the IntelliJ project.
+## The Black Arts Specification (living document, in progress, incomplete)
+[Click here to view the specification](https://docs.google.com/document/d/1I8qmWIa8b9jKjzwYstWFG5m0pXAK5NyCk16oVsQCEtk/edit?usp=sharing)
