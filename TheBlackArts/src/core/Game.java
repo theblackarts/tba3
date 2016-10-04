@@ -90,71 +90,26 @@ public class Game {
                 // Go through all the phases of player one's turn
 
                 // ********************* (1) Refresh *********************
-
                 startRefreshPhase(playerOneInPlayZone);
-
                 // ********************* (2) Draw *********************
-                drawPhase = true; // begin draw phase
-                System.out.println("Start [DRAW PHASE]");
-                if (totalTurns != 0) { // if it is not the first turn then deal one card to the Player
-                    Card dealtCard = deckManager.dealOneCard(deckOne);
-                    handOne.add(dealtCard);
-                    System.out.println(playerOne.getFirstName() + ", you drew a " + dealtCard.getCardName());
-                }
-                drawPhase = false; // end draw phase
-                // TODO: Implement method to shuffle Dead Zone cards back into the deck when there are no more cards
-                //       to draw from a Player's deck.
-                System.out.println("End [DRAW PHASE]");
-
+                startDrawPhase(deckOne, handOne);
                 // ********************* (3) Attack *********************
-                attackPhase = true; // start attack phase
-                System.out.println("Start [ATTACK PHASE]");
-
-                attackPhase = false; // end attack phase
-                System.out.println("End [ATTACK PHASE]");
-
+                startAttackPhase();
                 // ********************* (4) Mine *********************
-
                 startMinePhase(handOne);
-
                 // ********************* (5) Purchase *********************
-
-                startPurchasePhase(handOne);
-                // Display what cards are in play for player one
-                System.out.println(playerOneInPlayZone);
-
+                startPurchasePhase(handOne, playerOneInPlayZone);
                 // ********************* (6) End *********************
-                endPhase = true;
-
-                // TODO: Implement a mechanism to allow player to discard down to 7 cards (this is the max hand size for a game)
-                System.out.println("Start [END PHASE]");
-
-                // Give player one the option to pass his or her turn
-                do {
-                    System.out.print("Would you like to pass your turn? (Y/N):");
-                    decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-                } while (decideYN != 'Y');
-
-                endPhase = false;
-                System.out.println("End [END PHASE]");
+                startEndPhase();
 
             } else if (totalTurns % 2 == 1) { // We know it is playerTwo's turn
                 System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
                 // TODO Phases here
                 System.out.println("All of player two's phases");
-
-                do {
-                    System.out.print("Would you like to pass your turn? (Y/N):");
-                    decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-                } while (decideYN != 'Y');
-
-            } else {
-                System.out.println("playerTurn variable is broken; FIX!");
             }
-
-            // Increment totalTurns
-            nextTurn();
+        // Increment totalTurns
+        nextTurn();
         }
     }
 
@@ -217,6 +172,26 @@ public class Game {
 
     // Game phase methods
 
+    public void startDrawPhase(ArrayList<Card> deck, ArrayList<Card> hand) {
+        drawPhase = true; // begin draw phase
+        System.out.println("Start [DRAW PHASE]");
+        if (totalTurns != 0) { // if it is not the first turn then deal one card to the Player
+            Card dealtCard = deckManager.dealOneCard(deck);
+            hand.add(dealtCard);
+            System.out.println("You drew a " + dealtCard.getCardName());
+        }
+        drawPhase = false; // end draw phase
+        // TODO: Implement method to shuffle Dead Zone cards back into the deck when there are no more cards
+        //       to draw from a Player's deck.
+        System.out.println("End [DRAW PHASE]");
+    }
+    public void startAttackPhase() {
+        attackPhase = true; // start attack phase
+        System.out.println("Start [ATTACK PHASE]");
+
+        attackPhase = false; // end attack phase
+        System.out.println("End [ATTACK PHASE]");
+    }
     public void startMinePhase(ArrayList<Card> hand) {
         minePhase = true;
         char decideYN; // UI input for YN
@@ -248,11 +223,10 @@ public class Game {
         minePhase = false; // end minePhase
         System.out.println("End [MINE PHASE]");
     }
-
     /**
      * @param hand Purchase phase allows a player to purchase cards with his or her gold
      */
-    public void startPurchasePhase(ArrayList<Card> hand) {
+    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         char decideYN; // UI input for YN
         int cardChoice; // used for UI input for picking a card via an integer value
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
@@ -280,12 +254,10 @@ public class Game {
                             hand.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
                 }
             }
-
             // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
             if (!isAPurchaseableInHand(hand)) {
                 break;
             }
-
             // Prompt the user for input
             System.out.print("Pick a card by typing the associated integer value: ");
             // Get the Player's card choice
@@ -309,7 +281,6 @@ public class Game {
                         }
                     }
                 }
-
                 // Update value of amountOfUnusedGold (important for while loop to work)
                 amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
                 // Remove the paid for card from the player's hand
@@ -328,6 +299,8 @@ public class Game {
                     break;
             }
         }
+        // Print out the cards in that player's play zone
+        System.out.println(inPlayZone);
         purchasePhase = false; // end purchase phase
         System.out.println("End [PURCHASE PHASE]");
     }
@@ -341,7 +314,6 @@ public class Game {
         }
         return yesAtLeastOnePurchaseable;
     }
-
     /**
      * Start and end the refresh phase of a player's turn
      */
@@ -362,6 +334,23 @@ public class Game {
 
         refreshPhase = false; // end refresh phase
         System.out.println("End [REFRESH PHASE]");
+    }
+
+    public void startEndPhase() {
+        char decideYN; // UI input for YN
+        endPhase = true;
+
+        // TODO: Implement a mechanism to allow player to discard down to 7 cards (this is the max hand size for a game)
+        System.out.println("Start [END PHASE]");
+
+        // Give player one the option to pass his or her turn
+        do {
+            System.out.print("Would you like to pass your turn? (Y/N):");
+            decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
+        } while (decideYN != 'Y');
+
+        endPhase = false;
+        System.out.println("End [END PHASE]");
     }
 
     /**
