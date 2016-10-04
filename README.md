@@ -4,4 +4,5 @@ The Black Arts (TBA) is a turn-based strategy card game played by two players, e
 
 ## The Black Arts Specification
 Please note that this Specification is a work in progress and incomplete. Updates will be made frequently.
+
 [Click here to view the specification](https://docs.google.com/document/d/1I8qmWIa8b9jKjzwYstWFG5m0pXAK5NyCk16oVsQCEtk/edit?usp=sharing)
