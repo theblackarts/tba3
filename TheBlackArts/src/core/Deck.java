@@ -39,8 +39,10 @@ public class Deck {
     public String getDeckName() {
     	return deckName;
     }
-    
-    // Method to populate an array that contains 52 "generic" cards
+
+    /**
+     *  Method to populate an array that contains 52 "generic" cards
+     */
     public ArrayList<Card> buildGenericDeck() {
         for (int i = 0, n = DECKSIZE; i < n; i++) {
            this.gameDeck.add(new Card(i)); 
@@ -50,7 +52,7 @@ public class Deck {
     
     
     /** Create a deck of half gold cards and half bear assets */
-    public ArrayList<Card> buildDeckOfHalfGoldClubsAndHalfBears() {
+    public ArrayList<Card> buildDeckOfHalfGoldAndHalfBears() {
         // Half the deck is made of Gold Clubs Cards
     	ArrayList<Card> tempDeck;
     	tempDeck = new ArrayList<Card>(DECKSIZE);
@@ -62,26 +64,33 @@ public class Deck {
         for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
             tempDeck.add(new Monster("Bear", 10, 10, 2));
         }
-        
         return tempDeck;
     }
-        
-    // Shuffle the deck
+
+    /**
+     *
+     * @param deck
+     * Shuffle the deck
+     */
     public void shuffleDeck(ArrayList<Card> deck) {
         Collections.shuffle(deck);
     }
-    
-    // Deal one card from the top of the deck
+
+    /**
+     * Deal one card from the top of the deck
+     */
     public Card dealOneCard(ArrayList<Card> deck) {
         // index 0 is just the top of the deck
     	Card oneCard = deck.get(0);
         deck.remove(0);
-        oneCard.setInHandZone(false);
+        oneCard.setInDeckZone(false);
         oneCard.setInHandZone(true);
         return oneCard;
     }
-    
-    // Deal seven cards from the top of the deck
+
+    /**
+     *     Deal seven cards from the top of the deck
+     */
     public ArrayList<Card> dealSevenCards(ArrayList<Card> deck) {
     	ArrayList<Card> sevenCards = new ArrayList<Card>();
     	for (int i = 0, n = Player.OPENINGHANDSIZE; i < n; i++) {
@@ -91,7 +100,6 @@ public class Deck {
     		sevenCards.add(oneCard);
     		oneCard.setInHandZone(true);
     	}
-    	
     	 return sevenCards;
     }
 }

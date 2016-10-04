@@ -3,7 +3,7 @@ package core;
 public class Monster extends Card {
     
     // Data fields
-    private String cardType = "Living Asset";
+    private String cardType = "Monster";
     private int attack = 0;
     private int hitPoints = 1;
     private boolean isAttacked = false;

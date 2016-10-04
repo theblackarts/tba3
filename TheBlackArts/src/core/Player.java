@@ -21,7 +21,7 @@ public class Player {
     // TODO: Make a setDeck to change out a player's deck
     Deck deckManager = new Deck();
     private ArrayList<Card> deck =
-    		deckManager.buildDeckOfHalfGoldClubsAndHalfBears();
+    		deckManager.buildDeckOfHalfGoldAndHalfBears();
     
     // Each player has one hand
     private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);

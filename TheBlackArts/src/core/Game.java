@@ -150,11 +150,14 @@ public class Game {
             	System.out.println("End [MINE PHASE]");
 
             	// ********************* (5) Purchase *********************
+
+                // TODO: Make this a loop so that a player may purchase multiple cards as gold allows
+
             	purchasePhase = true; // start purchase phase
             	System.out.println("Start [PURCHASE PHASE]");
             	
             	// Get the amount of gold that the player has at the start of his or her purchase phase
-            	int amountOfUnusedGold = getAmountOfUnusedGold(playerOneInPlayZone);
+            	int amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
             	int cardCost;
             	
             	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
@@ -186,8 +189,8 @@ public class Game {
             	
             	// Does the player have enough unused gold to purchase the selected card?
             	if (cardCost <= amountOfUnusedGold) {
-            		
             		// Whatever the card cost is, set the respective number of gold cards to used
+					// After this for loop, it indicates that the card has been successfully paid for
             		for (int i = 0, n = playerOneInPlayZone.size(); i < n; i++) {
             			for (int j = 0, k = cardCost; j < k; j++) {
             				if (playerOneInPlayZone.get(i) instanceof Gold) {
@@ -199,9 +202,15 @@ public class Game {
 
             		// Remove the paid for card from the player's hand
             		handOne.remove(cardChoice);
+
+                    // Change the card hand zone to false
+                    card.setInHandZone(false);
             		
             		// Add the paid for card to the player's play zone
                     playerOneInPlayZone.add(card);
+
+                    // Change the card play zone to true
+                    card.setInPlayZone(true);
             		
             	} else { // They do not have enough unused gold to pay for the card
             		System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
@@ -209,15 +218,14 @@ public class Game {
             	
             	// Display all cards in play for player one
             	System.out.println(playerOne.getFirstName() + " you have the following in play " + playerOneInPlayZone);
-            	
-            	
+
             	purchasePhase = false; // end purchase phase
             	System.out.println("End [PURCHASE PHASE]");
             	
             	// ********************* (6) End *********************
             	endPhase = true;
             	
-            	// Mechanism to allow player to discard down to 7 cards (this is the max hand size for a game)
+            	// TODO: Implement a mechanism to allow player to discard down to 7 cards (this is the max hand size for a game)
             	System.out.println("Start [END PHASE]");
             	
             	// Give player one the option to pass his or her turn
@@ -229,8 +237,7 @@ public class Game {
             	endPhase = false;
             	System.out.println("End [END PHASE]");
             			
-        	} else if (totalTurns % 2 == 1) {
-        		// We know it is playerTwo's turn
+        	} else if (totalTurns % 2 == 1) { // We know it is playerTwo's turn
         		System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
         		
         		// TODO Phases here
@@ -293,7 +300,7 @@ public class Game {
     /**
      * Count the amount of unused gold a player has in their play zone
      */
-    public int getAmountOfUnusedGold(ArrayList<Card> inPlayZone) {
+    public int calculateAmountOfUnusedGold(ArrayList<Card> inPlayZone) {
     	int amountOfUnusedGold = 0;
     	for (int i = 0, n = inPlayZone.size(); i < n; i++) {
     		if (inPlayZone.get(i) instanceof Gold) {

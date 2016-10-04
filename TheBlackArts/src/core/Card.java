@@ -19,12 +19,9 @@ public class Card {
     private int cardID; // Each card will eventually be uniquely identified
     private String cardName = "Default Card Name.";
     private String cardBodyText = "Default Card Body Text.";
-    private String cardSet = "Default Set"; // For now, a Card may only belong to one set.
-    private String[] suitList = {"Club", "Spade", "Heart", "Diamond"};
-    private String suit = suitList[0];
-    
+
     // What does it cost to activate this card?
-    private int goldCost = 0; // This will be our "Gold" until a complete refactor of suits -> only gold
+    private int goldCost = 0;
     
     // Game zone the card is in
     private boolean inHandZone = false;
@@ -34,18 +31,17 @@ public class Card {
     
     // Constructors
     public Card() {
-        
+
     }
-    
+
     public Card(int cid) {
         this.cardID = cid;
     }
-    
-    public Card(int cid, String name, String body, String set) {
+
+    public Card(int cid, String name, String body) {
         this.cardID = cid;
         this.cardName = name;
         this.cardBodyText = body;
-        this.cardSet = set;
     }
     
     
@@ -56,14 +52,6 @@ public class Card {
     
     public void setCardName(String name) {
         this.cardName = name;
-    }
-    
-    public void setCardSet(String name) {
-        this.cardSet = name;
-    }
-    
-    public void setSuit(String suit) {
-        this.suit = suit;
     }
     
     public void setGoldCost(int cost) {
@@ -94,14 +82,6 @@ public class Card {
     
     public String getCardName() {
         return cardName;
-    }
-    
-    public String getCardSet() {
-        return cardSet;
-    }
-    
-    public String getSuit() {
-        return suit;
     }
     
     public int getGoldCost() {
