@@ -267,18 +267,23 @@ public class Game {
         while (amountOfUnusedGold > 0) {
             /* For each card in Player's hand that has a cost (Monster, Action, Accessory),
              * display it along with an integer value that will act as an affordance to select
-             * and pay for it, to bring the card into play.
+             * and pay for it, allowing the player to bring a card into play.
              */
 
             // Display all cards that can be purchased with an associated integer value
             // NOTE: The numbers may not be sequential because we skip Gold cards
-            // Make this a method
+            // TODO: Make this a method
             for (int i = 0, n = hand.size(); i < n; i++) {
                 if (hand.get(i) instanceof Monster || hand.get(i) instanceof Accessory
                         || hand.get(i) instanceof Action) {
                     System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
                             hand.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
                 }
+            }
+
+            // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
+            if (!isAPurchaseableInHand(hand)) {
+                break;
             }
 
             // Prompt the user for input
@@ -290,17 +295,17 @@ public class Game {
             // Store the card cost
             cardCost = card.getGoldCost();
 
-            int unpaidAmount = cardCost;
-
             // Does the player have enough unused gold to purchase the selected card?
             if (cardCost <= amountOfUnusedGold) {
+                // Hey, you owe the game some GOLD! Pay this off!!
+                int unpaidAmount = cardCost;
                 // Pay for the card
                 for (int i = 0, n = playerOneInPlayZone.size(); i < n && unpaidAmount != 0; i++) {
                     if (playerOneInPlayZone.get(i) instanceof Gold) {
-                        if (((Gold) playerOneInPlayZone.get(i)).getUsed() == false) {
+                        if (!((Gold) playerOneInPlayZone.get(i)).getUsed()) {
                             // Set the gold card from used is false to used is true
                             ((Gold) playerOneInPlayZone.get(i)).setUsed(true);
-                            unpaidAmount--;
+                            unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
                         }
                     }
                 }
@@ -325,6 +330,16 @@ public class Game {
         }
         purchasePhase = false; // end purchase phase
         System.out.println("End [PURCHASE PHASE]");
+    }
+
+    private boolean isAPurchaseableInHand(ArrayList<Card> hand) {
+        boolean yesAtLeastOnePurchaseable = false;
+        for (int i = 0, n = hand.size(); i < n; i++) {
+            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Action || hand.get(i) instanceof Accessory) {
+                yesAtLeastOnePurchaseable = true;
+            }
+        }
+        return yesAtLeastOnePurchaseable;
     }
 
     /**

@@ -12,5 +12,4 @@ public class TestGameMainLoop {
 		game.startGame(new Player("Alice"), new Player("Bob"));
 
 	}
-
 }
