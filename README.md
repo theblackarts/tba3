@@ -5,3 +5,5 @@ Each player begins the game with 100 hit points (HP). A player wins the game by 
 HP to 0.
 
 TODO: Update this based on the specification.
+
+Hello from IntelliJ from outside of the IntelliJ project.
