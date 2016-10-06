@@ -251,8 +251,8 @@ public class Game {
         }
 
         // TODO: Implement defense portion of attack phase (in progress)
-        // Notify that the defender is the other player
-        System.out.println(playerTwo.getFirstName() + " you are the Defender.");
+        // TODO: Notify that the defender is the other player
+
         // check that there is at least one Monster in play for the
         for (int i = 0, n = defenderInPlayZone.size(); i < n; i++) {
             if (defenderInPlayZone.get(i) instanceof Monster) {
@@ -265,7 +265,27 @@ public class Game {
         }
 
         // Print out the columns of the Attackers and Potential Defenders
-        // Come back here when you have implemented the TestSimpleColumnPrinter as a loop
+        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:"); // Print the header
+        // Determine which of the two ArrayLists are longer
+        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
+            for (int i = 0, n = attackers.size(); i < n; i++) {
+                System.out.format("%-20s", attackers.get(i).getCardName());
+                if (i >= 0 && i < availableDefenders.size()) {
+                    System.out.println(availableDefenders.get(i).getCardName());
+                } else {
+                    System.out.println();
+                }
+            }
+        } else { // availableDefenders is the bigger ArrayList
+            for (int i = 0, n = availableDefenders.size(); i < n; i++) {
+                if (i >= 0 && i < attackers.size()) {
+                    System.out.format("%-20s", attackers.get(i).getCardName());
+                } else {
+                    System.out.format("%-20s", "");
+                }
+                System.out.println(availableDefenders.get(i).getCardName());
+            }
+        }
 
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
