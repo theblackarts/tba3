@@ -214,9 +214,13 @@ public class Game {
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
 
+        ArrayList<Card> attackers = new ArrayList();
+        ArrayList<Card> availableDefenders = new ArrayList();
+
         // check that there is at least one Monster in play for the attacker
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) {
+
                 // Prompt the attacker to select the Monsters he or she would like to attack with
                 System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 
@@ -224,6 +228,7 @@ public class Game {
                 for (int j = 0; j < n; j++) {
                     if (attackerInPlayZone.get(j) instanceof Monster) {
                         System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
+                        attackers.add(attackerInPlayZone.get(j));
                     }
                 }
 
@@ -235,6 +240,7 @@ public class Game {
 
                 // Toggle isAttacked for each selected monster from false to true
                 // Display which Monsters attacked
+                // TODO: display -> ArrayList
                 for (String str : attackSelects) {
                     ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
                     System.out.println("You attacked with " +
@@ -244,10 +250,22 @@ public class Game {
             }
         }
 
-        // TODO: Implement defense portion of attack phase
-        // Display two columns of information; the set of attacking monsters and the set of potential defenders
-        // Allow the defender to choose how to defend
+        // TODO: Implement defense portion of attack phase (in progress)
+        // Notify that the defender is the other player
+        System.out.println(playerTwo.getFirstName() + " you are the Defender.");
+        // check that there is at least one Monster in play for the
+        for (int i = 0, n = defenderInPlayZone.size(); i < n; i++) {
+            if (defenderInPlayZone.get(i) instanceof Monster) {
+                for (int j = 0; j < n; j++) {
+                    if (defenderInPlayZone.get(j) instanceof Monster) {
+                        availableDefenders.add(defenderInPlayZone.get(j));
+                    }
+                }
+            }
+        }
 
+        // Print out the columns of the Attackers and Potential Defenders
+        // Come back here when you have implemented the TestSimpleColumnPrinter as a loop
 
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
