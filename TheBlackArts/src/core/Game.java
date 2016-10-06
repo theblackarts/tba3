@@ -95,7 +95,10 @@ public class Game {
                 // ********************* (2) Draw *********************
                 startDrawPhase(deckOne, handOne);
                 // ********************* (3) Attack *********************
-                startAttackPhase();
+                startAttackPhase(playerOneInPlayZone,
+                                 playerTwoInPlayZone,
+                                 playerOneDeadZone,
+                                 playerTwoDeadZone);
                 // ********************* (4) Mine *********************
                 startMinePhase(handOne, playerOneInPlayZone);
                 // ********************* (5) Purchase *********************
@@ -113,7 +116,10 @@ public class Game {
                 // ********************* (2) Draw *********************
                 startDrawPhase(deckTwo, handTwo);
                 // ********************* (3) Attack *********************
-                startAttackPhase();
+                startAttackPhase(playerTwoInPlayZone,
+                                 playerOneInPlayZone,
+                                 playerTwoDeadZone,
+                                 playerOneDeadZone);
                 // ********************* (4) Mine *********************
                 startMinePhase(handTwo, playerTwoInPlayZone);
                 // ********************* (5) Purchase *********************
@@ -198,9 +204,44 @@ public class Game {
         //       to draw from a Player's deck.
         System.out.println("End [DRAW PHASE]");
     }
-    public void startAttackPhase() {
+
+    public void startAttackPhase(ArrayList<Card> attackerInPlayZone,
+                                 ArrayList<Card> defenderInPlayZone,
+                                 ArrayList<Card> attackerDeadZone,
+                                 ArrayList<Card> defenderDeadZone) {
+
+        Scanner input = new Scanner(System.in);
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
+
+        // check that there is at least one Monster in play
+        for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
+            if (attackerInPlayZone.get(i) instanceof Monster) {
+                // Prompt the attacker to select the Monsters he or she would like to attack with
+                System.out.println("Select a set of Monsters to attack with (1, 2, ..., n) or 'S' for skip");
+
+                // Display attacker's monsters that he or she could attack with
+                for (int j = 0; j < n; j++) {
+                    if (attackerInPlayZone.get(j) instanceof Monster) {
+                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
+                    }
+                }
+
+                // Get the input
+                String attackSelectsStr = input.next();
+
+                // Parse the input
+                String[] attackSelects = attackSelectsStr.split(",");
+
+                // Toggle isAttacked for each selected monster from false to true
+                // For now let's just check the card name.
+                for (String str : attackSelects) {
+                    System.out.println("You attacked with " +
+                            attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
+                }
+                break;
+            }
+        }
 
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");

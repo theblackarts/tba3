@@ -57,7 +57,7 @@ public class Deck {
     	ArrayList<Card> tempDeck;
     	tempDeck = new ArrayList<Card>(DECKSIZE);
     	for (int i = 0, n = DECKSIZE / 2; i < n; i++) {
-            tempDeck.add(new Gold("Gold Club", "Gold"));
+            tempDeck.add(new Gold("Gold", "Gold")); // TODO: This should be refactored to just have one string
         }
         
     	// The other half of the deck is made of Bear Cards
