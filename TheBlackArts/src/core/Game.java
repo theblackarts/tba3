@@ -214,11 +214,11 @@ public class Game {
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
 
-        // check that there is at least one Monster in play
+        // check that there is at least one Monster in play for the attacker
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) {
                 // Prompt the attacker to select the Monsters he or she would like to attack with
-                System.out.println("Select a set of Monsters to attack with (1, 2, ..., n) or 'S' for skip");
+                System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 
                 // Display attacker's monsters that he or she could attack with
                 for (int j = 0; j < n; j++) {
@@ -234,14 +234,20 @@ public class Game {
                 String[] attackSelects = attackSelectsStr.split(",");
 
                 // Toggle isAttacked for each selected monster from false to true
-                // For now let's just check the card name.
+                // Display which Monsters attacked
                 for (String str : attackSelects) {
+                    ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
                     System.out.println("You attacked with " +
                             attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
                 }
                 break;
             }
         }
+
+        // TODO: Implement defense portion of attack phase
+        // Display two columns of information; the set of attacking monsters and the set of potential defenders
+        // Allow the defender to choose how to defend
+
 
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
@@ -465,6 +471,3 @@ public class Game {
         this.totalTurns++;
     }
 }
-
-// Greetings from Fedora 24
-
