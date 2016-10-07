@@ -289,7 +289,7 @@ public class Game {
 
                 // check that there is at least one Monster in play for the defender
                 for (int j = 0, m = defenderInPlayZone.size(); j < m; j++) {
-                    if (defenderInPlayZone.get(i) instanceof Monster) {
+                    if (defenderInPlayZone.get(j) instanceof Monster) {
                         for (int k = 0; k < m; k++) {
                             if (defenderInPlayZone.get(k) instanceof Monster) {
                                 availableDefenders.add(defenderInPlayZone.get(k));
@@ -305,7 +305,7 @@ public class Game {
                             for (int k = 0, as = attackers.size(); k < as; k++) {
                                 System.out.format("%-20s", attackers.get(k).getCardName());
                                 if (k >= 0 && k < availableDefenders.size()) {
-                                    System.out.println(availableDefenders.get(i).getCardName());
+                                    System.out.println(availableDefenders.get(k).getCardName());
                                 } else {
                                     System.out.println();
                                 }
@@ -313,11 +313,11 @@ public class Game {
                         } else { // availableDefenders is the bigger ArrayList
                             for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
                                 if (k >= 0 && k < attackers.size()) {
-                                    System.out.format("%-20s", attackers.get(i).getCardName());
+                                    System.out.format("%-20s", attackers.get(k).getCardName());
                                 } else {
                                     System.out.format("%-20s", "");
                                 }
-                                System.out.println(availableDefenders.get(i).getCardName());
+                                System.out.println(availableDefenders.get(k).getCardName());
                             }
                         }
                         break; // since we found one monster for the defender, break out of this loop as
