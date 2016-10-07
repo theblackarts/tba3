@@ -83,48 +83,46 @@ public class Game {
         while (true) {
             // Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
             System.out.println(":: Turn :: " + (totalTurns + 1));
-
             if (totalTurns % 2 == 0) { // We know it is playerOne's turn
                 // Announce that it is player one's turn
                 System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
-                // PLAYER ONE'S TURN PHASES
+                //               PLAYER ONE'S TURN PHASES
 
                 // ********************* (1) Refresh *********************
                 startRefreshPhase(playerOneInPlayZone);
-                // ********************* (2) Draw *********************
+                // ********************* (2) Draw ************************
                 startDrawPhase(deckOne, handOne);
-                // ********************* (3) Attack *********************
+                // ********************* (3) Attack **********************
                 startAttackPhase(playerOneInPlayZone,
                                  playerTwoInPlayZone,
                                  playerOneDeadZone,
                                  playerTwoDeadZone);
-                // ********************* (4) Mine *********************
+                // ********************* (4) Mine ************************
                 startMinePhase(handOne, playerOneInPlayZone);
-                // ********************* (5) Purchase *********************
+                // ********************* (5) Purchase ********************
                 startPurchasePhase(handOne, playerOneInPlayZone);
-                // ********************* (6) End *********************
+                // ********************* (6) End *************************
                 startEndPhase();
-
             } else if (totalTurns % 2 == 1) { // We know it is playerTwo's turn
                 System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
-                // PLAYER TWO'S TURN PHASES
+                //                PLAYER TWO'S TURN PHASES
 
                 // ********************* (1) Refresh *********************
                 startRefreshPhase(playerTwoInPlayZone);
-                // ********************* (2) Draw *********************
+                // ********************* (2) Draw ************************
                 startDrawPhase(deckTwo, handTwo);
-                // ********************* (3) Attack *********************
+                // ********************* (3) Attack **********************
                 startAttackPhase(playerTwoInPlayZone,
                                  playerOneInPlayZone,
                                  playerTwoDeadZone,
                                  playerOneDeadZone);
-                // ********************* (4) Mine *********************
+                // ********************* (4) Mine ************************
                 startMinePhase(handTwo, playerTwoInPlayZone);
-                // ********************* (5) Purchase *********************
+                // ********************* (5) Purchase ********************
                 startPurchasePhase(handTwo, playerTwoInPlayZone);
-                // ********************* (6) End *********************
+                // ********************* (6) End *************************
                 startEndPhase();
             }
         // Increment totalTurns
@@ -191,6 +189,34 @@ public class Game {
 
     // Game phase methods
 
+    /**
+     * Start the refresh phase for a player's turn.
+     * @param inPlayZone
+     * Refresh Phase:
+     */
+    public void startRefreshPhase(ArrayList<Card> inPlayZone) {
+        refreshPhase = true;
+        System.out.println("Start [REFRESH PHASE]");
+        // For each Gold card that playerOne owns, it should go from used to unused
+        // For each Monster it should go from attacked to not attacked
+        for (Card c : inPlayZone) {
+            if (c instanceof Gold) {
+                ((Gold) c).setUsed(false);
+            } else if (c instanceof Monster) {
+                ((Monster) c).setIsAttacked(false);
+            }
+        }
+        // For each card that has a game mechanic that is triggered by Refresh,
+        // it should have it's behavior here
+        refreshPhase = false; // end refresh phase
+        System.out.println("End [REFRESH PHASE]");
+    }
+
+    /**
+     * Start a player's draw phase
+     * @param deck
+     * @param hand
+     */
     public void startDrawPhase(ArrayList<Card> deck, ArrayList<Card> hand) {
         drawPhase = true; // begin draw phase
         System.out.println("Start [DRAW PHASE]");
@@ -205,6 +231,15 @@ public class Game {
         System.out.println("End [DRAW PHASE]");
     }
 
+    /**
+     * Start the attack phase for a player. If a player has no Monster's in play, skip this phase.
+     * @param attackerInPlayZone
+     * @param defenderInPlayZone
+     * @param attackerDeadZone
+     * @param defenderDeadZone
+     * Attack phase:
+     * Start the attack phase for a player.
+     */
     public void startAttackPhase(ArrayList<Card> attackerInPlayZone,
                                  ArrayList<Card> defenderInPlayZone,
                                  ArrayList<Card> attackerDeadZone,
@@ -217,9 +252,12 @@ public class Game {
         ArrayList<Card> attackers = new ArrayList();
         ArrayList<Card> availableDefenders = new ArrayList();
 
-        // check that there is at least one Monster in play for the attacker
+        // Check that there is at least one Monster in play for the attacker
+        // If there is not at least one Monster, skip the Attack phase
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
-            if (attackerInPlayZone.get(i) instanceof Monster) {
+            if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
+
+                // **************************** Attack portion of attack phase ***********************************
 
                 // Prompt the attacker to select the Monsters he or she would like to attack with
                 System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
@@ -228,7 +266,6 @@ public class Game {
                 for (int j = 0; j < n; j++) {
                     if (attackerInPlayZone.get(j) instanceof Monster) {
                         System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
-                        attackers.add(attackerInPlayZone.get(j));
                     }
                 }
 
@@ -238,58 +275,70 @@ public class Game {
                 // Parse the input
                 String[] attackSelects = attackSelectsStr.split(",");
 
-                // Toggle isAttacked for each selected monster from false to true
-                // Display which Monsters attacked
-                // TODO: display -> ArrayList
                 for (String str : attackSelects) {
+                    // Toggle isAttacked for each selected monster from false to true
                     ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
+                    // Display which Monsters attacked
                     System.out.println("You attacked with " +
                             attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
+                    // Add the Monsters to the attackers ArrayList
+                    attackers.add(attackerInPlayZone.get(Integer.parseInt(str) - 1));
                 }
-                break;
-            }
-        }
 
-        // TODO: Implement defense portion of attack phase (in progress)
-        // TODO: Notify that the defender is the other player
+                // **************************** Defense portion of attack phase **********************************
 
-        // check that there is at least one Monster in play for the
-        for (int i = 0, n = defenderInPlayZone.size(); i < n; i++) {
-            if (defenderInPlayZone.get(i) instanceof Monster) {
-                for (int j = 0; j < n; j++) {
-                    if (defenderInPlayZone.get(j) instanceof Monster) {
-                        availableDefenders.add(defenderInPlayZone.get(j));
+                // check that there is at least one Monster in play for the defender
+                for (int j = 0, m = defenderInPlayZone.size(); j < m; j++) {
+                    if (defenderInPlayZone.get(i) instanceof Monster) {
+                        for (int k = 0; k < m; k++) {
+                            if (defenderInPlayZone.get(k) instanceof Monster) {
+                                availableDefenders.add(defenderInPlayZone.get(k));
+                            }
+                        }
+                        // ````````````` Print out the columns of the Attackers and Potential Defenders `````````
+
+                        // Print the header
+                        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:");
+
+                        // Determine which of the two ArrayLists are longer
+                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
+                            for (int k = 0, as = attackers.size(); k < as; k++) {
+                                System.out.format("%-20s", attackers.get(k).getCardName());
+                                if (k >= 0 && k < availableDefenders.size()) {
+                                    System.out.println(availableDefenders.get(i).getCardName());
+                                } else {
+                                    System.out.println();
+                                }
+                            }
+                        } else { // availableDefenders is the bigger ArrayList
+                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
+                                if (k >= 0 && k < attackers.size()) {
+                                    System.out.format("%-20s", attackers.get(i).getCardName());
+                                } else {
+                                    System.out.format("%-20s", "");
+                                }
+                                System.out.println(availableDefenders.get(i).getCardName());
+                            }
+                        }
+                        break; // since we found one monster for the defender, break out of this loop as
+                               // it has served its purpose
                     }
                 }
-            }
-        }
-
-        // Print out the columns of the Attackers and Potential Defenders
-        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:"); // Print the header
-        // Determine which of the two ArrayLists are longer
-        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
-            for (int i = 0, n = attackers.size(); i < n; i++) {
-                System.out.format("%-20s", attackers.get(i).getCardName());
-                if (i >= 0 && i < availableDefenders.size()) {
-                    System.out.println(availableDefenders.get(i).getCardName());
-                } else {
-                    System.out.println();
-                }
-            }
-        } else { // availableDefenders is the bigger ArrayList
-            for (int i = 0, n = availableDefenders.size(); i < n; i++) {
-                if (i >= 0 && i < attackers.size()) {
-                    System.out.format("%-20s", attackers.get(i).getCardName());
-                } else {
-                    System.out.format("%-20s", "");
-                }
-                System.out.println(availableDefenders.get(i).getCardName());
+                break; // Since we found one monster for the attacker, break out of this loop as
+                       // it has served its purpose
             }
         }
 
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
+
+    /**
+     * Start the mine phase for a player, allowing that player to play one gold card (if they have one) from their
+     * hand into their play zone.
+     * @param hand
+     * @param inPlayZone
+     */
     public void startMinePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         minePhase = true;
         char decideYN; // UI input for YN
@@ -321,8 +370,12 @@ public class Game {
         minePhase = false; // end minePhase
         System.out.println("End [MINE PHASE]");
     }
+
     /**
-     * @param hand Purchase phase allows a player to purchase cards with his or her gold
+     * Start the purchase phase for a player, allowing them to purchase an
+     * arbitrary number of cards, subject to the amount of unused gold they have available.
+     * @param hand
+     * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         char decideYN; // UI input for YN
@@ -403,6 +456,11 @@ public class Game {
         System.out.println("End [PURCHASE PHASE]");
     }
 
+    /**
+     * Helper method for startPurchasePhase method
+     * @param hand
+     * @return
+     */
     private boolean isAPurchaseableInHand(ArrayList<Card> hand) {
         boolean yesAtLeastOnePurchaseable = false;
         for (int i = 0, n = hand.size(); i < n; i++) {
@@ -412,28 +470,10 @@ public class Game {
         }
         return yesAtLeastOnePurchaseable;
     }
+
     /**
-     * Start and end the refresh phase of a player's turn
+     * Start the end phase for a player's turn.
      */
-    public void startRefreshPhase(ArrayList<Card> inPlayZone) {
-        refreshPhase = true;
-        System.out.println("Start [REFRESH PHASE]");
-        // For each Gold card that playerOne owns, it should go from used to unused
-        // For each Monster (to be renamed Monster) it should go from attacked to not attacked
-        for (Card c : inPlayZone) {
-            if (c instanceof Gold) {
-                ((Gold) c).setUsed(false);
-            } else if (c instanceof Monster) {
-                ((Monster) c).setIsAttacked(false);
-            }
-        }
-        // For each card that has a game mechanic that is triggered by Refresh,
-        // it should have it's behavior here
-
-        refreshPhase = false; // end refresh phase
-        System.out.println("End [REFRESH PHASE]");
-    }
-
     public void startEndPhase() {
         char decideYN; // UI input for YN
         endPhase = true;
@@ -451,9 +491,7 @@ public class Game {
         System.out.println("End [END PHASE]");
     }
 
-    /**
-     * Setters
-     */
+    // Setters
     public void setPlayerOneWin(boolean playerOneWin) {
         this.playerOneWin = playerOneWin;
     }
@@ -482,9 +520,7 @@ public class Game {
         this.playerTwo = player;
     }
 
-    /**
-     * Getters
-     */
+    // Getters
     public boolean getIsPlayerOneWin() {
         return playerOneWin;
     }
