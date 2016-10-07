@@ -288,11 +288,12 @@ public class Game {
                 // **************************** Defense portion of attack phase **********************************
 
                 // check that there is at least one Monster in play for the defender
-                for (int j = 0, m = defenderInPlayZone.size(); j < m; j++) {
-                    if (defenderInPlayZone.get(j) instanceof Monster) {
-                        for (int k = 0; k < m; k++) {
-                            if (defenderInPlayZone.get(k) instanceof Monster) {
-                                availableDefenders.add(defenderInPlayZone.get(k));
+                // If there is not at least one monster, skip the defense portion of the attack phase
+                for (Card card1 : defenderInPlayZone) {
+                    if (card1 instanceof Monster) {
+                        for (Card card2 : defenderInPlayZone) {
+                            if (card2 instanceof Monster) {
+                                availableDefenders.add(card2);
                             }
                         }
                         // ````````````` Print out the columns of the Attackers and Potential Defenders `````````
@@ -302,10 +303,10 @@ public class Game {
 
                         // Determine which of the two ArrayLists are longer
                         if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
-                            for (int k = 0, as = attackers.size(); k < as; k++) {
-                                System.out.format("%-20s", attackers.get(k).getCardName());
-                                if (k >= 0 && k < availableDefenders.size()) {
-                                    System.out.println(availableDefenders.get(k).getCardName());
+                            for (int j = 0, as = attackers.size(); j < as; j++) {
+                                System.out.format("%-20s", attackers.get(j).getCardName());
+                                if (j >= 0 && j < availableDefenders.size()) {
+                                    System.out.println(availableDefenders.get(j).getCardName());
                                 } else {
                                     System.out.println();
                                 }

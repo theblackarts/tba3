@@ -4,13 +4,14 @@ public class TestSimpleColumnPrinter {
     public static void main(String[] args) {
         String[] attackers = {
                 "Monster X",
-                "Monster Y"
+                "Monster Y",
+                "Monster C"
 
         };
         String[] availableDefenders = {
                 "Monster A",
                 "Monster B",
-                "Monster C"
+
         };
 
         // Determine which of the two arrays is the longest, and use that to iterate
