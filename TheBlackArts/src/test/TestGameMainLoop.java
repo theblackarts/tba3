@@ -13,5 +13,3 @@ public class TestGameMainLoop {
 
 	}
 }
-
-// Test commit 4
