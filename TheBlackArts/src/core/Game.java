@@ -87,8 +87,10 @@ public class Game {
                 // Announce that it is player one's turn
                 System.out.println("It is " + playerOne.getFirstName() + "'s turn.");
 
-                //               PLAYER ONE'S TURN PHASES
-
+                /* ========================================================
+                 *              PLAYER ONE'S TURN PHASES
+                 * ========================================================*/
+                
                 // ********************* (1) Refresh *********************
                 startRefreshPhase(playerOneInPlayZone);
                 // ********************* (2) Draw ************************
@@ -107,7 +109,9 @@ public class Game {
             } else if (totalTurns % 2 == 1) { // We know it is playerTwo's turn
                 System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
-                //                PLAYER TWO'S TURN PHASES
+                /* ========================================================
+                 *              PLAYER TWO's TURN PHASES
+                 * ========================================================*/
 
                 // ********************* (1) Refresh *********************
                 startRefreshPhase(playerTwoInPlayZone);
@@ -154,7 +158,7 @@ public class Game {
         // Get the card
         Card card = hand.get(selection - 1);
 
-        // Check if the card is a Living Asset or Nonliving Asset
+        // Check if the card is a Monster or not a Monster
         if (card instanceof Monster) {
             System.out.println("You picked " + card.getCardName());
             System.out.println("It costs " + card.getGoldCost() + " clubs (soon this will just be gold.)");
@@ -179,7 +183,7 @@ public class Game {
         int amountOfUnusedGold = 0;
         for (int i = 0, n = inPlayZone.size(); i < n; i++) {
             if (inPlayZone.get(i) instanceof Gold) {
-                if (((Gold) inPlayZone.get(i)).getUsed() == false) {
+                if (((Gold) inPlayZone.get(i)).isUsed() == false) {
                     amountOfUnusedGold++;
                 }
             }
@@ -356,14 +360,13 @@ public class Game {
                 System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
                 decideYN = input.next().charAt(0);
                 if (decideYN == 'Y') {
-                    // Remove the card fro Player's hand
+                    
+                	// Remove the card from a Player's hand
                     hand.remove(i);
-                    // Switch inHandZone to false
-                    card.setInDeckZone(false);
+                    
                     // Add the card to play zone
                     inPlayZone.add(card);
-                    // Switch inPlayZone to true
-                    card.setInPlayZone(true);
+                    
                     break;
                 }
             }
@@ -426,7 +429,7 @@ public class Game {
                 // Pay for the card
                 for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
                     if (inPlayZone.get(i) instanceof Gold) {
-                        if (!((Gold) inPlayZone.get(i)).getUsed()) {
+                        if (!((Gold) inPlayZone.get(i)).isUsed()) {
                             // Set the gold card from used is false to used is true
                             ((Gold) inPlayZone.get(i)).setUsed(true);
                             unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
@@ -437,13 +440,11 @@ public class Game {
                 amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
                 // Remove the paid for card from the player's hand
                 hand.remove(card);
-                // Change the card hand zone to false
-                card.setInHandZone(false);
+
                 // Add the paid for card to the player's play zone
                 inPlayZone.add(card);
                 System.out.println("You played a " + card.getCardName() + " to your play zone.");
-                // Change the card play zone to true
-                card.setInPlayZone(true);
+
 
             // Why doesn't this stop the while loop? Is it because it is breaking out of the if block?
             } else { // They do not have enough unused gold to pay for the card

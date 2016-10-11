@@ -16,75 +16,43 @@ package core;
 
 public class Card {
     
-    private int cardID; // Each card will eventually be uniquely identified
     private String cardName = "Default Card Name.";
     private String cardBodyText = "Default Card Body Text.";
-
-    // What does it cost to activate this card?
     private int goldCost = 0;
     
-    // Game zone the card is in
-    private boolean inHandZone = false;
-    private boolean inPlayZone = false;
-    private boolean inDeckZone = true;
-    private boolean inDeadZone = false;
-    
-    // Constructors
+    // Getters and setters
+    public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
+
+	public String getCardBodyText() {
+		return cardBodyText;
+	}
+
+	public void setCardBodyText(String cardBodyText) {
+		this.cardBodyText = cardBodyText;
+	}
+
+	public int getGoldCost() {
+		return goldCost;
+	}
+
+	public void setGoldCost(int goldCost) {
+		this.goldCost = goldCost;
+	}
+
+	// Constructors
     public Card() {
 
     }
 
-    public Card(int cid) {
-        this.cardID = cid;
-    }
-
-    public Card(int cid, String name, String body) {
-        this.cardID = cid;
+    public Card(String name, String body) {
         this.cardName = name;
         this.cardBodyText = body;
     }
     
-    
-    // Setters
-    public void setCardID(int id) {
-        this.cardID = id;
-    }
-    
-    public void setCardName(String name) {
-        this.cardName = name;
-    }
-    
-    public void setGoldCost(int cost) {
-        this.goldCost = cost;
-    }
-    
-    public void setInHandZone(boolean z) {
-    	this.inHandZone = z;
-    }
-    
-    public void setInPlayZone(boolean z) {
-    	this.inPlayZone = z;
-    }
-    
-    public void setInDeckZone(boolean z) {
-    	this.inPlayZone = z;
-    }
-    
-    public void setInDeadZone(boolean z) {
-    	this.inDeadZone = z;
-    }
-    
-    
-    // Getters
-    public int getCardID() {
-        return cardID;
-    }
-    
-    public String getCardName() {
-        return cardName;
-    }
-    
-    public int getGoldCost() {
-        return goldCost;
-    }
 }
