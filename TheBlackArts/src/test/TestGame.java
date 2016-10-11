@@ -11,7 +11,7 @@ import core.Player;
 public class TestGame {
     public static void main(String[] args) {
         // Make a game object
-    	Game game = new Game(1);
+    	Game game = new Game(new Player("Alice"), new Player("Bob"));
     	
     	// Announce the game :)
     	game.announceGame();
