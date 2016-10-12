@@ -423,15 +423,20 @@ public class Game {
      * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
-        purchasePhase = true; // start purchase phase
+       
+    	purchasePhase = true; // start purchase phase
         System.out.println("Start [PURCHASE PHASE]");
 
         // Get the amount of gold that the player has at the start of his or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
         int cardCost;
-
-        while (amountOfUnusedGold > 0) {
-            
+        boolean isAtLeastOneAffordable = false;
+        
+        for (Card card : hand)
+        	if (card.getGoldCost() < amountOfUnusedGold && !(card instanceof Gold))
+        		isAtLeastOneAffordable = true;
+                
+        while (amountOfUnusedGold > 0 && isAtLeastOneAffordable) {
         	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
              * display it along with an integer value that will act as an affordance to select
              * and pay for it, allowing the player to bring a card into play.
@@ -481,6 +486,10 @@ public class Game {
 
                 // Add the paid for card to the player's play zone
                 inPlayZone.add(card);
+                
+                // We'll need to check again, now that we have purchased something if we can still afford anything
+                isAtLeastOneAffordable = false;
+                
                 System.out.println("You played a " + card.getCardName() + " to your play zone.");
 
             } else { // They do not have enough unused gold to pay for the card
