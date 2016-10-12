@@ -297,24 +297,23 @@ public class Game {
         ArrayList<Card> attackers = new ArrayList();
         ArrayList<Card> availableDefenders = new ArrayList();
 
-        // Check that there is at least one Monster in play for the attacker
-        // If there is not at least one Monster, skip the Attack phase
+        /* Check that there is at least one Monster in play for the attacker
+         * If there is not at least one Monster, skip the Attack phase
+         */
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
 
                 /* ========================================================
-                 *                 ATTACK PORTION OF ATTACK PHASE
+                 *             ATTACK PORTION OF ATTACK PHASE
                  * ========================================================*/
 
                 // Prompt the attacker to select the Monsters he or she would like to attack with
                 System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 
                 // Display attacker's monsters that he or she could attack with
-                for (int j = 0; j < n; j++) {
-                    if (attackerInPlayZone.get(j) instanceof Monster) {
+                for (int j = 0; j < n; j++)
+                    if (attackerInPlayZone.get(j) instanceof Monster)
                         System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
-                    }
-                }
 
                 // Get the input
                 String attackSelectsStr = input.next();
@@ -323,11 +322,14 @@ public class Game {
                 String[] attackSelects = attackSelectsStr.split(",");
 
                 for (String str : attackSelects) {
-                    // Toggle isAttacked for each selected monster from false to true
+                    
+                	// Toggle isAttacked for each selected monster from false to true
                     ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
+                    
                     // Display which Monsters attacked
                     System.out.println("You attacked with " +
                             attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
+                    
                     // Add the Monsters to the attackers ArrayList
                     attackers.add(attackerInPlayZone.get(Integer.parseInt(str) - 1));
                 }
@@ -375,10 +377,18 @@ public class Game {
                                // it has served its purpose
                     }
                 }
+                
+                /* ========================================================
+                 *                 DAMAGE PORTION OF ATTACK PHASE
+                 * ========================================================*/
+                
+                // TODO: Implement damage portion of attack phase
+                
                 break; // Since we found one monster for the attacker, break out of this loop as
                        // it has served its purpose
             }
         }
+        
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
