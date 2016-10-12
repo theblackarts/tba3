@@ -13,7 +13,7 @@ public class Monster extends Card {
         
     }
     
-    //Test 
+  //test 2
     
     public Monster(String name, int attack, int hitPoints) {
         super.setCardName(name);
