@@ -5,6 +5,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
@@ -296,24 +297,23 @@ public class Game {
         ArrayList<Card> attackers = new ArrayList();
         ArrayList<Card> availableDefenders = new ArrayList();
 
-        // Check that there is at least one Monster in play for the attacker
-        // If there is not at least one Monster, skip the Attack phase
+        /* Check that there is at least one Monster in play for the attacker
+         * If there is not at least one Monster, skip the Attack phase
+         */
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
 
                 /* ========================================================
-                 *                 ATTACK PORTION OF ATTACK PHASE
+                 *             ATTACK PORTION OF ATTACK PHASE
                  * ========================================================*/
 
                 // Prompt the attacker to select the Monsters he or she would like to attack with
                 System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 
                 // Display attacker's monsters that he or she could attack with
-                for (int j = 0; j < n; j++) {
-                    if (attackerInPlayZone.get(j) instanceof Monster) {
+                for (int j = 0; j < n; j++)
+                    if (attackerInPlayZone.get(j) instanceof Monster)
                         System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
-                    }
-                }
 
                 // Get the input
                 String attackSelectsStr = input.next();
@@ -322,11 +322,14 @@ public class Game {
                 String[] attackSelects = attackSelectsStr.split(",");
 
                 for (String str : attackSelects) {
-                    // Toggle isAttacked for each selected monster from false to true
+                    
+                	// Toggle isAttacked for each selected monster from false to true
                     ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
+                    
                     // Display which Monsters attacked
                     System.out.println("You attacked with " +
                             attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
+                    
                     // Add the Monsters to the attackers ArrayList
                     attackers.add(attackerInPlayZone.get(Integer.parseInt(str) - 1));
                 }
@@ -374,10 +377,18 @@ public class Game {
                                // it has served its purpose
                     }
                 }
+                
+                /* ========================================================
+                 *                 DAMAGE PORTION OF ATTACK PHASE
+                 * ========================================================*/
+                
+                // TODO: Implement damage portion of attack phase
+                
                 break; // Since we found one monster for the attacker, break out of this loop as
                        // it has served its purpose
             }
         }
+        
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
@@ -423,28 +434,33 @@ public class Game {
      * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
-        purchasePhase = true; // start purchase phase
+    	boolean check = false;
+    	
+    	purchasePhase = true;
         System.out.println("Start [PURCHASE PHASE]");
-
+        
         // Get the amount of gold that the player has at the start of his or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
         int cardCost;
-
-        while (amountOfUnusedGold > 0) {
-            
-        	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
-             * display it along with an integer value that will act as an affordance to select
-             * and pay for it, allowing the player to bring a card into play.
-             */
-
-            // Display all cards that can be purchased with an associated integer value
-            // NOTE: The numbers may not be sequential because we skip Gold cards
-            // TODO: Make this a method
+        boolean isAtLeastOneAffordable = false;
+        
+        for (Card card : hand)
+        	if (card.getGoldCost() < amountOfUnusedGold && !(card instanceof Gold))
+        		isAtLeastOneAffordable = true;
+                
+        while (amountOfUnusedGold > 0 && isAtLeastOneAffordable) {
+        	
+        	/* 
+        	 * For each card in Player's hand that has a cost (Monster, Action, Accessory),
+        	 * display it along with an integer value that will act as an affordance to select
+        	 * and pay for it, allowing the player to bring a card into play.
+        	 */
             for (int i = 0, n = hand.size(); i < n; i++) {
-                if (hand.get(i) instanceof Monster || hand.get(i) instanceof Accessory
-                        || hand.get(i) instanceof Action) {
+                if (hand.get(i) instanceof Monster ||
+                	hand.get(i) instanceof Accessory ||
+                	hand.get(i) instanceof Action) {
                     System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
-                            hand.get(i).getGoldCost()); // For now Gold Clubs will be a stand in for "Gold"
+                            hand.get(i).getGoldCost());
                 }
             }
             // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
@@ -453,17 +469,30 @@ public class Game {
             }
             // Prompt the user for input
             System.out.print("Pick a card by typing the associated integer value: ");
+            
             // Get the Player's card choice
-            cardChoice = input.nextInt();
+            while (check == false) {
+            	try {
+            		cardChoice = input.nextInt();
+            		check = true;
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please input an integer value");
+            		input.nextLine();
+            	}
+            }
+            
             // Store the card in a variable that the Player selected
             card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
+            
             // Store the card cost
             cardCost = card.getGoldCost();
 
             // Does the player have enough unused gold to purchase the selected card?
             if (cardCost <= amountOfUnusedGold) {
-                // Hey, you owe the game some GOLD! Pay this off!!
+                
+            	// Hey, you owe the game some GOLD! Pay this off!!
                 int unpaidAmount = cardCost;
+                
                 // Pay for the card
                 for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
                     if (inPlayZone.get(i) instanceof Gold) {
@@ -474,25 +503,32 @@ public class Game {
                         }
                     }
                 }
+                
                 // Update value of amountOfUnusedGold (important for while loop to work)
                 amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+                
                 // Remove the paid for card from the player's hand
                 hand.remove(card);
 
                 // Add the paid for card to the player's play zone
                 inPlayZone.add(card);
+                
+                // We'll need to check again, now that we have purchased something if we can still afford anything
+                isAtLeastOneAffordable = false;
+                
                 System.out.println("You played a " + card.getCardName() + " to your play zone.");
 
-            } else { // They do not have enough unused gold to pay for the card
-                    System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-                    break;
+            } else { // Player does not have enough unused gold to pay for the card
+                System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+                break;
             }
         }
         System.out.println("The following are the cards you have in play: ");
+        
         for (Card card : inPlayZone)
         	System.out.println(card.getCardName());
         
-        purchasePhase = false; // end purchase phase
+        purchasePhase = false;
         System.out.println("End [PURCHASE PHASE]");
     }
 
@@ -502,11 +538,14 @@ public class Game {
      * @return
      */
     private boolean isAPurchaseableInHand(ArrayList<Card> hand) {
-        boolean yesAtLeastOnePurchaseable = false;
-        for (int i = 0, n = hand.size(); i < n; i++)
+        
+    	boolean yesAtLeastOnePurchaseable = false;
+        
+    	for (int i = 0, n = hand.size(); i < n; i++)
             if (hand.get(i) instanceof Monster || hand.get(i) instanceof Action || hand.get(i) instanceof Accessory)
                 yesAtLeastOnePurchaseable = true;
-        return yesAtLeastOnePurchaseable;
+        
+    	return yesAtLeastOnePurchaseable;
     }
 
     /**
@@ -529,7 +568,9 @@ public class Game {
         System.out.println("End [END PHASE]");
     }
     
-    // Increment the number of total turns for a game
+    /**
+     * Increment the number of total turns for a game
+     */
     public void nextTurn() {
         this.totalTurns++;
     }
