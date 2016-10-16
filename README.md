@@ -29,3 +29,5 @@ Please note that this Specification is a work in progress and incomplete. Update
     (here you're specifying upstream to point to the master branch of the official repository to pull those changes).
 
 That's it!
+
+A change from my local non-official repository that I want to pull into the official repository.
