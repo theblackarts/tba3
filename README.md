@@ -24,5 +24,8 @@ Please note that this Specification is a work in progress and incomplete. Update
    $ git remote add upstream https://github.com/theblackarts/tba3.git
 10. Check that it worked
     $ git remote -v
+11. To pull from upstream
+    $ git pull upstream master
+    (here you're specifying upstream to point to the master branch of the official repository to pull those changes).
 
 That's it!
