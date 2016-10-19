@@ -7,9 +7,9 @@ Please note that this Specification is a work in progress and incomplete. Update
 
 [Click here to view the specification](https://docs.google.com/document/d/1I8qmWIa8b9jKjzwYstWFG5m0pXAK5NyCk16oVsQCEtk/edit?usp=sharing)
 
-## How to collaborate using git and github
+## How to collaborate using Git and GitHub
 
-1. Download git
+1. Download Git
 2. Create a GitHub account
 3. Log into your GitHub account
 4. Find The Black Arts official repository (search tba3)
