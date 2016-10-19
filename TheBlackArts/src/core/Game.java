@@ -162,7 +162,7 @@ public class Game {
             	System.out.println("Start [PURCHASE PHASE]");
             	
             	// Get the amount of gold that the player has at the start of his or her purchase phase
-            	int amountOfUnusedGold = getAmountOfUnusedGold(playerOneInPlayZone);
+            	int amountOfUnusedGold = calculateAmountOfUnusedGold(playerOneInPlayZone);
             	int cardCost;
             	
             	/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
@@ -303,7 +303,7 @@ public class Game {
     }
     
     /** Count the amount of unused gold a player has in their play zone */
-    public int getAmountOfUnusedGold(ArrayList<Card> inPlayZone) {
+    public int calculateAmountOfUnusedGold(ArrayList<Card> inPlayZone) {
     	int amountOfUnusedGold = 0;
     	for (int i = 0, n = inPlayZone.size(); i < n; i++) {
     		if (inPlayZone.get(i) instanceof Gold) {
