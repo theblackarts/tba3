@@ -294,8 +294,8 @@ public class Game {
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
 
-        ArrayList<Card> attackers = new ArrayList();
-        ArrayList<Card> availableDefenders = new ArrayList();
+        ArrayList<Card> attackers = new ArrayList<Card>();
+        ArrayList<Card> availableDefenders = new ArrayList<Card>();
 
         /* Check that there is at least one Monster in play for the attacker
          * If there is not at least one Monster, skip the Attack phase
@@ -389,6 +389,7 @@ public class Game {
             }
         }
         
+        input.close();
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
