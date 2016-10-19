@@ -28,6 +28,15 @@ Please note that this Specification is a work in progress and incomplete. Update
     $ git pull upstream master
     (here you're specifying upstream to point to the master branch of the official repository to pull those changes).
 
-That's it!
+## Pull Request
 
-A change from my local non-official repository that I want to pull into the official repository.
+1. Set up git and github (see How to collaborate using git and github above)
+2. Pull all the changes from your github repo and upstream
+3. Make one logical change to the code base
+4. Push this change to *your* github repo
+5. Log into your github account
+6. Open the repo of interest from your account
+7. Click the Pull Request tab
+8. Click the green button, New pull request
+9. Give some information about the one logical change you made
+10. Confirm by selecting Create pull request
