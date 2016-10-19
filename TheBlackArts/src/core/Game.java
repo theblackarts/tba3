@@ -349,7 +349,9 @@ public class Game {
                             }
                         }
                         
-                        // ````````````` Print out the columns of the Attackers and Potential Defenders `````````
+                        /* ------------------------------------------------------------------------
+                         * Print out the columns of the Attackers and Potential Defenders
+                         * ------------------------------------------------------------------------ */
 
                         // Print the header
                         System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:");
@@ -357,9 +359,9 @@ public class Game {
                         // Determine which of the two ArrayLists are longer
                         if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
                             for (int j = 0, as = attackers.size(); j < as; j++) {
-                                System.out.format("%i %-18s", j, attackers.get(j).getCardName());
+                                System.out.format("%s %-18s", j, attackers.get(j).getCardName());
                                 if (j >= 0 && j < availableDefenders.size()) {
-                                    System.out.println((j + 1) + availableDefenders.get(j).getCardName());
+                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName());
                                 } else {
                                     System.out.println();
                                 }
@@ -367,11 +369,11 @@ public class Game {
                         } else { // availableDefenders is the bigger ArrayList
                             for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
                                 if (k >= 0 && k < attackers.size()) {
-                                    System.out.format("%-20s", attackers.get(k).getCardName());
+                                    System.out.format("%s %-18s", k + 1, attackers.get(k).getCardName());
                                 } else {
                                     System.out.format("%-20s", "");
                                 }
-                                System.out.println(availableDefenders.get(k).getCardName());
+                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName());
                             }
                         }
                         break; // since we found one monster for the defender, break out of this loop as
