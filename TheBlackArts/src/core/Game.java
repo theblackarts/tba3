@@ -290,10 +290,11 @@ public class Game {
                                  ArrayList<Card> attackerDeadZone,
                                  ArrayList<Card> defenderDeadZone) {
 
-        Scanner input = new Scanner(System.in);
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
 
+        Scanner input = new Scanner(System.in);
+        
         ArrayList<Card> attackers = new ArrayList<Card>();
         ArrayList<Card> availableDefenders = new ArrayList<Card>();
 
@@ -338,8 +339,8 @@ public class Game {
                  *                 DEFENSE PORTION OF ATTACK PHASE
                  * ========================================================*/
 
-                // check that there is at least one Monster in play for the defender
-                // If there is not at least one monster, skip the defense portion of the attack phase
+                /* check that there is at least one Monster in play for the defender
+                   If there is not at least one monster, skip the defense portion of the attack phase */
                 for (Card card1 : defenderInPlayZone) {
                     if (card1 instanceof Monster) {
                         for (Card card2 : defenderInPlayZone) {
@@ -356,9 +357,9 @@ public class Game {
                         // Determine which of the two ArrayLists are longer
                         if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
                             for (int j = 0, as = attackers.size(); j < as; j++) {
-                                System.out.format("%-20s", attackers.get(j).getCardName());
+                                System.out.format("%i %-18s", j, attackers.get(j).getCardName());
                                 if (j >= 0 && j < availableDefenders.size()) {
-                                    System.out.println(availableDefenders.get(j).getCardName());
+                                    System.out.println((j + 1) + availableDefenders.get(j).getCardName());
                                 } else {
                                     System.out.println();
                                 }
@@ -389,7 +390,6 @@ public class Game {
             }
         }
         
-        input.close();
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     }
