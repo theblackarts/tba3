@@ -7,7 +7,7 @@ Please note that this Specification is a work in progress and incomplete. Update
 
 [Click here to view the specification](https://docs.google.com/document/d/1I8qmWIa8b9jKjzwYstWFG5m0pXAK5NyCk16oVsQCEtk/edit?usp=sharing)
 
-## How to collaborate using Git and GitHub
+## How to Collaborate Using Git and GitHub
 
 1. Download Git
 2. Create a GitHub account
