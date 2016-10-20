@@ -390,11 +390,22 @@ public class Game {
                     }
                 }
                 
+                // TODO: Prompt Defender to choose which Monsters to defend with and how
+                
+                // TODO: Get input from Defender for the defense choices
+                
+                // TODO: Assign Defenders to Attackers
+                
                 /* ========================================================
                  *                 DAMAGE PORTION OF ATTACK PHASE
                  * ========================================================*/
                 
                 // TODO: Implement damage portion of attack phase
+                
+                // For each set of Defender(s)/Attacker, allocate damage to HP
+                // use greedy algorithm to assign damage
+                // See https://en.wikipedia.org/wiki/Greedy_algorithm
+                // "tie breakers" should be determined by the Player
                 
                 break; // Since we found one monster for the attacker, break out of this loop as
                        // it has served its purpose
