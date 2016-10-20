@@ -10,6 +10,10 @@ import java.util.Scanner;
 
 public class Game {
 	
+    // Each game is played by two players
+    private Player playerOne;
+    private Player playerTwo;
+	
 	// Who's turn it is, is based on modulo 2 (0 is player 1's turn, 1 is player 2's turn)
     private int totalTurns = 0;
 
@@ -36,10 +40,6 @@ public class Game {
     private char decideYN;
     private int cardChoice;
     private Card card;
-    
-    // Each game is played by two players
-    private Player playerOne;
-    private Player playerTwo;
 
     // FTW!
     private boolean playerOneWin = false;
