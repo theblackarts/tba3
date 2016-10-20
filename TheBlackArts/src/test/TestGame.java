@@ -11,7 +11,7 @@ import core.Player;
 public class TestGame {
     public static void main(String[] args) {
         // Make a game object
-    	Game game = new Game(1);
+    	Game game = new Game(new Player("Alice"), new Player("Bob"));
     	
     	// Announce the game :)
     	game.announceGame();
@@ -24,7 +24,7 @@ public class TestGame {
     	Player playerTwo = game.getPlayerTwo();
     	
     	System.out.println("This match is between " + playerOne.getFirstName() + " and " + playerTwo.getFirstName()
-    			+ ".");
+    		+ ".");
     	System.out.println("Good luck & have fun!");
     	System.out.println();
     	
@@ -39,7 +39,7 @@ public class TestGame {
     	System.out.println("The decks have been shuffled.");
     	
     	System.out.println(playerOne.getFirstName() +
-    			" will play first."); // TODO: A way to randomly select first player
+    		" will play first."); // TODO: A way to randomly select first player
     	
     	game.nextTurn(); // turn "0" to turn 1
     	System.out.println("\n:: Turn " + game.getTotalTurns() + "::\n");
