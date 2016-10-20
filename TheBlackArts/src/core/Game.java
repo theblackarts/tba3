@@ -150,33 +150,35 @@ public class Game {
     /**
      * UI methods for a Game
      */
-    // Allow player to choose a card from his or her hand
+	/**
+     * Allow player to choose a card from his or her hand
+     */
     public void selectOneHandCard(ArrayList<Card> hand) {
-    	// Prompt the player which card to choose
-    	System.out.println("Which card would you like to select?");
-    	System.out.println("HAND");
-    	
-    	// Display all the cards with a number
-    	for (int i = 0, n = hand.size(); i < n; i++) {
-    		System.out.println((i + 1) + ": " + hand.get(i).getCardName());
-    	}
-    	
-    	// Prompt player for selection
-    	System.out.print("Select (enter a number): ");
-        
-    	// Get the selection
-    	int selection = input.nextInt();
-    	
-    	// Get the card
-    	Card card = hand.get(selection - 1);
-    	
-    	// Check if the card is a Living Asset or Nonliving Asset
-    	if (card instanceof LivingAsset) {
-    		System.out.println("You picked " + card.getCardName());
-    		System.out.println("It costs " + card.getClubCost() + " clubs (soon this will just be gold.)");
-    	} else if (card instanceof Gold) {
-    		System.out.println("You picked " + card.getCardName());
-    	}
+        // Prompt the player which card to choose
+        System.out.println("Which card would you like to select?");
+        System.out.println("HAND");
+
+        // Display all the cards with a number
+        for (int i = 0, n = hand.size(); i < n; i++) {
+            System.out.println((i + 1) + ": " + hand.get(i).getCardName());
+        }
+
+        // Prompt player for selection
+        System.out.print("Select (enter a number): ");
+
+        // Get the selection
+        int selection = input.nextInt();
+
+        // Get the card
+        Card card = hand.get(selection - 1);
+
+        // Check if the card is a Monster or not a Monster
+        if (card instanceof Monster) {
+            System.out.println("You picked " + card.getCardName());
+            System.out.println("It costs " + card.getGoldCost() + " clubs (soon this will just be gold.)");
+        } else if (card instanceof Gold) {
+            System.out.println("You picked " + card.getCardName());
+        }
     }
     
     /** Setters */
