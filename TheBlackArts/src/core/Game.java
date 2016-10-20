@@ -181,7 +181,7 @@ public class Game {
         }
     }
     
-    /** Setters */
+    /** Setters and Getters */
 	public void setPlayerOneWin(boolean playerOneWin) {
 		this.playerOneWin = playerOneWin;
 	}
