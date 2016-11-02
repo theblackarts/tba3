@@ -395,6 +395,50 @@ public class Game {
                 // TODO: Get input from Defender for the defense choices
                 
                 // TODO: Assign Defenders to Attackers
+               // Scanner input = new Scanner(System.in);
+        		ArrayList<String> myDefendString = new ArrayList<String>();
+        		char decideYN; 
+        		String defendString;
+        		String defendChoice="";
+        		
+        		System.out.println("Do you wish to defend (Y/N)");
+        		decideYN = input.next().charAt(0); 
+        		if(decideYN == 'Y' || decideYN == 'y' ) {
+        			System.out.println("How do you want to Defend");
+        			defendString = input.next();
+        			for(i= 0; i < defendString.length(); i++){
+        				if(Character.isDigit(defendString.charAt(i))){
+        					
+        					defendChoice += defendString.charAt(i);
+        					
+        				}
+        				if(defendString.charAt(i)==')'){
+        					myDefendString.add(defendChoice);
+        					defendChoice = "";
+        				}	
+        			}
+        			for(int j=0; j < myDefendString.size(); j++ ){
+        				for(int t=0; t < myDefendString.get(j).length(); t++){
+        					if(t == 0){
+        						System.out.print("The attacking monster at "+ myDefendString.get(j).charAt(t)+" is being defended by ");
+        					}
+        					else
+        						System.out.print(myDefendString.get(j).charAt(t) + " ");
+        				}
+        			
+        				System.out.println("");
+        				
+        			}
+        			
+        			
+        		}
+        		else
+        			System.out.println("Defend phase over");
+                
+                
+                
+                
+                
                 
                 /* ========================================================
                  *                 DAMAGE PORTION OF ATTACK PHASE
