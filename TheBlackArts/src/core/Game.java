@@ -395,7 +395,7 @@ public class Game {
                 // TODO: Get input from Defender for the defense choices
                 
                 // TODO: Assign Defenders to Attackers
-               // Scanner input = new Scanner(System.in);
+                //Scanner input = new Scanner(System.in);
         		ArrayList<String> myDefendString = new ArrayList<String>();
         		char decideYN; 
         		String defendString;
@@ -407,7 +407,7 @@ public class Game {
         			System.out.println("How do you want to Defend");
         			defendString = input.next();
         			for(i= 0; i < defendString.length(); i++){
-        				if(Character.isDigit(defendString.charAt(i))){
+        				if(Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ','){
         					
         					defendChoice += defendString.charAt(i);
         					
@@ -417,15 +417,31 @@ public class Game {
         					defendChoice = "";
         				}	
         			}
+        			
+        			//System.out.println(myDefendString);
+        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
+        			String strToInt =""; 
         			for(int j=0; j < myDefendString.size(); j++ ){
         				for(int t=0; t < myDefendString.get(j).length(); t++){
-        					if(t == 0){
-        						System.out.print("The attacking monster at "+ myDefendString.get(j).charAt(t)+" is being defended by ");
+        					if(Character.isDigit(myDefendString.get(j).charAt(t))){
+        						//System.out.println("Add to strToInt");
+        						strToInt +=  myDefendString.get(j).charAt(t);
+        					}
+        					if(myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)){
+        						//System.out.println("Add to myDefendIntegerArray");
+        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
+        						strToInt = "";
+        					}
+        				}
+        				//System.out.println(myDefendIntegerArray);
+        				for(int f=0; f < myDefendIntegerArray.size(); f++){
+        					if(f == 0){
+        						System.out.print("The attacking monster at "+ myDefendIntegerArray.get(f)+" is being defended by ");
         					}
         					else
-        						System.out.print(myDefendString.get(j).charAt(t) + " ");
+        						System.out.print(myDefendIntegerArray.get(f) + " ");
         				}
-        			
+        				myDefendIntegerArray.clear();
         				System.out.println("");
         				
         			}
@@ -434,12 +450,6 @@ public class Game {
         		}
         		else
         			System.out.println("Defend phase over");
-                
-                
-                
-                
-                
-                
                 /* ========================================================
                  *                 DAMAGE PORTION OF ATTACK PHASE
                  * ========================================================*/
