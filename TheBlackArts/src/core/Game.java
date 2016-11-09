@@ -396,6 +396,7 @@ public class Game {
                 
                 // TODO: Assign Defenders to Attackers
                 // Scanner input = new Scanner(System.in);
+                
         		ArrayList<String> myDefendString = new ArrayList<String>();
         		char decideYN; 
         		String defendString;
@@ -494,100 +495,116 @@ public class Game {
      * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
-    	boolean check = false;
-    	
+
     	purchasePhase = true;
-        System.out.println("Start [PURCHASE PHASE]");
+    	System.out.println("Start [PURCHASE PHASE]");
         
         // Get the amount of gold that the player has at the start of his or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+        
         int cardCost;
         boolean isAtLeastOneAffordable = false;
         
-        for (Card card : hand)
-        	if (card.getGoldCost() < amountOfUnusedGold && !(card instanceof Gold))
-        		isAtLeastOneAffordable = true;
-                
-        while (amountOfUnusedGold > 0 && isAtLeastOneAffordable) {
+        // While player has at least 1 or more unused Gold in play run through the purchase loop
+        while (amountOfUnusedGold > 0) {
         	
-        	/* 
-        	 * For each card in Player's hand that has a cost (Monster, Action, Accessory),
-        	 * display it along with an integer value that will act as an affordance to select
-        	 * and pay for it, allowing the player to bring a card into play.
-        	 */
-            for (int i = 0, n = hand.size(); i < n; i++) {
-                if (hand.get(i) instanceof Monster ||
-                	hand.get(i) instanceof Accessory ||
-                	hand.get(i) instanceof Action) {
-                    System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
-                            hand.get(i).getGoldCost());
-                }
-            }
-            // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
-            if (!isAPurchaseableInHand(hand)) {
-                break;
-            }
-            // Prompt the user for input
-            System.out.print("Pick a card by typing the associated integer value: ");
-            
-            // Get the Player's card choice
-            while (check == false) {
-            	try {
-            		cardChoice = input.nextInt();
-            		check = true;
-            	} catch (InputMismatchException e) {
-            		System.out.println("Please input an integer value");
-            		input.nextLine();
+        	// Check that there is at least one affordable card
+        	for (Card card : hand)
+            	if (card.getGoldCost() <= amountOfUnusedGold && !(card instanceof Gold)) { // Added <= instead of <, can revert back if this doesnt work
+            		isAtLeastOneAffordable = true;
+            		break; // Added this break to make it a lazy evaluation, but does it work as intended?
             	}
-            }
             
-            // Store the card in a variable that the Player selected
-            card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
-            
-            // Store the card cost
-            cardCost = card.getGoldCost();
-
-            // Does the player have enough unused gold to purchase the selected card?
-            if (cardCost <= amountOfUnusedGold) {
-                
-            	// Hey, you owe the game some GOLD! Pay this off!!
-                int unpaidAmount = cardCost;
-                
-                // Pay for the card
-                for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
-                    if (inPlayZone.get(i) instanceof Gold) {
-                        if (!((Gold) inPlayZone.get(i)).isUsed()) {
-                            // Set the gold card from used is false to used is true
-                            ((Gold) inPlayZone.get(i)).setUsed(true);
-                            unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
-                        }
+        	// If there is at least one affordable purchasebale card allow player to purchase it
+        	if (isAtLeastOneAffordable) {
+        		
+        		/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
+            	 * display it along with an integer value that will act as an affordance to select
+            	 * and pay for it, allowing the player to bring a card into play.
+            	 */
+            	for (int i = 0, n = hand.size(); i < n; i++) {
+                    if (hand.get(i) instanceof Monster ||
+                    	hand.get(i) instanceof Accessory ||
+                    	hand.get(i) instanceof Action) {
+                        	System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
+                                hand.get(i).getGoldCost());
                     }
                 }
+            	
+                // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
+                if (!isAPurchaseableInHand(hand)) {
+                    break;
+                }
                 
-                // Update value of amountOfUnusedGold (important for while loop to work)
-                amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+                // Prompt the user for input
+                System.out.print("Pick a card by typing the associated integer value: ");
                 
-                // Remove the paid for card from the player's hand
-                hand.remove(card);
+                // Get the Player's card choice
+                boolean check = false;
+                while (check == false) {
+                	try {
+                		cardChoice = input.nextInt();
+                		check = true;
+                	} catch (InputMismatchException e) {
+                		System.out.println("Please input an integer value");
+                		input.nextLine();
+                	}
+                }
+                
+                // Store the card in a variable that the Player selected
+                card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
+                
+                // Store the card cost
+                cardCost = card.getGoldCost();
 
-                // Add the paid for card to the player's play zone
-                inPlayZone.add(card);
-                
-                // We'll need to check again, now that we have purchased something if we can still afford anything
-                isAtLeastOneAffordable = false;
-                
-                System.out.println("You played a " + card.getCardName() + " to your play zone.");
+                // Does the player have enough unused gold to purchase the selected card?
+                if (cardCost <= amountOfUnusedGold) {
+                    
+                	// Hey, you owe the game some GOLD! Pay this off!!
+                    int unpaidAmount = cardCost;
+                    
+                    // Pay for the card
+                    for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
+                        if (inPlayZone.get(i) instanceof Gold) {
+                            if (!((Gold) inPlayZone.get(i)).isUsed()) {
+                            	
+                                // Set the gold card from used is false to used is true
+                                ((Gold) inPlayZone.get(i)).setUsed(true);
+                                
+                                unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
+                            }
+                        }
+                    }
+                    
+                    // Update value of amountOfUnusedGold (important for while loop to work)
+                    amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+                    
+                    // Remove the paid for card from the player's hand
+                    hand.remove(card);
 
-            } else { // Player does not have enough unused gold to pay for the card
-                System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-                break;
+                    // Add the paid for card to the player's play zone
+                    inPlayZone.add(card);
+                    
+                    // We'll need to check again, now that we have purchased something if we can still afford anything
+                    isAtLeastOneAffordable = false;
+                    
+                    System.out.println("You played a " + card.getCardName() + " to your play zone.");
+
+                } else { // Player does not have enough unused gold to pay for the card
+                    System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+                    break;
+                }
+            } else {
+            	break;
             }
         }
-        System.out.println("The following are the cards you have in play: ");
         
+        // Print all cards in the player's play zone
+        System.out.println("The following are the cards you have in play: ");
         for (Card card : inPlayZone)
         	System.out.println(card.getCardName());
         
+        // End the purchase phase
         purchasePhase = false;
         System.out.println("End [PURCHASE PHASE]");
     }
