@@ -47,6 +47,25 @@ public class Deck {
         }
         return deck;
     }
+    
+    public ArrayList<Card> buildTestDeck() {
+    	
+    		deck = new ArrayList<Card>(DECKSIZE);
+
+        for (int i = 0, n = 20; i < n; i++) {
+            deck.add(new Gold());
+        }
+        
+      // The other half of the deck is made of Bear Cards
+        for (int i = 0, n = 20; i < n; i++) {
+            deck.add(new Monster("Bear", 10, 10, 2));
+        }
+        
+        for (int i = 0, n = 12; i<n; i++){
+          deck.add(new Action("execute",2));
+        }
+        return deck;
+    }
 
     public String getDeckName() {
 		return deckName;

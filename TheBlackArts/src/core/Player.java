@@ -16,7 +16,7 @@ public class Player {
     // Each player has one deck
     Deck deckManager = new Deck();
     private ArrayList<Card> deck =
-    		deckManager.buildDeckOfHalfGoldAndHalfBears("Bears and Gold");
+    		deckManager.buildTestDeck();
     
     // Each player has one hand
     private ArrayList<Card> hand = new ArrayList<Card>(OPENINGHANDSIZE);
