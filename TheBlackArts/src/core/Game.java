@@ -395,7 +395,7 @@ public class Game {
                 // TODO: Get input from Defender for the defense choices
                 
                 // TODO: Assign Defenders to Attackers
-               // Scanner input = new Scanner(System.in);
+                // Scanner input = new Scanner(System.in);
         		ArrayList<String> myDefendString = new ArrayList<String>();
         		char decideYN; 
         		String defendString;
@@ -428,17 +428,10 @@ public class Game {
         			
         				System.out.println("");
         				
-        			}
-        			
-        			
+        			}	
         		}
         		else
-        			System.out.println("Defend phase over");
-                
-                
-                
-                
-                
+        			System.out.println("Defend phase over");                
                 
                 /* ========================================================
                  *                 DAMAGE PORTION OF ATTACK PHASE
