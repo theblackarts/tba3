@@ -512,7 +512,7 @@ public class Game {
         	for (Card card : hand)
             	if (card.getGoldCost() <= amountOfUnusedGold && !(card instanceof Gold)) { // Added <= instead of <, can revert back if this doesnt work
             		isAtLeastOneAffordable = true;
-            		break; // Added this break to make it a lazy evaluation, but does it work as intended?
+            		break; // Added this break to make it a lazy evaluation
             	}
             
         	// If there is at least one affordable purchasebale card allow player to purchase it
