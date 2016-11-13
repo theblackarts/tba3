@@ -565,7 +565,8 @@ public class Game {
     	purchasePhase = true;
     	System.out.println("Start [PURCHASE PHASE]");
         
-        // Get the amount of gold that the player has at the start of his or her purchase phase
+        // Get the amount of gold that the player has at the start of his
+    	// or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
         
         int cardCost;
