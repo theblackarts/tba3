@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 public class Game {
 	
+	// Game game = new Game(new Player("Alice"), new Player("Bob"));
+	
     // Each game is played by two players
     private Player playerOne;
     private Player playerTwo;
@@ -147,9 +149,10 @@ public class Game {
     }
     
     
-    /**
-     * UI methods for a Game
-     */
+    /* ========================================================
+     *                  UI METHODS
+     * ========================================================*/
+    
 	/**
      * Allow player to choose a card from his or her hand
      */
@@ -181,12 +184,21 @@ public class Game {
         }
     }
     
-    /** Setters and Getters */
-	public void setPlayerOneWin(boolean playerOneWin) {
+    /* ========================================================
+     *                  SETTER AND GETTER METHODS
+     * ========================================================*/
+        
+    public ArrayList<Card> getPlayerOneInPlayZone() {
+    	return playerOneInPlayZone;
+    }
+    
+    public ArrayList<Card> getPlayerTwoInPlayZone() {
+    	return playerTwoInPlayZone;
+    }
+    
+    public void setPlayerOneWin(boolean playerOneWin) {
 		this.playerOneWin = playerOneWin;
 	}
-
-    // UI methods for a Game
 
     public int getTotalTurns() {
 		return totalTurns;
@@ -237,6 +249,36 @@ public class Game {
         }
         return amountOfUnusedGold;
     }
+    
+    /**
+     * Remove one select card from player one's in play zone
+     */
+    public void removeOneFromPlayerOneInPlayZone(int card) {
+    	this.playerOneInPlayZone.remove(card);
+    }
+    
+    /**
+     * Remove one select card from player two's in play zone
+     */
+    public void removeOneFromPlayerTwoInPlayZone(int card) {
+    	this.playerTwoInPlayZone.remove(card);
+    }
+    
+    /**
+     * Add one card to player one's dead zone 
+     */
+    public void addCardToPlayerOneDeadZone(Card card) {
+    	this.playerOneDeadZone.add(card);
+    }
+    
+    /**
+     * Add one card to player two's dead zone 
+     */
+    public void addCardToPlayerTwoDeadZone(Card card) {
+    	this.playerTwoDeadZone.add(card);
+    }
+    
+    
 
     /* ========================================================
      *                    PHASE METHODS
@@ -540,7 +582,7 @@ public class Game {
             	for (int i = 0, n = hand.size(); i < n; i++) {
                     if (hand.get(i) instanceof Monster ||
                     	hand.get(i) instanceof Accessory ||
-                    	hand.get(i) instanceof Action) {
+                    	hand.get(i) instanceof Execute) {
                         	System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
                                 hand.get(i).getGoldCost());
                     }
@@ -634,7 +676,7 @@ public class Game {
     	boolean yesAtLeastOnePurchaseable = false;
         
     	for (int i = 0, n = hand.size(); i < n; i++)
-            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Action || hand.get(i) instanceof Accessory)
+            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Execute || hand.get(i) instanceof Accessory)
                 yesAtLeastOnePurchaseable = true;
         
     	return yesAtLeastOnePurchaseable;
