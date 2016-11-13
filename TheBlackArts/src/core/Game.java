@@ -421,7 +421,7 @@ public class Game {
         					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
         						strToInt +=  myDefendString.get(j).charAt(t);
         					}
-        					if(myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)){
+        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
         						myDefendIntegerArray.add(Integer.parseInt(strToInt));
         						strToInt = "";
         					}
@@ -442,7 +442,7 @@ public class Game {
         					currentAttackHP -= currentDefenseAttack;
         					currentDefenseHP -= currentAttack;
         					
-        					if(currentDefenseHP <= 0){
+        					if(currentDefenseHP <= 0) {
         						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
         						currentAttack = (-1 * currentAttackHP);
         					}	
@@ -480,6 +480,7 @@ public class Game {
     public void startMinePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
         System.out.println("Start [MINE PHASE]");
+        
         /* For each card in Player One's hand, is there at least one Gold card?
          * If yes, give the Player an option to play it and stop checking for Gold cards
          * NOTE: There is no way to bluff using this system
