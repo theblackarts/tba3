@@ -494,7 +494,7 @@ public class Game {
                 break; // Since we found one monster for the attacker, break out of this loop as
                        // it has served its purpose
             }
-            
+    
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
     
