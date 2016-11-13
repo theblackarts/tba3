@@ -147,9 +147,10 @@ public class Game {
     }
     
     
-    /**
+    /*
      * UI methods for a Game
      */
+    
 	/**
      * Allow player to choose a card from his or her hand
      */
@@ -312,6 +313,7 @@ public class Game {
          */
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
+
 	            System.out.println("Do you wish to attak");
 	            decideYN = input.next().charAt(0);
 	            if(decideYN == 'Y' || decideYN == 'y'){
@@ -495,9 +497,163 @@ public class Game {
 	                break; // Since we found one monster for the attacker, break out of this loop as
 	                       // it has served its purpose
 	            }
+
+
+                /* ========================================================
+                 *             ATTACK PORTION OF ATTACK PHASE
+                 * ========================================================*/
+
+                // Prompt the attacker to select the Monsters he or she would like to attack with
+                System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
+
+                // Display attacker's monsters that he or she could attack with
+                for (int j = 0; j < n; j++)
+                    if (attackerInPlayZone.get(j) instanceof Monster)
+                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
+
+                // Get the input
+                String attackSelectsStr = input.next();
+
+                // Parse the input
+                String[] attackSelects = attackSelectsStr.split(",");
+
+                for (String str : attackSelects) {
+                    
+                	// Toggle isAttacked for each selected monster from false to true
+                    ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
+                    
+                    // Display which Monsters attacked
+                    System.out.println("You attacked with " +
+                            attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
+                    
+                    // Add the Monsters to the attackers ArrayList
+                    Monster myAttackMonster = ((Monster) attackerInPlayZone.get(Integer.parseInt(str) - 1));
+                    attackers.add(myAttackMonster);
+                }  
+
+                /* ========================================================
+                 *                 DEFENSE PORTION OF ATTACK PHASE
+                 * ========================================================*/
+
+                /* check that there is at least one Monster in play for the defender
+                   If there is not at least one monster, skip the defense portion of the attack phase */
+                for (Card card1 : defenderInPlayZone) {
+                    if (card1 instanceof Monster) {
+                        for (Card card2 : defenderInPlayZone) {
+                            if (card2 instanceof Monster) {
+                                Monster myDefendMonster = ((Monster) card2);
+                            	availableDefenders.add(myDefendMonster);
+                            }
+                        }
+                        
+                        /* ------------------------------------------------------------------------
+                         * Print out the columns of the Attackers and Potential Defenders
+                         * ------------------------------------------------------------------------ */
+
+                        // Print the header
+                        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:");
+
+                        // Determine which of the two ArrayLists are longer
+                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
+                            for (int j = 0, as = attackers.size(); j < as; j++) {
+                                System.out.format("%s %-18s", j, attackers.get(j).getCardName());
+                                if (j >= 0 && j < availableDefenders.size()) {
+                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName());
+                                } else {
+                                    System.out.println();
+                                }
+                            }
+                        } else { // availableDefenders is the bigger ArrayList
+                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
+                                if (k >= 0 && k < attackers.size()) {
+                                    System.out.format("%s %-18s", k + 1, attackers.get(k).getCardName());
+                                } else {
+                                    System.out.format("%-20s", "");
+                                }
+                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName());
+                            }
+                        }
+                        break; // since we found one monster for the defender, break out of this loop as
+                               // it has served its purpose
+                    }
+                }
+
+        		ArrayList<String> myDefendString = new ArrayList<String>();
+        		 
+        		String defendString;
+        		String defendChoice="";
+        		
+        		System.out.println("Do you wish to defend (Y/N)");
+        		decideYN = input.next().charAt(0); 
+        		if(decideYN == 'Y' || decideYN == 'y' ) {
+        			System.out.println("How do you want to Defend");
+        			defendString = input.next();
+        			for (i= 0; i < defendString.length(); i++) {
+        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
+        					defendChoice += defendString.charAt(i);
+        				}
+        				if (defendString.charAt(i)==')'){
+        					myDefendString.add(defendChoice);
+        					defendChoice = "";
+        				}	
+        			}
+        			
+        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
+        			String strToInt =""; 
+        			
+        			for (int j = 0; j < myDefendString.size(); j++ ) {
+        				for (int t = 0; t < myDefendString.get(j).length(); t++) {
+        					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
+        						strToInt +=  myDefendString.get(j).charAt(t);
+        					}
+        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
+        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
+        						strToInt = "";
+        					}
+        				}
+        				
+        			    /* ========================================================
+                         *                 DAMAGE PORTION OF ATTACK PHASE
+                         * ========================================================*/
+        				
+        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
+        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
+        				int currentDefenseHP;
+        				int	currentDefenseAttack;
+        				
+        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
+        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
+        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
+        					currentAttackHP -= currentDefenseAttack;
+        					currentDefenseHP -= currentAttack;
+        					
+        					if(currentDefenseHP <= 0) {
+        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
+        						currentAttack = (-1 * currentAttackHP);
+        					}	
+        				}	
+        				attackers.get(myDefendIntegerArray.get(0) - 1).setHitPoints(currentAttackHP);
+        				myDefendIntegerArray.clear();
+        				System.out.println("");
+        			}	
+        		}
+    			for (int f = 0; f < attackers.size(); f++) {
+    				if ((attackers.get(f).getHitPoints()) <= 0) {
+    					attackerDeadZone.add(attackers.get(f));
+    					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
+    				}
+        		}
+    			for (int f = 0; f < availableDefenders.size(); f++){
+    				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
+    					defenderDeadZone.add(availableDefenders.get(f));
+    					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
+    				}
+    			}		
+
             }
-            
+        	System.out.println("Defend phase over");
         }
+
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
@@ -505,9 +661,10 @@ public class Game {
         
        
         attackPhase = false; // end attack phase
+
         System.out.println("End [ATTACK PHASE]");
     }
-
+    
     /**
      * Start the mine phase for a player, allowing that player to play one gold card (if they have one) from their
      * hand into their play zone.
@@ -517,6 +674,7 @@ public class Game {
     public void startMinePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
         Card card; // used for storing a card selected by a player (remove the card, add the card, print the card)
         System.out.println("Start [MINE PHASE]");
+        
         /* For each card in Player One's hand, is there at least one Gold card?
          * If yes, give the Player an option to play it and stop checking for Gold cards
          * NOTE: There is no way to bluff using this system
@@ -549,100 +707,116 @@ public class Game {
      * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
-    	boolean check = false;
-    	
+
     	purchasePhase = true;
-        System.out.println("Start [PURCHASE PHASE]");
+    	System.out.println("Start [PURCHASE PHASE]");
         
         // Get the amount of gold that the player has at the start of his or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+        
         int cardCost;
         boolean isAtLeastOneAffordable = false;
         
-        for (Card card : hand)
-        	if (card.getGoldCost() < amountOfUnusedGold && !(card instanceof Gold))
-        		isAtLeastOneAffordable = true;
-                
-        while (amountOfUnusedGold > 0 && isAtLeastOneAffordable) {
+        // While player has at least 1 or more unused Gold in play run through the purchase loop
+        while (amountOfUnusedGold > 0) {
         	
-        	/* 
-        	 * For each card in Player's hand that has a cost (Monster, Action, Accessory),
-        	 * display it along with an integer value that will act as an affordance to select
-        	 * and pay for it, allowing the player to bring a card into play.
-        	 */
-            for (int i = 0, n = hand.size(); i < n; i++) {
-                if (hand.get(i) instanceof Monster ||
-                	hand.get(i) instanceof Accessory ||
-                	hand.get(i) instanceof Action) {
-                    System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
-                            hand.get(i).getGoldCost());
-                }
-            }
-            // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
-            if (!isAPurchaseableInHand(hand)) {
-                break;
-            }
-            // Prompt the user for input
-            System.out.print("Pick a card by typing the associated integer value: ");
-            
-            // Get the Player's card choice
-            while (check == false) {
-            	try {
-            		cardChoice = input.nextInt();
-            		check = true;
-            	} catch (InputMismatchException e) {
-            		System.out.println("Please input an integer value");
-            		input.nextLine();
+        	// Check that there is at least one affordable card
+        	for (Card card : hand)
+            	if (card.getGoldCost() <= amountOfUnusedGold && !(card instanceof Gold)) { // Added <= instead of <, can revert back if this doesnt work
+            		isAtLeastOneAffordable = true;
+            		break; // Added this break to make it a lazy evaluation
             	}
-            }
             
-            // Store the card in a variable that the Player selected
-            card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
-            
-            // Store the card cost
-            cardCost = card.getGoldCost();
-
-            // Does the player have enough unused gold to purchase the selected card?
-            if (cardCost <= amountOfUnusedGold) {
-                
-            	// Hey, you owe the game some GOLD! Pay this off!!
-                int unpaidAmount = cardCost;
-                
-                // Pay for the card
-                for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
-                    if (inPlayZone.get(i) instanceof Gold) {
-                        if (!((Gold) inPlayZone.get(i)).isUsed()) {
-                            // Set the gold card from used is false to used is true
-                            ((Gold) inPlayZone.get(i)).setUsed(true);
-                            unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
-                        }
+        	// If there is at least one affordable purchasebale card allow player to purchase it
+        	if (isAtLeastOneAffordable) {
+        		
+        		/* For each card in Player's hand that has a cost (Monster, Action, Accessory),
+            	 * display it along with an integer value that will act as an affordance to select
+            	 * and pay for it, allowing the player to bring a card into play.
+            	 */
+            	for (int i = 0, n = hand.size(); i < n; i++) {
+                    if (hand.get(i) instanceof Monster ||
+                    	hand.get(i) instanceof Accessory ||
+                    	hand.get(i) instanceof Action) {
+                        	System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
+                                hand.get(i).getGoldCost());
                     }
                 }
+            	
+                // Check if there are no purchaseable (Monster, Action, Accessory cards in hand, break
+                if (!isAPurchaseableInHand(hand)) {
+                    break;
+                }
                 
-                // Update value of amountOfUnusedGold (important for while loop to work)
-                amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+                // Prompt the user for input
+                System.out.print("Pick a card by typing the associated integer value: ");
                 
-                // Remove the paid for card from the player's hand
-                hand.remove(card);
+                // Get the Player's card choice
+                boolean check = false;
+                while (check == false) {
+                	try {
+                		cardChoice = input.nextInt();
+                		check = true;
+                	} catch (InputMismatchException e) {
+                		System.out.println("Please input an integer value");
+                		input.nextLine();
+                	}
+                }
+                
+                // Store the card in a variable that the Player selected
+                card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
+                
+                // Store the card cost
+                cardCost = card.getGoldCost();
 
-                // Add the paid for card to the player's play zone
-                inPlayZone.add(card);
-                
-                // We'll need to check again, now that we have purchased something if we can still afford anything
-                isAtLeastOneAffordable = false;
-                
-                System.out.println("You played a " + card.getCardName() + " to your play zone.");
+                // Does the player have enough unused gold to purchase the selected card?
+                if (cardCost <= amountOfUnusedGold) {
+                    
+                	// Hey, you owe the game some GOLD! Pay this off!!
+                    int unpaidAmount = cardCost;
+                    
+                    // Pay for the card
+                    for (int i = 0, n = inPlayZone.size(); i < n && unpaidAmount != 0; i++) {
+                        if (inPlayZone.get(i) instanceof Gold) {
+                            if (!((Gold) inPlayZone.get(i)).isUsed()) {
+                            	
+                                // Set the gold card from used is false to used is true
+                                ((Gold) inPlayZone.get(i)).setUsed(true);
+                                
+                                unpaidAmount--; // Now you owe us less, does your wallet feel lighter?
+                            }
+                        }
+                    }
+                    
+                    // Update value of amountOfUnusedGold (important for while loop to work)
+                    amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
+                    
+                    // Remove the paid for card from the player's hand
+                    hand.remove(card);
 
-            } else { // Player does not have enough unused gold to pay for the card
-                System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-                break;
+                    // Add the paid for card to the player's play zone
+                    inPlayZone.add(card);
+                    
+                    // We'll need to check again, now that we have purchased something if we can still afford anything
+                    isAtLeastOneAffordable = false;
+                    
+                    System.out.println("You played a " + card.getCardName() + " to your play zone.");
+
+                } else { // Player does not have enough unused gold to pay for the card
+                    System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
+                    break;
+                }
+            } else {
+            	break;
             }
         }
-        System.out.println("The following are the cards you have in play: ");
         
+        // Print all cards in the player's play zone
+        System.out.println("The following are the cards you have in play: ");
         for (Card card : inPlayZone)
         	System.out.println(card.getCardName());
         
+        // End the purchase phase
         purchasePhase = false;
         System.out.println("End [PURCHASE PHASE]");
     }
