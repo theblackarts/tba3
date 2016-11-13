@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Execute extends Card {
 	
@@ -9,39 +10,34 @@ public class Execute extends Card {
 		super.setGoldCost(goldCost);
 	}
 	
-	// should the param be a game object?
-	// kill select monster in given game; if you pass it a game object you can get information
-	// about who played the card?
-	
-	public void killSelectMonster(Game game) {
+	// We will assign inPlayZone & deadZone's players based on the purchase phase
+	public void killSelectMonster(ArrayList<Card> inPlayZone, ArrayList<Card> deadZone) {
+		Scanner input = new Scanner(System.in);
+		Card monster;
 		
-		if (game.getTotalTurns() % 2 == 0) {
-			// Player one's turn
-
-			// If there are no Monsters to kill, tell player 1 do not allow the card to be played
-			
-			// Ask which Monster to kill
-			// Display a list of all of the Player 2's monsters that are in play
-			System.out.println("Select a monster to kill");
-			
-			// Get player 2's in play monsters
-			ArrayList<Card> playerTwoInPlayZone = game.getPlayerTwoInPlayZone();
-			for (int i = 0, n = playerTwoInPlayZone.size(); i < n; i++) {
-				if (playerTwoInPlayZone.get(i) instanceof Monster)
-					System.out.println(playerTwoInPlayZone.get(i).getCardName());
-			}
-			
-			// Store the index of the monster to kill
-			
-			// Remove the monster from player 2's in play zone
-			
-			// Add the monster to player 2's dead zone
-			
-			//---------As just a test, let's just remove the first monster we find-------//
-			
-		} else {
-			// Player two's turn
+		for (int i = 0, n = inPlayZone.size(); i < n; i++) {
+            if (inPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
+        		
+            	// Prompt user to select a monster
+            	System.out.println("Select one Monsters to kill");
+            	
+            	// Display monsters that can be selected
+            	for (int j = 0; j < n; j++)
+                    if (inPlayZone.get(j) instanceof Monster)
+                        System.out.println((j + 1) + ": " + inPlayZone.get(j).getCardName());
+            	
+            	// Get the input
+            	int selectMonster = input.nextInt() - 1;
+            	
+            	// Store the selectMonster
+            	monster = inPlayZone.get(selectMonster);
+            	
+            	// Remove the monster card from the play zone
+            	inPlayZone.remove(selectMonster);
+            	
+            	// Add the monster card to the dead zone
+            	deadZone.add(monster);
+            }
 		}
-		
 	}
 }

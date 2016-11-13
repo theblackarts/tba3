@@ -341,7 +341,7 @@ public class Game {
                                  ArrayList<Card> attackerDeadZone,
                                  ArrayList<Card> defenderDeadZone) {
 
-        attackPhase = true; // start attack phase
+        attackPhase = true;
         System.out.println("Start [ATTACK PHASE]");
 
         Scanner input = new Scanner(System.in);
@@ -507,7 +507,7 @@ public class Game {
             }
         }
         
-        attackPhase = false; // end attack phase
+        attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
     }
 
