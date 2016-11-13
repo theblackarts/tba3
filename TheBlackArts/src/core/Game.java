@@ -552,6 +552,16 @@ public class Game {
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
 
+    	/*
+    	 * We need a way to handle the purchase of Action cards differently than
+    	 * Monster cards. Action cards are basically an object with a method that
+    	 * affects the state of the game -- for instance killing a monster
+    	 * If purchase action card, and that action card is say execute,
+    	 * we need to run the kill monster method.
+    	 * 
+    	 * Also, this code is getting really procedural, it would be easier to read
+    	 * if we refactored the parts of it that repeat.
+    	 */
     	purchasePhase = true;
     	System.out.println("Start [PURCHASE PHASE]");
         
@@ -579,7 +589,7 @@ public class Game {
             	 * and pay for it, allowing the player to bring a card into play.
             	 */
             	for (int i = 0, n = hand.size(); i < n; i++) {
-                    if (hand.get(i) instanceof Monster ||
+                    if (hand.get(i) instanceof Monster   ||
                     	hand.get(i) instanceof Accessory ||
                     	hand.get(i) instanceof Execute) {
                         	System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
