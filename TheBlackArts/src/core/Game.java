@@ -418,7 +418,7 @@ public class Game {
         				}	
         			}
         			
-        			//System.out.println(myDefendString);
+        			//		System.out.println(myDefendString);
         			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
         			String strToInt =""; 
         			for(int j=0; j < myDefendString.size(); j++ ){
