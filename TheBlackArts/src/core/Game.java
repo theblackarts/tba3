@@ -304,8 +304,8 @@ public class Game {
 
         Scanner input = new Scanner(System.in);
         
-        ArrayList<Card> attackers = new ArrayList<Card>();
-        ArrayList<Card> availableDefenders = new ArrayList<Card>();
+        ArrayList<Monster> attackers = new ArrayList<Monster>();
+        ArrayList<Monster> availableDefenders = new ArrayList<Monster>();
 
         /* Check that there is at least one Monster in play for the attacker
          * If there is not at least one Monster, skip the Attack phase
@@ -341,8 +341,9 @@ public class Game {
                             attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
                     
                     // Add the Monsters to the attackers ArrayList
-                    attackers.add(attackerInPlayZone.get(Integer.parseInt(str) - 1));
-                }
+                    Monster myAttackMonster = ((Monster) attackerInPlayZone.get(Integer.parseInt(str) - 1));
+                    attackers.add(myAttackMonster);
+                }  
 
                 /* ========================================================
                  *                 DEFENSE PORTION OF ATTACK PHASE
@@ -354,7 +355,8 @@ public class Game {
                     if (card1 instanceof Monster) {
                         for (Card card2 : defenderInPlayZone) {
                             if (card2 instanceof Monster) {
-                                availableDefenders.add(card2);
+                                Monster myDefendMonster = ((Monster) card2);
+                            	availableDefenders.add(myDefendMonster);
                             }
                         }
                         
@@ -434,21 +436,50 @@ public class Game {
         					}
         				}
         				//System.out.println(myDefendIntegerArray);
-        				for(int f=0; f < myDefendIntegerArray.size(); f++){
-        					if(f == 0){
-        						System.out.print("The attacking monster at "+ myDefendIntegerArray.get(f)+" is being defended by ");
-        					}
-        					else
-        						System.out.print(myDefendIntegerArray.get(f) + " ");
-        				}
+        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
+        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
+        				int currentDefenseHP;
+        				int	currentDefenseAttack;
+        				
+        				for(int f=1; f < myDefendIntegerArray.size(); f++){
+        					 
+        					
+        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
+        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
+        					currentAttackHP -=  currentDefenseAttack;
+        					currentDefenseHP -= currentAttack; 
+        					
+        					if(currentDefenseHP <= 0){
+        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
+        						currentAttack = (-1 * currentAttackHP);
+        					}	
+        				}	
+        				attackers.get(myDefendIntegerArray.get(0) - 1).setHitPoints(currentAttackHP);
         				myDefendIntegerArray.clear();
         				System.out.println("");
         				
-        			}	
-        		}
-        		else
 
-        			System.out.println("Defend phase over");
+        			}	
+
+        		}
+    			for(int f=0; f < attackers.size(); f++){
+    				if((attackers.get(f).getHitPoints()) <= 0) {
+    					attackerDeadZone.add(attackers.get(f));
+    					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
+    				}
+    				
+        		}
+    			for(int f=0; f < availableDefenders.size(); f++){
+    				if((availableDefenders.get(f).getHitPoints()) <= 0) {
+    					defenderDeadZone.add(availableDefenders.get(f));
+    					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
+    				}
+    				
+    			}			
+        }
+        else
+        	System.out.println("Defend phase over");
+            
                 /* ========================================================
                  *                 DAMAGE PORTION OF ATTACK PHASE
                  * ========================================================*/
@@ -463,12 +494,11 @@ public class Game {
                 break; // Since we found one monster for the attacker, break out of this loop as
                        // it has served its purpose
             }
-        }
-        
+            
         attackPhase = false; // end attack phase
         System.out.println("End [ATTACK PHASE]");
+    
     }
-
     /**
      * Start the mine phase for a player, allowing that player to play one gold card (if they have one) from their
      * hand into their play zone.
