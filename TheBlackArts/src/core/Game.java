@@ -147,9 +147,10 @@ public class Game {
     }
     
     
-    /**
+    /*
      * UI methods for a Game
      */
+    
 	/**
      * Allow player to choose a card from his or her hand
      */
@@ -391,12 +392,6 @@ public class Game {
                                // it has served its purpose
                     }
                 }
-                
-                // TODO: Prompt Defender to choose which Monsters to defend with and how
-                
-                // TODO: Get input from Defender for the defense choices
-                
-                // TODO: Assign Defenders to Attackers
 
         		ArrayList<String> myDefendString = new ArrayList<String>();
         		char decideYN; 
@@ -420,12 +415,12 @@ public class Game {
         				}	
         			}
         			
-        			//System.out.println(myDefendString);
         			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
         			String strToInt =""; 
-        			for(int j=0; j < myDefendString.size(); j++ ){
-        				for(int t=0; t < myDefendString.get(j).length(); t++){
-        					if(Character.isDigit(myDefendString.get(j).charAt(t))){
+        			
+        			for (int j=0; j < myDefendString.size(); j++ ){
+        				for (int t=0; t < myDefendString.get(j).length(); t++){
+        					if (Character.isDigit(myDefendString.get(j).charAt(t))){
         						//System.out.println("Add to strToInt");
         						strToInt +=  myDefendString.get(j).charAt(t);
         					}
@@ -435,15 +430,13 @@ public class Game {
         						strToInt = "";
         					}
         				}
-        				//System.out.println(myDefendIntegerArray);
+        				
         				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
         				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
         				int currentDefenseHP;
         				int	currentDefenseAttack;
         				
-        				for(int f=1; f < myDefendIntegerArray.size(); f++){
-        					 
-        					
+        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
         					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
         					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
         					currentAttackHP -=  currentDefenseAttack;
@@ -475,9 +468,8 @@ public class Game {
     					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
     				}
     				
-    			}			
+    			}		
         }
-        else
         	System.out.println("Defend phase over");
             
                 /* ========================================================
@@ -490,15 +482,13 @@ public class Game {
                 // use greedy algorithm to assign damage
                 // See https://en.wikipedia.org/wiki/Greedy_algorithm
                 // "tie breakers" should be determined by the Player
-                
-                break; // Since we found one monster for the attacker, break out of this loop as
-                       // it has served its purpose
-            }
+        }
+        
     
-        attackPhase = false; // end attack phase
+        attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
-    
     }
+    
     /**
      * Start the mine phase for a player, allowing that player to play one gold card (if they have one) from their
      * hand into their play zone.
