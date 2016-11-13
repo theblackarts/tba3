@@ -10,7 +10,7 @@ public class Execute extends Card {
 		super.setGoldCost(goldCost);
 	}
 	
-	// We will assign inPlayZone & deadZone's players based on the purchase phase
+	// We can assign inPlayZone & deadZone's players based on the purchase phase
 	public void killSelectMonster(ArrayList<Card> inPlayZone, ArrayList<Card> deadZone) {
 		Scanner input = new Scanner(System.in);
 		Card monster;
@@ -27,16 +27,18 @@ public class Execute extends Card {
                         System.out.println((j + 1) + ": " + inPlayZone.get(j).getCardName());
             	
             	// Get the input
-            	int selectMonster = input.nextInt() - 1;
+            	int selectMonster = input.nextInt();
             	
             	// Store the selectMonster
-            	monster = inPlayZone.get(selectMonster);
+            	monster = inPlayZone.get(selectMonster - 1);
             	
             	// Remove the monster card from the play zone
-            	inPlayZone.remove(selectMonster);
+            	inPlayZone.remove(selectMonster - 1);
             	
             	// Add the monster card to the dead zone
             	deadZone.add(monster);
+            	
+            	break;
             }
 		}
 	}

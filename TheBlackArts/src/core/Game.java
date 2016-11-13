@@ -277,8 +277,7 @@ public class Game {
     public void addCardToPlayerTwoDeadZone(Card card) {
     	this.playerTwoDeadZone.add(card);
     }
-    
-    
+
 
     /* ========================================================
      *                    PHASE METHODS
