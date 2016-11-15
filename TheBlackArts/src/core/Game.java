@@ -1,5 +1,15 @@
-/*
- * Shuffle up and deal!
+/* 
+ * "All that is gold does not glitter,
+ * Not all those who wander are lost;
+ * The old that is strong does not wither,
+ * Deep roots are not reached by the frost.
+ * From the ashes a fire shall be woken,
+ * A light from the shadows shall spring;
+ * Renewed shall be blade that was broken,
+ * The crownless again shall be king."
+ *  --J. R. R. Tolkein
+ *
+ * GL & HF, Shuffle up and deal!
  */
 
 package core;
@@ -9,7 +19,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
-	
+		
     // Each game is played by two players
     private Player playerOne;
     private Player playerTwo;
@@ -106,7 +116,10 @@ public class Game {
                 startMinePhase(handOne, playerOneInPlayZone);
                 
                 // ********************* (5) Purchase ********************
-                startPurchasePhase(handOne, playerOneInPlayZone);
+                startPurchasePhase(handOne,
+                		           playerOneInPlayZone,
+                		           playerTwoInPlayZone,
+                		           playerTwoDeadZone);
                 
                 // ********************* (6) End *************************
                 startEndPhase();
@@ -136,7 +149,10 @@ public class Game {
                 startMinePhase(handTwo, playerTwoInPlayZone);
                 
                 // ********************* (5) Purchase ********************
-                startPurchasePhase(handTwo, playerTwoInPlayZone);
+                startPurchasePhase(handTwo,
+                		           playerTwoInPlayZone,
+                		           playerOneInPlayZone,
+                		           playerOneDeadZone);
                 
                 // ********************* (6) End *************************
                 startEndPhase();
@@ -146,11 +162,10 @@ public class Game {
         }
     }
     
-    
-    /*
-     * UI methods for a Game
-     */
-    
+    /* ========================================================
+     *                  UI METHODS
+     * ========================================================*/
+
 	/**
      * Allow player to choose a card from his or her hand
      */
@@ -182,12 +197,21 @@ public class Game {
         }
     }
     
-    /** Setters and Getters */
-	public void setPlayerOneWin(boolean playerOneWin) {
+    /* ========================================================
+     *                  SETTER AND GETTER METHODS
+     * ========================================================*/
+        
+    public ArrayList<Card> getPlayerOneInPlayZone() {
+    	return playerOneInPlayZone;
+    }
+    
+    public ArrayList<Card> getPlayerTwoInPlayZone() {
+    	return playerTwoInPlayZone;
+    }
+    
+    public void setPlayerOneWin(boolean playerOneWin) {
 		this.playerOneWin = playerOneWin;
 	}
-
-    // UI methods for a Game
 
     public int getTotalTurns() {
 		return totalTurns;
@@ -238,6 +262,35 @@ public class Game {
         }
         return amountOfUnusedGold;
     }
+    
+    /**
+     * Remove one select card from player one's in play zone
+     */
+    public void removeOneFromPlayerOneInPlayZone(int card) {
+    	this.playerOneInPlayZone.remove(card);
+    }
+    
+    /**
+     * Remove one select card from player two's in play zone
+     */
+    public void removeOneFromPlayerTwoInPlayZone(int card) {
+    	this.playerTwoInPlayZone.remove(card);
+    }
+    
+    /**
+     * Add one card to player one's dead zone 
+     */
+    public void addCardToPlayerOneDeadZone(Card card) {
+    	this.playerOneDeadZone.add(card);
+    }
+    
+    /**
+     * Add one card to player two's dead zone 
+     */
+    public void addCardToPlayerTwoDeadZone(Card card) {
+    	this.playerTwoDeadZone.add(card);
+    }
+
 
     /* ========================================================
      *                    PHASE METHODS
@@ -300,7 +353,7 @@ public class Game {
                                  ArrayList<Card> attackerDeadZone,
                                  ArrayList<Card> defenderDeadZone) {
 
-        attackPhase = true; // start attack phase
+        attackPhase = true;
         System.out.println("Start [ATTACK PHASE]");
         
         Scanner input = new Scanner(System.in);
@@ -661,9 +714,7 @@ public class Game {
         System.out.println(attackerDeadZone);
         System.out.println(defenderDeadZone);
         
-       
-        attackPhase = false; // end attack phase
-
+        attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
     }
     
@@ -708,12 +759,24 @@ public class Game {
      * @param hand
      * @param inPlayZone
      */
-    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
+    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone,
+    		ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone) {
 
+    	/*
+    	 * We need a way to handle the purchase of Action cards differently than
+    	 * Monster cards. Action cards are basically an object with a method that
+    	 * affects the state of the game -- for instance killing a monster
+    	 * If purchase action card, and that action card is say execute,
+    	 * we need to run the kill monster method.
+    	 * 
+    	 * Also, this code is getting really procedural, it would be easier to read
+    	 * if we refactored the parts of it that repeat.
+    	 */
     	purchasePhase = true;
     	System.out.println("Start [PURCHASE PHASE]");
         
-        // Get the amount of gold that the player has at the start of his or her purchase phase
+        // Get the amount of gold that the player has at the start of his
+    	// or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
         
         int cardCost;
@@ -737,9 +800,9 @@ public class Game {
             	 * and pay for it, allowing the player to bring a card into play.
             	 */
             	for (int i = 0, n = hand.size(); i < n; i++) {
-                    if (hand.get(i) instanceof Monster ||
+                    if (hand.get(i) instanceof Monster   ||
                     	hand.get(i) instanceof Accessory ||
-                    	hand.get(i) instanceof Action) {
+                    	hand.get(i) instanceof Execute) {
                         	System.out.println((i + 1) + ": " + hand.get(i).getCardName() + ", " +
                                 hand.get(i).getGoldCost());
                     }
@@ -795,15 +858,20 @@ public class Game {
                     
                     // Remove the paid for card from the player's hand
                     hand.remove(card);
-
-                    // Add the paid for card to the player's play zone
-                    inPlayZone.add(card);
                     
-                    // We'll need to check again, now that we have purchased something if we can still afford anything
-                    isAtLeastOneAffordable = false;
-                    
-                    System.out.println("You played a " + card.getCardName() + " to your play zone.");
-
+                    // Case when it is a monster
+                    if (card instanceof Monster) {
+                    	// Add the paid for card to the player's play zone
+                        inPlayZone.add(card);
+                        
+                        // We'll need to check again, now that we have purchased something if we can still afford anything
+                        isAtLeastOneAffordable = false;
+                        
+                        System.out.println("You played a " + card.getCardName() + " to your play zone.");
+                    // Case when it is an Action Card Execute
+                    } else if (card instanceof Execute) {
+                    	((Execute) card).killSelectMonster(inSelectPlayZone, deadZone);
+                    }
                 } else { // Player does not have enough unused gold to pay for the card
                     System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
                     break;
@@ -833,7 +901,7 @@ public class Game {
     	boolean yesAtLeastOnePurchaseable = false;
         
     	for (int i = 0, n = hand.size(); i < n; i++)
-            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Action || hand.get(i) instanceof Accessory)
+            if (hand.get(i) instanceof Monster || hand.get(i) instanceof Execute || hand.get(i) instanceof Accessory)
                 yesAtLeastOnePurchaseable = true;
         
     	return yesAtLeastOnePurchaseable;
