@@ -62,7 +62,7 @@ public class Deck {
         }
         
         for (int i = 0, n = 12; i<n; i++){
-          deck.add(new Action("execute",2));
+          deck.add(new Execute("execute",2));
         }
         return deck;
     }
