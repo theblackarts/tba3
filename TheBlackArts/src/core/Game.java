@@ -9,9 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
-	
-	// Game game = new Game(new Player("Alice"), new Player("Bob"));
-	
+		
     // Each game is played by two players
     private Player playerOne;
     private Player playerTwo;
