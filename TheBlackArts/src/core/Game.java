@@ -108,7 +108,10 @@ public class Game {
                 startMinePhase(handOne, playerOneInPlayZone);
                 
                 // ********************* (5) Purchase ********************
-                startPurchasePhase(handOne, playerOneInPlayZone);
+                startPurchasePhase(handOne,
+                		           playerOneInPlayZone,
+                		           playerTwoInPlayZone,
+                		           playerTwoDeadZone);
                 
                 // ********************* (6) End *************************
                 startEndPhase();
@@ -138,7 +141,10 @@ public class Game {
                 startMinePhase(handTwo, playerTwoInPlayZone);
                 
                 // ********************* (5) Purchase ********************
-                startPurchasePhase(handTwo, playerTwoInPlayZone);
+                startPurchasePhase(handTwo,
+                		           playerTwoInPlayZone,
+                		           playerOneInPlayZone,
+                		           playerOneDeadZone);
                 
                 // ********************* (6) End *************************
                 startEndPhase();
@@ -550,7 +556,7 @@ public class Game {
      * @param hand
      * @param inPlayZone
      */
-    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone) {
+    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone, ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone) {
 
     	/*
     	 * We need a way to handle the purchase of Action cards differently than
@@ -648,15 +654,20 @@ public class Game {
                     
                     // Remove the paid for card from the player's hand
                     hand.remove(card);
-
-                    // Add the paid for card to the player's play zone
-                    inPlayZone.add(card);
                     
-                    // We'll need to check again, now that we have purchased something if we can still afford anything
-                    isAtLeastOneAffordable = false;
-                    
-                    System.out.println("You played a " + card.getCardName() + " to your play zone.");
-
+                    // Case when it is a monster
+                    if (card instanceof Monster) {
+                    	// Add the paid for card to the player's play zone
+                        inPlayZone.add(card);
+                        
+                        // We'll need to check again, now that we have purchased something if we can still afford anything
+                        isAtLeastOneAffordable = false;
+                        
+                        System.out.println("You played a " + card.getCardName() + " to your play zone.");
+                    // Case when it is an Action Card Execute
+                    } else if (card instanceof Execute) {
+                    	((Execute) card).killSelectMonster(inSelectPlayZone, deadZone);
+                    }
                 } else { // Player does not have enough unused gold to pay for the card
                     System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
                     break;
