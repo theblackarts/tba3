@@ -38,6 +38,8 @@ public class Execute extends Card {
             	// Add the monster card to the dead zone
             	deadZone.add(monster);
             	
+            	System.out.println(monster.getCardName() + " was killed!");
+            	
             	break;
             }
 		}

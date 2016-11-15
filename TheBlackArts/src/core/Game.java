@@ -1,4 +1,4 @@
-/*
+/* GL & HF
  * Shuffle up and deal!
  */
 
@@ -556,7 +556,8 @@ public class Game {
      * @param hand
      * @param inPlayZone
      */
-    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone, ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone) {
+    public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone,
+    		ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone) {
 
     	/*
     	 * We need a way to handle the purchase of Action cards differently than
