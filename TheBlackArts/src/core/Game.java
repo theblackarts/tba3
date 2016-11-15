@@ -128,35 +128,35 @@ public class Game {
                 
             	System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
-                /* ========================================================
-                 *              PLAYER TWO's TURN PHASES
-                 * ========================================================*/
+            /* ========================================================
+             *              PLAYER TWO's TURN PHASES
+             * ========================================================*/
 
-                // ********************* (1) Refresh *********************
+            // ********************* (1) Refresh *********************
                 
             	startRefreshPhase(playerTwoInPlayZone);
                 
             	// ********************* (2) Draw ************************
-                startDrawPhase(deckTwo, handTwo);
+            startDrawPhase(deckTwo, handTwo);
                 
-                // ********************* (3) Attack **********************
-                startAttackPhase(playerTwoInPlayZone,
-                                 playerOneInPlayZone,
-                                 playerTwoDeadZone,
-                                 playerOneDeadZone);
+            // ********************* (3) Attack **********************
+            startAttackPhase(playerTwoInPlayZone,
+                             playerOneInPlayZone,
+                             playerTwoDeadZone,
+                             playerOneDeadZone);
                 
-                // ********************* (4) Mine ************************
-                startMinePhase(handTwo, playerTwoInPlayZone);
-                
-                // ********************* (5) Purchase ********************
-                startPurchasePhase(handTwo,
-                		           playerTwoInPlayZone,
-                		           playerOneInPlayZone,
-                		           playerOneDeadZone);
-                
-                // ********************* (6) End *************************
-                startEndPhase();
-            }
+            // ********************* (4) Mine ************************
+            startMinePhase(handTwo, playerTwoInPlayZone);
+            
+            // ********************* (5) Purchase ********************
+            startPurchasePhase(handTwo,
+            		           playerTwoInPlayZone,
+            		           playerOneInPlayZone,
+            		           playerOneDeadZone);
+            
+            // ********************* (6) End *************************
+            startEndPhase();
+        }
         // Increment totalTurns
         nextTurn();
         }
@@ -267,30 +267,29 @@ public class Game {
      * Remove one select card from player one's in play zone
      */
     public void removeOneFromPlayerOneInPlayZone(int card) {
-    	this.playerOneInPlayZone.remove(card);
+    		this.playerOneInPlayZone.remove(card);
     }
     
     /**
      * Remove one select card from player two's in play zone
      */
     public void removeOneFromPlayerTwoInPlayZone(int card) {
-    	this.playerTwoInPlayZone.remove(card);
+    		this.playerTwoInPlayZone.remove(card);
     }
     
     /**
      * Add one card to player one's dead zone 
      */
     public void addCardToPlayerOneDeadZone(Card card) {
-    	this.playerOneDeadZone.add(card);
+    		this.playerOneDeadZone.add(card);
     }
     
     /**
      * Add one card to player two's dead zone 
      */
     public void addCardToPlayerTwoDeadZone(Card card) {
-    	this.playerTwoDeadZone.add(card);
+    		this.playerTwoDeadZone.add(card);
     }
-
 
     /* ========================================================
      *                    PHASE METHODS
@@ -367,10 +366,11 @@ public class Game {
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
 
-	            System.out.println("Do you wish to attak");
+	            System.out.println("Do you wish to attack (Y/N)");
 	            decideYN = input.next().charAt(0);
-	            if(decideYN == 'Y' || decideYN == 'y'){
-	                /* ========================================================
+	            if (decideYN == 'Y' || decideYN == 'y') {
+	                
+	            	/* ========================================================
 	                 *             ATTACK PORTION OF ATTACK PHASE
 	                 * ========================================================*/
 	
@@ -378,6 +378,7 @@ public class Game {
 	                System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 	
 	                // Display attacker's monsters that he or she could attack with
+	                // TODO: Make this a helper method
 	                for (int j = 0; j < n; j++)
 	                    if (attackerInPlayZone.get(j) instanceof Monster)
 	                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
@@ -406,7 +407,7 @@ public class Game {
 	                 *                 DEFENSE PORTION OF ATTACK PHASE
 	                 * ========================================================*/
 	
-	                /* check that there is at least one Monster in play for the defender
+	                /* check that there is at least one monster in play for the defender
 	                   If there is not at least one monster, skip the defense portion of the attack phase */
 	                for (Card card1 : defenderInPlayZone) {
 	                    if (card1 instanceof Monster) {
@@ -449,12 +450,6 @@ public class Game {
 	                    }
 	                }
 	                
-	                // TODO: Prompt Defender to choose which Monsters to defend with and how
-	                
-	                // TODO: Get input from Defender for the defense choices
-	                
-	                // TODO: Assign Defenders to Attackers
-	                //Scanner input = new Scanner(System.in);
 	        		ArrayList<String> myDefendString = new ArrayList<String>();
 	        		 
 	        		String defendString;
@@ -465,48 +460,42 @@ public class Game {
 	        		if(decideYN == 'Y' || decideYN == 'y' ) {
 	        			System.out.println("How do you want to Defend");
 	        			defendString = input.next();
-	        			for(i= 0; i < defendString.length(); i++){
-	        				if(Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ','){
-	        					
+	        			for (i = 0; i < defendString.length(); i++) {
+	        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
 	        					defendChoice += defendString.charAt(i);
-	        					
 	        				}
-	        				if(defendString.charAt(i)==')'){
+	        				if (defendString.charAt(i)==')') {
 	        					myDefendString.add(defendChoice);
 	        					defendChoice = "";
-	        				}	
+	        				}
 	        			}
 	        			
-	        			//		System.out.println(myDefendString);
 	        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
 	        			String strToInt =""; 
-	        			for(int j=0; j < myDefendString.size(); j++ ){
-	        				for(int t=0; t < myDefendString.get(j).length(); t++){
-	        					if(Character.isDigit(myDefendString.get(j).charAt(t))){
-	        						//System.out.println("Add to strToInt");
+	        			for (int j = 0; j < myDefendString.size(); j++ ) {
+	        				for (int t = 0; t < myDefendString.get(j).length(); t++) {
+	        					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
 	        						strToInt +=  myDefendString.get(j).charAt(t);
 	        					}
-	        					if(myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)){
-	        						//System.out.println("Add to myDefendIntegerArray");
+	        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
 	        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
 	        						strToInt = "";
 	        					}
 	        				}
-	        				//System.out.println(myDefendIntegerArray);
+	        				
 	        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
 	        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
 	        				int currentDefenseHP;
 	        				int	currentDefenseAttack;
 	        				
-	        				for(int f=1; f < myDefendIntegerArray.size(); f++){
-	        					 
-	        					
+	        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
+
 	        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
 	        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
 	        					currentAttackHP -=  currentDefenseAttack;
 	        					currentDefenseHP -= currentAttack; 
 	        					
-	        					if(currentDefenseHP <= 0){
+	        					if (currentDefenseHP <= 0) {
 	        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
 	        						currentAttack = (-1 * currentAttackHP);
 	        					}	
@@ -514,204 +503,33 @@ public class Game {
 	        				attackers.get(myDefendIntegerArray.get(0) - 1).setHitPoints(currentAttackHP);
 	        				myDefendIntegerArray.clear();
 	        				System.out.println("");
-	        				
 	        			}
-	        			for(int f=0; f < attackers.size(); f++){
-	        				if((attackers.get(f).getHitPoints()) <= 0) {
+	        			for (int f = 0; f < attackers.size(); f++) {
+	        				if ((attackers.get(f).getHitPoints()) <= 0) {
 	        					attackerDeadZone.add(attackers.get(f));
 	        					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
 	        				}
-	        				
 	        			}
-	        			for(int f=0; f < availableDefenders.size(); f++){
-	        				if((availableDefenders.get(f).getHitPoints()) <= 0) {
+	        			for (int f = 0; f < availableDefenders.size(); f++) {
+	        				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
 	        					defenderDeadZone.add(availableDefenders.get(f));
 	        					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
 	        				}
-	        				
-	        				
 	        			}
-	        			
-	        			
 	        		}
 	        		else
 	        			System.out.println("Defend phase over");
-	                /* ========================================================
-	                 *                 DAMAGE PORTION OF ATTACK PHASE
-	                 * ========================================================*/
-	                
-	                // TODO: Implement damage portion of attack phase
-	                
-	                // For each set of Defender(s)/Attacker, allocate damage to HP
-	                // use greedy algorithm to assign damage
-	                // See https://en.wikipedia.org/wiki/Greedy_algorithm
-	                // "tie breakers" should be determined by the Player
-	                
-	                break; // Since we found one monster for the attacker, break out of this loop as
-	                       // it has served its purpose
-	            }
-
-
-                /* ========================================================
-                 *             ATTACK PORTION OF ATTACK PHASE
-                 * ========================================================*/
-
-                // Prompt the attacker to select the Monsters he or she would like to attack with
-                System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
-
-                // Display attacker's monsters that he or she could attack with
-                for (int j = 0; j < n; j++)
-                    if (attackerInPlayZone.get(j) instanceof Monster)
-                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
-
-                // Get the input
-                String attackSelectsStr = input.next();
-
-                // Parse the input
-                String[] attackSelects = attackSelectsStr.split(",");
-
-                for (String str : attackSelects) {
-                    
-                	// Toggle isAttacked for each selected monster from false to true
-                    ((Monster)attackerInPlayZone.get(Integer.parseInt(str) - 1)).setIsAttacked(true);
-                    
-                    // Display which Monsters attacked
-                    System.out.println("You attacked with " +
-                            attackerInPlayZone.get(Integer.parseInt(str) - 1).getCardName());
-                    
-                    // Add the Monsters to the attackers ArrayList
-                    Monster myAttackMonster = ((Monster) attackerInPlayZone.get(Integer.parseInt(str) - 1));
-                    attackers.add(myAttackMonster);
-                }  
-
-                /* ========================================================
-                 *                 DEFENSE PORTION OF ATTACK PHASE
-                 * ========================================================*/
-
-                /* check that there is at least one Monster in play for the defender
-                   If there is not at least one monster, skip the defense portion of the attack phase */
-                for (Card card1 : defenderInPlayZone) {
-                    if (card1 instanceof Monster) {
-                        for (Card card2 : defenderInPlayZone) {
-                            if (card2 instanceof Monster) {
-                                Monster myDefendMonster = ((Monster) card2);
-                            	availableDefenders.add(myDefendMonster);
-                            }
-                        }
-                        
-                        /* ------------------------------------------------------------------------
-                         * Print out the columns of the Attackers and Potential Defenders
-                         * ------------------------------------------------------------------------ */
-
-                        // Print the header
-                        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:");
-
-                        // Determine which of the two ArrayLists are longer
-                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
-                            for (int j = 0, as = attackers.size(); j < as; j++) {
-                                System.out.format("%s %-18s", j, attackers.get(j).getCardName());
-                                if (j >= 0 && j < availableDefenders.size()) {
-                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName());
-                                } else {
-                                    System.out.println();
-                                }
-                            }
-                        } else { // availableDefenders is the bigger ArrayList
-                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
-                                if (k >= 0 && k < attackers.size()) {
-                                    System.out.format("%s %-18s", k + 1, attackers.get(k).getCardName());
-                                } else {
-                                    System.out.format("%-20s", "");
-                                }
-                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName());
-                            }
-                        }
-                        break; // since we found one monster for the defender, break out of this loop as
-                               // it has served its purpose
-                    }
-                }
-
-        		ArrayList<String> myDefendString = new ArrayList<String>();
-        		 
-        		String defendString;
-        		String defendChoice="";
-        		
-        		System.out.println("Do you wish to defend (Y/N)");
-        		decideYN = input.next().charAt(0); 
-        		if(decideYN == 'Y' || decideYN == 'y' ) {
-        			System.out.println("How do you want to Defend");
-        			defendString = input.next();
-        			for (i= 0; i < defendString.length(); i++) {
-        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
-        					defendChoice += defendString.charAt(i);
-        				}
-        				if (defendString.charAt(i)==')'){
-        					myDefendString.add(defendChoice);
-        					defendChoice = "";
-        				}	
-        			}
-        			
-        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
-        			String strToInt =""; 
-        			
-        			for (int j = 0; j < myDefendString.size(); j++ ) {
-        				for (int t = 0; t < myDefendString.get(j).length(); t++) {
-        					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
-        						strToInt +=  myDefendString.get(j).charAt(t);
-        					}
-        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
-        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
-        						strToInt = "";
-        					}
-        				}
-        				
-        			    /* ========================================================
-                         *                 DAMAGE PORTION OF ATTACK PHASE
-                         * ========================================================*/
-        				
-        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
-        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
-        				int currentDefenseHP;
-        				int	currentDefenseAttack;
-        				
-        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
-        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
-        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
-        					currentAttackHP -= currentDefenseAttack;
-        					currentDefenseHP -= currentAttack;
-        					
-        					if(currentDefenseHP <= 0) {
-        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
-        						currentAttack = (-1 * currentAttackHP);
-        					}	
-        				}	
-        				attackers.get(myDefendIntegerArray.get(0) - 1).setHitPoints(currentAttackHP);
-        				myDefendIntegerArray.clear();
-        				System.out.println("");
-        			}	
-        		}
-    			for (int f = 0; f < attackers.size(); f++) {
-    				if ((attackers.get(f).getHitPoints()) <= 0) {
-    					attackerDeadZone.add(attackers.get(f));
-    					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
-    				}
-        		}
-    			for (int f = 0; f < availableDefenders.size(); f++){
-    				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
-    					defenderDeadZone.add(availableDefenders.get(f));
-    					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
-    				}
-    			}		
-
             }
-        	System.out.println("Defend phase over");
+	        System.out.println("Defend phase over");
         }
-
+            
+        System.out.println("** TEST OUTPUT **");
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
         System.out.println(defenderDeadZone);
         
+        }
         attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
     }
