@@ -302,7 +302,7 @@ public class Game {
 
         attackPhase = true; // start attack phase
         System.out.println("Start [ATTACK PHASE]");
-        char decideYN;
+        
         Scanner input = new Scanner(System.in);
         
         ArrayList<Monster> attackers = new ArrayList<Monster>();
@@ -584,6 +584,7 @@ public class Game {
         		String defendChoice="";
         		
         		System.out.println("Do you wish to defend (Y/N)");
+        		
         		decideYN = input.next().charAt(0); 
         		if(decideYN == 'Y' || decideYN == 'y' ) {
         			System.out.println("How do you want to Defend");
@@ -641,6 +642,7 @@ public class Game {
     				if ((attackers.get(f).getHitPoints()) <= 0) {
     					attackerDeadZone.add(attackers.get(f));
     					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
+    					System.out.println(f);
     				}
         		}
     			for (int f = 0; f < availableDefenders.size(); f++){
