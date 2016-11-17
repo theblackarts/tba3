@@ -130,15 +130,16 @@ public class Game {
                 
             	System.out.println("It is " + playerTwo.getFirstName() + "'s turn.");
 
-                /* ========================================================
-                 *              PLAYER TWO's TURN PHASES
-                 * ========================================================*/
+            /* ========================================================
+             *              PLAYER TWO's TURN PHASES
+             * ========================================================*/
 
-                // ********************* (1) Refresh *********************
+            // ********************* (1) Refresh *********************
                 
             	startRefreshPhase(playerTwoInPlayZone);
                 
             	// ********************* (2) Draw ************************
+<<<<<<< HEAD
                 startDrawPhase(deckTwo, handTwo);
                 
                 // ********************* (3) Attack **********************
@@ -148,19 +149,28 @@ public class Game {
                                  playerOneDeadZone,
                                  this.playerTwo,
                                  this.playerOne);
+=======
+            startDrawPhase(deckTwo, handTwo);
+>>>>>>> upstream/master
                 
-                // ********************* (4) Mine ************************
-                startMinePhase(handTwo, playerTwoInPlayZone);
+            // ********************* (3) Attack **********************
+            startAttackPhase(playerTwoInPlayZone,
+                             playerOneInPlayZone,
+                             playerTwoDeadZone,
+                             playerOneDeadZone);
                 
-                // ********************* (5) Purchase ********************
-                startPurchasePhase(handTwo,
-                		           playerTwoInPlayZone,
-                		           playerOneInPlayZone,
-                		           playerOneDeadZone);
-                
-                // ********************* (6) End *************************
-                startEndPhase();
-            }
+            // ********************* (4) Mine ************************
+            startMinePhase(handTwo, playerTwoInPlayZone);
+            
+            // ********************* (5) Purchase ********************
+            startPurchasePhase(handTwo,
+            		           playerTwoInPlayZone,
+            		           playerOneInPlayZone,
+            		           playerOneDeadZone);
+            
+            // ********************* (6) End *************************
+            startEndPhase();
+        }
         // Increment totalTurns
         nextTurn();
         }
@@ -271,30 +281,29 @@ public class Game {
      * Remove one select card from player one's in play zone
      */
     public void removeOneFromPlayerOneInPlayZone(int card) {
-    	this.playerOneInPlayZone.remove(card);
+    		this.playerOneInPlayZone.remove(card);
     }
     
     /**
      * Remove one select card from player two's in play zone
      */
     public void removeOneFromPlayerTwoInPlayZone(int card) {
-    	this.playerTwoInPlayZone.remove(card);
+    		this.playerTwoInPlayZone.remove(card);
     }
     
     /**
      * Add one card to player one's dead zone 
      */
     public void addCardToPlayerOneDeadZone(Card card) {
-    	this.playerOneDeadZone.add(card);
+    		this.playerOneDeadZone.add(card);
     }
     
     /**
      * Add one card to player two's dead zone 
      */
     public void addCardToPlayerTwoDeadZone(Card card) {
-    	this.playerTwoDeadZone.add(card);
+    		this.playerTwoDeadZone.add(card);
     }
-
 
     /* ========================================================
      *                    PHASE METHODS
@@ -373,10 +382,11 @@ public class Game {
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
 
-	            System.out.println("Do you wish to attak");
+	            System.out.println("Do you wish to attack (Y/N)");
 	            decideYN = input.next().charAt(0);
-	            if(decideYN == 'Y' || decideYN == 'y'){
-	                /* ========================================================
+	            if (decideYN == 'Y' || decideYN == 'y') {
+	                
+	            	/* ========================================================
 	                 *             ATTACK PORTION OF ATTACK PHASE
 	                 * ========================================================*/
 	
@@ -386,6 +396,7 @@ public class Game {
 	            	System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 	
 	                // Display attacker's monsters that he or she could attack with
+	                // TODO: Make this a helper method
 	                for (int j = 0; j < n; j++)
 	                    if (attackerInPlayZone.get(j) instanceof Monster)
 	                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
@@ -414,7 +425,7 @@ public class Game {
 	                 *                 DEFENSE PORTION OF ATTACK PHASE
 	                 * ========================================================*/
 	
-	                /* check that there is at least one Monster in play for the defender
+	                /* check that there is at least one monster in play for the defender
 	                   If there is not at least one monster, skip the defense portion of the attack phase */
 	                for (Card card1 : defenderInPlayZone) {
 	                    if (card1 instanceof Monster) {
@@ -457,12 +468,6 @@ public class Game {
 	                    }
 	                }
 	                
-	                // TODO: Prompt Defender to choose which Monsters to defend with and how
-	                
-	                // TODO: Get input from Defender for the defense choices
-	                
-	                // TODO: Assign Defenders to Attackers
-	                //Scanner input = new Scanner(System.in);
 	        		ArrayList<String> myDefendString = new ArrayList<String>();
 	        		 
 	        		String defendString;
@@ -473,56 +478,61 @@ public class Game {
 	        		if(decideYN == 'Y' || decideYN == 'y' ) {
 	        			System.out.println("How do you want to Defend");
 	        			defendString = input.next();
-	        			for(i= 0; i < defendString.length(); i++){
-	        				if(Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ','){
-	        					
+	        			for (i = 0; i < defendString.length(); i++) {
+	        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
 	        					defendChoice += defendString.charAt(i);
-	        					
 	        				}
-	        				if(defendString.charAt(i)==')'){
+	        				if (defendString.charAt(i)==')') {
 	        					myDefendString.add(defendChoice);
 	        					defendChoice = "";
-	        				}	
+	        				}
 	        			}
 	        			
-	        			//		System.out.println(myDefendString);
 	        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
 	        			
 	        			String strToInt =""; 
-	        			for(int j=0; j < myDefendString.size(); j++ ){
-	        				for(int t=0; t < myDefendString.get(j).length(); t++){
-	        					if(Character.isDigit(myDefendString.get(j).charAt(t))){
-	        						//System.out.println("Add to strToInt");
+	        			for (int j = 0; j < myDefendString.size(); j++ ) {
+	        				for (int t = 0; t < myDefendString.get(j).length(); t++) {
+	        					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
 	        						strToInt +=  myDefendString.get(j).charAt(t);
 	        					}
-	        					if(myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)){
-	        						//System.out.println("Add to myDefendIntegerArray");
+	        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
 	        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
 	        						strToInt = "";
 	        					}
 	        				}
+<<<<<<< HEAD
 	        				//System.out.println(myDefendIntegerArray);
 	        				/* ========================================================
 	    	                 *                 DAMAGE PORTION OF ATTACK PHASE
 	    	                 * ========================================================*/
+=======
+	        				
+>>>>>>> upstream/master
 	        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
 	        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
 	        				int currentDefenseHP;
 	        				int	currentDefenseAttack;
 	        				
-	        				for(int f=1; f < myDefendIntegerArray.size(); f++){
-	        					 
-	        					
+	        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
+
 	        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
 	        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
 	        					currentAttackHP -=  currentDefenseAttack;
 	        					currentDefenseHP -= currentAttack; 
 	        					
+<<<<<<< HEAD
 	        					if(currentDefenseHP <= 0){
 	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
 	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
 	        					}
 	        					currentAttack = (-1 * currentDefenseHP);
+=======
+	        					if (currentDefenseHP <= 0) {
+	        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
+	        						currentAttack = (-1 * currentAttackHP);
+	        					}	
+>>>>>>> upstream/master
 	        				}	
 	        				if(currentAttackHP <= 0){
         						attackerInPlayZone.remove(attackers.get(myDefendIntegerArray.get(0) - 1));	
@@ -532,6 +542,7 @@ public class Game {
 	        				attackers.remove(myDefendIntegerArray.get(0) - 1);
 	        				myDefendIntegerArray.clear();
 	        				System.out.println("");
+<<<<<<< HEAD
 	        				
 	        				
 	        				
@@ -565,11 +576,35 @@ public class Game {
 	            }
 	            
             }
+=======
+	        			}
+	        			for (int f = 0; f < attackers.size(); f++) {
+	        				if ((attackers.get(f).getHitPoints()) <= 0) {
+	        					attackerDeadZone.add(attackers.get(f));
+	        					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
+	        				}
+	        			}
+	        			for (int f = 0; f < availableDefenders.size(); f++) {
+	        				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
+	        					defenderDeadZone.add(availableDefenders.get(f));
+	        					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
+	        				}
+	        			}
+	        		}
+	        		else
+	        			System.out.println("Defend phase over");
+            }
+	        System.out.println("Defend phase over");
+        }
+            
+        System.out.println("** TEST OUTPUT **");
+>>>>>>> upstream/master
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
         System.out.println(defenderDeadZone);
         
+        }
         attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
         }
