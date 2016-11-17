@@ -139,7 +139,7 @@ public class Game {
             	startRefreshPhase(playerTwoInPlayZone);
                 
             	// ********************* (2) Draw ************************
-<<<<<<< HEAD
+
                 startDrawPhase(deckTwo, handTwo);
                 
                 // ********************* (3) Attack **********************
@@ -149,15 +149,9 @@ public class Game {
                                  playerOneDeadZone,
                                  this.playerTwo,
                                  this.playerOne);
-=======
+
             startDrawPhase(deckTwo, handTwo);
->>>>>>> upstream/master
                 
-            // ********************* (3) Attack **********************
-            startAttackPhase(playerTwoInPlayZone,
-                             playerOneInPlayZone,
-                             playerTwoDeadZone,
-                             playerOneDeadZone);
                 
             // ********************* (4) Mine ************************
             startMinePhase(handTwo, playerTwoInPlayZone);
@@ -476,7 +470,7 @@ public class Game {
 	        		System.out.println("Do you wish to defend (Y/N)");
 	        		decideYN = input.next().charAt(0); 
 	        		if(decideYN == 'Y' || decideYN == 'y' ) {
-	        			System.out.println("How do you want to Defend");
+	        			System.out.println("How do you want to Defend Ex: (1,2)(2,1)");
 	        			defendString = input.next();
 	        			for (i = 0; i < defendString.length(); i++) {
 	        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
@@ -501,14 +495,12 @@ public class Game {
 	        						strToInt = "";
 	        					}
 	        				}
-<<<<<<< HEAD
+
 	        				//System.out.println(myDefendIntegerArray);
 	        				/* ========================================================
 	    	                 *                 DAMAGE PORTION OF ATTACK PHASE
 	    	                 * ========================================================*/
-=======
-	        				
->>>>>>> upstream/master
+
 	        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
 	        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
 	        				int currentDefenseHP;
@@ -521,18 +513,14 @@ public class Game {
 	        					currentAttackHP -=  currentDefenseAttack;
 	        					currentDefenseHP -= currentAttack; 
 	        					
-<<<<<<< HEAD
+
 	        					if(currentDefenseHP <= 0){
 	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
 	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
 	        					}
 	        					currentAttack = (-1 * currentDefenseHP);
-=======
-	        					if (currentDefenseHP <= 0) {
-	        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
-	        						currentAttack = (-1 * currentAttackHP);
-	        					}	
->>>>>>> upstream/master
+	
+
 	        				}	
 	        				if(currentAttackHP <= 0){
         						attackerInPlayZone.remove(attackers.get(myDefendIntegerArray.get(0) - 1));	
@@ -542,7 +530,7 @@ public class Game {
 	        				attackers.remove(myDefendIntegerArray.get(0) - 1);
 	        				myDefendIntegerArray.clear();
 	        				System.out.println("");
-<<<<<<< HEAD
+
 	        				
 	        				
 	        				
@@ -574,41 +562,23 @@ public class Game {
 	                       // it has served its purpose
 	            
 	            }
-	            
-            }
-=======
-	        			}
-	        			for (int f = 0; f < attackers.size(); f++) {
-	        				if ((attackers.get(f).getHitPoints()) <= 0) {
-	        					attackerDeadZone.add(attackers.get(f));
-	        					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
-	        				}
-	        			}
-	        			for (int f = 0; f < availableDefenders.size(); f++) {
-	        				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
-	        					defenderDeadZone.add(availableDefenders.get(f));
-	        					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
-	        				}
-	        			}
-	        		}
-	        		else
-	        			System.out.println("Defend phase over");
-            }
-	        System.out.println("Defend phase over");
-        }
+	               
             
-        System.out.println("** TEST OUTPUT **");
->>>>>>> upstream/master
+            }
+
+	        			
+            
+
+        
+        }
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
-        System.out.println(defenderDeadZone);
-        
-        }
+        System.out.println(defenderDeadZone); 
         attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
-        }
     }
+    
     /**
      * Start the mine phase for a player, allowing that player to play one gold card (if they have one) from their
      * hand into their play zone.
@@ -628,7 +598,7 @@ public class Game {
             if (card instanceof Gold) {
                 System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
                 decideYN = input.next().charAt(0);
-                if (decideYN == 'Y') {
+                if (decideYN == 'Y' || decideYN == 'y') {
                     
                 	// Remove the card from a Player's hand
                     hand.remove(i);
@@ -812,7 +782,7 @@ public class Game {
         do {
             System.out.print("Would you like to pass your turn? (Y/N):");
             decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-        } while (decideYN != 'Y');
+        } while (decideYN == 'Y' || decideYN == 'y');
 
         endPhase = false;
         System.out.println("End [END PHASE]");
