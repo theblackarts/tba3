@@ -782,7 +782,7 @@ public class Game {
         do {
             System.out.print("Would you like to pass your turn? (Y/N):");
             decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-        } while (decideYN == 'Y' || decideYN == 'y');
+        } while (!(decideYN == 'Y' || decideYN == 'y'));
 
         endPhase = false;
         System.out.println("End [END PHASE]");
