@@ -542,6 +542,7 @@ public class Game {
 	        			// Attacking player wins!
 	        			System.out.println(playerAttack.getFirstName() + " wins!");
 	        			win = true;
+	        			break;
 	        		} else {
 	        			playerDefend.setHitPoints(newHP);
 		    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
