@@ -85,7 +85,6 @@ public class Game {
         ArrayList<Card> handTwo = playerTwo.getHand();
 
         // Main game loop that allows players to take turns until one of them goes to 0 HP.
-        gameloop:
         while (true) {
             
         	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
@@ -113,7 +112,7 @@ public class Game {
                                  this.playerOne,
                                  this.playerTwo);
                 if (win)
-                	break gameloop;
+                	break;
                 
                 // ********************* (4) Mine ************************
                 startMinePhase(handOne, playerOneInPlayZone);
@@ -151,7 +150,7 @@ public class Game {
                              this.playerTwo,
                              this.playerOne);
             if (win)
-            	break gameloop;
+            	break;
                 
             // ********************* (4) Mine ************************
             startMinePhase(handTwo, playerTwoInPlayZone);
