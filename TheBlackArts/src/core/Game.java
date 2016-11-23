@@ -386,8 +386,8 @@ public class Game {
 	                 * ========================================================*/
 	
 	                // Prompt the attacker to select the Monsters he or she would like to attack with
-	            	int newHP =0;
-        			int attackValue=0;
+	            	int newHP = 0;
+        			int attackValue = 0;
 	            	System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 	
 	                // Display attacker's monsters that he or she could attack with
