@@ -10,10 +10,6 @@
  *  --J. R. R. Tolkein
  *
  * glhf
- * 
- * G-_-g
- * 
- * shuffle up and deal!
  */
 
 package core;
@@ -42,6 +38,9 @@ public class Game {
     private boolean purchasePhase;
     private boolean endPhase;
 
+    // FTW!
+    boolean win = false;
+    
     // Game Zones
     private ArrayList<Card> playerOneInPlayZone = new ArrayList<Card>();
     private ArrayList<Card> playerTwoInPlayZone = new ArrayList<Card>();
@@ -113,6 +112,8 @@ public class Game {
                                  playerTwoDeadZone,
                                  this.playerOne,
                                  this.playerTwo);
+                if (win)
+                	break gameloop;
                 
                 // ********************* (4) Mine ************************
                 startMinePhase(handOne, playerOneInPlayZone);
@@ -148,7 +149,9 @@ public class Game {
                              playerTwoDeadZone,
                              playerOneDeadZone,
                              this.playerTwo,
-                             this.playerOne);                
+                             this.playerOne);
+            if (win)
+            	break gameloop;
                 
             // ********************* (4) Mine ************************
             startMinePhase(handTwo, playerTwoInPlayZone);
@@ -538,7 +541,7 @@ public class Game {
 	        		if (newHP <= 0) {
 	        			// Attacking player wins!
 	        			System.out.println(playerAttack.getFirstName() + " wins!");
-	        			// TODO: How to break out of the main game loop?
+	        			win = true;
 	        		} else {
 	        			playerDefend.setHitPoints(newHP);
 		    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
