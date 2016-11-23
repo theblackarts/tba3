@@ -110,7 +110,9 @@ public class Game {
                 startAttackPhase(playerOneInPlayZone,
                                  playerTwoInPlayZone,
                                  playerOneDeadZone,
-                                 playerTwoDeadZone);
+                                 playerTwoDeadZone,
+                                 this.playerOne,
+                                 this.playerTwo);
                 
                 // ********************* (4) Mine ************************
                 startMinePhase(handOne, playerOneInPlayZone);
@@ -134,16 +136,19 @@ public class Game {
 
             // ********************* (1) Refresh *********************
                 
-            	startRefreshPhase(playerTwoInPlayZone);
-                
+            startRefreshPhase(playerTwoInPlayZone);
+
             // ********************* (2) Draw ************************
+
             startDrawPhase(deckTwo, handTwo);
                 
             // ********************* (3) Attack **********************
             startAttackPhase(playerTwoInPlayZone,
                              playerOneInPlayZone,
                              playerTwoDeadZone,
-                             playerOneDeadZone);
+                             playerOneDeadZone,
+                             this.playerTwo,
+                             this.playerOne);                
                 
             // ********************* (4) Mine ************************
             startMinePhase(handTwo, playerTwoInPlayZone);
@@ -350,16 +355,18 @@ public class Game {
     public void startAttackPhase(ArrayList<Card> attackerInPlayZone,
                                  ArrayList<Card> defenderInPlayZone,
                                  ArrayList<Card> attackerDeadZone,
-                                 ArrayList<Card> defenderDeadZone) {
+                                 ArrayList<Card> defenderDeadZone,
+                                 Player playerAttack, 
+                                 Player playerDefend) {
 
         attackPhase = true;
         System.out.println("Start [ATTACK PHASE]");
-        char decideYN;
+        
         Scanner input = new Scanner(System.in);
         
         ArrayList<Monster> attackers = new ArrayList<Monster>();
         ArrayList<Monster> availableDefenders = new ArrayList<Monster>();
-
+        
         /* Check that there is at least one Monster in play for the attacker
          * If there is not at least one Monster, skip the Attack phase
          */
@@ -375,7 +382,9 @@ public class Game {
 	                 * ========================================================*/
 	
 	                // Prompt the attacker to select the Monsters he or she would like to attack with
-	                System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
+	            	int newHP =0;
+        			int attackValue=0;
+	            	System.out.println("Select a set of Monsters to attack with (ex. 1,2; no spaces)");
 	
 	                // Display attacker's monsters that he or she could attack with
 	                // TODO: Make this a helper method
@@ -458,7 +467,7 @@ public class Game {
 	        		System.out.println("Do you wish to defend (Y/N)");
 	        		decideYN = input.next().charAt(0); 
 	        		if(decideYN == 'Y' || decideYN == 'y' ) {
-	        			System.out.println("How do you want to Defend");
+	        			System.out.println("How do you want to Defend Ex: (1,2)(2,1)");
 	        			defendString = input.next();
 	        			for (i = 0; i < defendString.length(); i++) {
 	        				if (Character.isDigit(defendString.charAt(i)) || defendString.charAt(i) == ',') {
@@ -471,6 +480,7 @@ public class Game {
 	        			}
 	        			
 	        			ArrayList<Integer> myDefendIntegerArray = new ArrayList<Integer>();
+	        			
 	        			String strToInt =""; 
 	        			for (int j = 0; j < myDefendString.size(); j++ ) {
 	        				for (int t = 0; t < myDefendString.get(j).length(); t++) {
@@ -482,7 +492,12 @@ public class Game {
 	        						strToInt = "";
 	        					}
 	        				}
-	        				
+
+	        				//System.out.println(myDefendIntegerArray);
+	        				/* ========================================================
+	    	                 *                 DAMAGE PORTION OF ATTACK PHASE
+	    	                 * ========================================================*/
+
 	        				int currentAttack = attackers.get(myDefendIntegerArray.get(0) - 1).getAttack();
 	        				int currentAttackHP = attackers.get(myDefendIntegerArray.get(0) - 1).getHitPoints();
 	        				int currentDefenseHP;
@@ -495,41 +510,56 @@ public class Game {
 	        					currentAttackHP -=  currentDefenseAttack;
 	        					currentDefenseHP -= currentAttack; 
 	        					
-	        					if (currentDefenseHP <= 0) {
-	        						availableDefenders.get(myDefendIntegerArray.get(f) - 1).setHitPoints(0);	
-	        						currentAttack = (-1 * currentAttackHP);
-	        					}	
+
+	        					if(currentDefenseHP <= 0){
+	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
+	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
+	        					}
+	        					currentAttack = (-1 * currentDefenseHP);
+
 	        				}	
-	        				attackers.get(myDefendIntegerArray.get(0) - 1).setHitPoints(currentAttackHP);
+	        				if(currentAttackHP <= 0){
+        						attackerInPlayZone.remove(attackers.get(myDefendIntegerArray.get(0) - 1));	
+        						attackerDeadZone.add(attackers.get(myDefendIntegerArray.get(0) - 1));
+        						
+	        				}
+	        				attackers.remove(myDefendIntegerArray.get(0) - 1);
 	        				myDefendIntegerArray.clear();
 	        				System.out.println("");
+
 	        			}
-	        			for (int f = 0; f < attackers.size(); f++) {
-	        				if ((attackers.get(f).getHitPoints()) <= 0) {
-	        					attackerDeadZone.add(attackers.get(f));
-	        					attackerInPlayZone.remove(attackerInPlayZone.indexOf(attackers.get(f)));
-	        				}
-	        			}
-	        			for (int f = 0; f < availableDefenders.size(); f++) {
-	        				if ((availableDefenders.get(f).getHitPoints()) <= 0) {
-	        					defenderDeadZone.add(availableDefenders.get(f));
-	        					defenderInPlayZone.remove(defenderInPlayZone.indexOf(availableDefenders.get(f)));
-	        				}
-	        			}
+
 	        		}
 	        		else
 	        			System.out.println("Defend phase over");
+	             
+	                
+	                // TODO: Implement damage portion of attack phase
+	                
+	                // For each set of Defender(s)/Attacker, allocate damage to HP
+	                // use greedy algorithm to assign damage
+	                // See https://en.wikipedia.org/wiki/Greedy_algorithm
+	                // "tie breakers" should be determined by the Player
+	        		for(int f=0; f< attackers.size(); f++){
+        				attackValue += attackers.get(f).getAttack();
+        				
+        			}
+	        		newHP = playerDefend.getHitPoints() - attackValue;
+	    			playerDefend.setHitPoints(newHP);
+	    			System.out.println(newHP);
+		            
+	                break; // Since we found one monster for the attacker, break out of this loop as
+	                       // it has served its purpose
+	            
+	            }
+
             }
-	        System.out.println("Defend phase over");
+
         }
-            
-        System.out.println("** TEST OUTPUT **");
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
-        System.out.println(defenderDeadZone);
-        
-        }
+        System.out.println(defenderDeadZone); 
         attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
     }
@@ -553,7 +583,7 @@ public class Game {
             if (card instanceof Gold) {
                 System.out.println("You have a Gold card to play, would you like to play it? Y/N: ");
                 decideYN = input.next().charAt(0);
-                if (decideYN == 'Y') {
+                if (decideYN == 'Y' || decideYN == 'y') {
                     
                 	// Remove the card from a Player's hand
                     hand.remove(i);
@@ -737,7 +767,7 @@ public class Game {
         do {
             System.out.print("Would you like to pass your turn? (Y/N):");
             decideYN = input.next().charAt(0); // VALIDATE that this is working as intended, getting one char
-        } while (decideYN != 'Y');
+        } while (!(decideYN == 'Y' || decideYN == 'y'));
 
         endPhase = false;
         System.out.println("End [END PHASE]");
