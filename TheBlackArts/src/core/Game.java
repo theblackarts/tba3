@@ -552,7 +552,7 @@ public class Game {
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
         System.out.println(attackerDeadZone);
-        System.out.println(defenderDeadZone); 
+        System.out.println(defenderDeadZone);
         attackPhase = false;
         System.out.println("End [ATTACK PHASE]");
     }
