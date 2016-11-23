@@ -497,7 +497,6 @@ public class Game {
 	        					}
 	        				}
 
-	        				//System.out.println(myDefendIntegerArray);
 	        				/* ========================================================
 	    	                 *                 DAMAGE PORTION OF ATTACK PHASE
 	    	                 * ========================================================*/
