@@ -470,7 +470,7 @@ public class Game {
 	        		
 	        		System.out.println("Do you wish to defend (Y/N)");
 	        		decideYN = input.next().charAt(0); 
-	        		if(decideYN == 'Y' || decideYN == 'y' ) {
+	        		if (decideYN == 'Y' || decideYN == 'y' ) {
 	        			System.out.println("How do you want to Defend Ex: (1,2)(2,1)");
 	        			defendString = input.next();
 	        			for (i = 0; i < defendString.length(); i++) {
@@ -491,7 +491,8 @@ public class Game {
 	        					if (Character.isDigit(myDefendString.get(j).charAt(t))) {
 	        						strToInt +=  myDefendString.get(j).charAt(t);
 	        					}
-	        					if (myDefendString.get(j).charAt(t) == ',' || t == (myDefendString.get(j).length() - 1)) {
+	        					if (myDefendString.get(j).charAt(t) == ',' ||
+	        							t == (myDefendString.get(j).length() - 1)) {
 	        						myDefendIntegerArray.add(Integer.parseInt(strToInt));
 	        						strToInt = "";
 	        					}
@@ -508,44 +509,34 @@ public class Game {
 	        				
 	        				for (int f = 1; f < myDefendIntegerArray.size(); f++) {
 
-	        					currentDefenseAttack = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
-	        					currentDefenseHP = availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
+	        					currentDefenseAttack =
+	        								availableDefenders.get(myDefendIntegerArray.get(f) - 1).getAttack();
+	        					currentDefenseHP =
+	        								availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
 	        					currentAttackHP -=  currentDefenseAttack;
-	        					currentDefenseHP -= currentAttack; 
-	        					
+	        					currentDefenseHP -= currentAttack;
 
-	        					if(currentDefenseHP <= 0){
+	        					if (currentDefenseHP <= 0){
 	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
 	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
 	        					}
 	        					currentAttack = (-1 * currentDefenseHP);
-
-	        				}	
-	        				if(currentAttackHP <= 0){
+	        				}
+	        				// kill the monsters that ran out of HP
+	        				if (currentAttackHP <= 0) {
         						attackerInPlayZone.remove(attackers.get(myDefendIntegerArray.get(0) - 1));	
         						attackerDeadZone.add(attackers.get(myDefendIntegerArray.get(0) - 1));
-        						
 	        				}
 	        				attackers.remove(myDefendIntegerArray.get(0) - 1);
 	        				myDefendIntegerArray.clear();
 	        				System.out.println("");
-
 	        			}
-
 	        		}
 	        		else
 	        			System.out.println("Defend phase over");
-	             
-	                
-	                // TODO: Implement damage portion of attack phase
-	                
-	                // For each set of Defender(s)/Attacker, allocate damage to HP
-	                // use greedy algorithm to assign damage
-	                // See https://en.wikipedia.org/wiki/Greedy_algorithm
-	                // "tie breakers" should be determined by the Player
-	        		for(int f=0; f< attackers.size(); f++){
+	            
+	        		for (int f = 0; f < attackers.size(); f++) {
         				attackValue += attackers.get(f).getAttack();
-        				
         			}
 	        		newHP = playerDefend.getHitPoints() - attackValue;
 	    			playerDefend.setHitPoints(newHP);
@@ -553,11 +544,8 @@ public class Game {
 		            
 	                break; // Since we found one monster for the attacker, break out of this loop as
 	                       // it has served its purpose
-	            
 	            }
-
             }
-
         }
         System.out.println(attackerInPlayZone);
         System.out.println(defenderInPlayZone);
