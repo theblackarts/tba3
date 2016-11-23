@@ -86,6 +86,7 @@ public class Game {
         ArrayList<Card> handTwo = playerTwo.getHand();
 
         // Main game loop that allows players to take turns until one of them goes to 0 HP.
+        gameloop:
         while (true) {
             
         	// Display the turn number (e.g. first turn is 1, second turn is 2, and so on)
@@ -537,7 +538,7 @@ public class Game {
 	        		if (newHP <= 0) {
 	        			// Attacking player wins!
 	        			System.out.println(playerAttack.getFirstName() + " wins!");
-	        			break;
+	        			// TODO: How to break out of the main game loop?
 	        		} else {
 	        			playerDefend.setHitPoints(newHP);
 		    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
