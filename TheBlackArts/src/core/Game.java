@@ -9,7 +9,11 @@
  * The crownless again shall be king."
  *  --J. R. R. Tolkein
  *
- * GL & HF, Shuffle up and deal!
+ * glhf
+ * 
+ * G-_-g
+ * 
+ * shuffle up and deal!
  */
 
 package core;
