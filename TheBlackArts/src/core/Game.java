@@ -533,25 +533,28 @@ public class Game {
         				attackValue += attackers.get(f).getAttack();
         			}
 	        		newHP = playerDefend.getHitPoints() - attackValue;
+	        		// Win condition
 	        		if (newHP <= 0) {
 	        			// Attacking player wins!
 	        			System.out.println(playerAttack.getFirstName() + " wins!");
 	        			break;
-	        		}
-	    			playerDefend.setHitPoints(newHP);
-	    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
-		            
-	                break; // Since we found one monster for the attacker, break out of this loop as
-	                       // it has served its purpose
+	        		} else {
+	        			playerDefend.setHitPoints(newHP);
+		    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
+			            
+		                break; // Since we found one monster for the attacker, break out of this loop as
+		                       // it has served its purpose
+		            }
 	            }
-            }
-        }
-        System.out.println(attackerInPlayZone);
-        System.out.println(defenderInPlayZone);
-        System.out.println(attackerDeadZone);
-        System.out.println(defenderDeadZone);
-        attackPhase = false;
-        System.out.println("End [ATTACK PHASE]");
+	        }
+	        System.out.println(attackerInPlayZone);
+	        System.out.println(defenderInPlayZone);
+	        System.out.println(attackerDeadZone);
+	        System.out.println(defenderDeadZone);
+	        attackPhase = false;
+	        System.out.println("End [ATTACK PHASE]");
+	        }
+	    			
     }
     
     /**
