@@ -55,11 +55,6 @@ public class Game {
     private int cardChoice;
     private Card card;
 
-    // FTW!
-    private boolean playerOneWin = false;
-    private boolean playerTwoWin = false;
-
-
     // Constructors
     public Game(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
@@ -218,9 +213,6 @@ public class Game {
     	return playerTwoInPlayZone;
     }
     
-    public void setPlayerOneWin(boolean playerOneWin) {
-		this.playerOneWin = playerOneWin;
-	}
 
     public int getTotalTurns() {
 		return totalTurns;
@@ -348,13 +340,13 @@ public class Game {
     }
 
     /**
-     * Start the attack phase for a player. If a player has no Monster's in play, skip this phase.
+     * Start the attack phase
      * @param attackerInPlayZone
      * @param defenderInPlayZone
      * @param attackerDeadZone
      * @param defenderDeadZone
-     * Attack phase:
-     * Start the attack phase for a player.
+     * @param playerAttack
+     * @param playerDefend
      */
     public void startAttackPhase(ArrayList<Card> attackerInPlayZone,
                                  ArrayList<Card> defenderInPlayZone,
@@ -517,7 +509,7 @@ public class Game {
 	        					currentDefenseHP -= currentAttack;
 	        					
 	        					// kill the defending monster that ran out of HP
-	        					if (currentDefenseHP <= 0){
+	        					if (currentDefenseHP <= 0) {
 	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
 	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
 	        					}
@@ -541,8 +533,13 @@ public class Game {
         				attackValue += attackers.get(f).getAttack();
         			}
 	        		newHP = playerDefend.getHitPoints() - attackValue;
+	        		if (newHP <= 0) {
+	        			// Attacking player wins!
+	        			System.out.println(playerAttack.getFirstName() + " wins!");
+	        			break;
+	        		}
 	    			playerDefend.setHitPoints(newHP);
-	    			System.out.println(newHP);
+	    			System.out.println("Damage has been assigned, " + playerDefend.getFirstName() + " you are now at " + newHP + " HP");
 		            
 	                break; // Since we found one monster for the attacker, break out of this loop as
 	                       // it has served its purpose
