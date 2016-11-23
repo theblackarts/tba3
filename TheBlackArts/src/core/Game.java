@@ -515,14 +515,16 @@ public class Game {
 	        								availableDefenders.get(myDefendIntegerArray.get(f) - 1).getHitPoints();
 	        					currentAttackHP -=  currentDefenseAttack;
 	        					currentDefenseHP -= currentAttack;
-
+	        					
+	        					// kill the defending monster that ran out of HP
 	        					if (currentDefenseHP <= 0){
 	        						defenderInPlayZone.remove(availableDefenders.get(myDefendIntegerArray.get(f) - 1));	
 	        						defenderDeadZone.add(availableDefenders.get(myDefendIntegerArray.get(f) - 1));
 	        					}
 	        					currentAttack = (-1 * currentDefenseHP);
 	        				}
-	        				// kill the monsters that ran out of HP
+	        				
+	        				// kill the attacking monster that ran out of HP
 	        				if (currentAttackHP <= 0) {
         						attackerInPlayZone.remove(attackers.get(myDefendIntegerArray.get(0) - 1));	
         						attackerDeadZone.add(attackers.get(myDefendIntegerArray.get(0) - 1));
