@@ -136,7 +136,7 @@ public class Game {
                 
             	startRefreshPhase(playerTwoInPlayZone);
                 
-            	// ********************* (2) Draw ************************
+            // ********************* (2) Draw ************************
             startDrawPhase(deckTwo, handTwo);
                 
             // ********************* (3) Attack **********************
@@ -191,7 +191,7 @@ public class Game {
         // Check if the card is a Monster or not a Monster
         if (card instanceof Monster) {
             System.out.println("You picked " + card.getCardName());
-            System.out.println("It costs " + card.getGoldCost() + " clubs (soon this will just be gold.)");
+            System.out.println("It costs " + card.getGoldCost());
         } else if (card instanceof Gold) {
             System.out.println("You picked " + card.getCardName());
         }
