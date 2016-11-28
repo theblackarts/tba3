@@ -617,7 +617,8 @@ public class Game {
     	 */
     	purchasePhase = true;
     	System.out.println("Start [PURCHASE PHASE]");
-        
+    	char decision;
+        Scanner input = new Scanner(System.in);
         // Get the amount of gold that the player has at the start of his
     	// or her purchase phase
         int amountOfUnusedGold = calculateAmountOfUnusedGold(inPlayZone);
@@ -657,6 +658,15 @@ public class Game {
                 }
                 
                 // Prompt the user for input
+                
+                do{//Deciding if the player want to skip the purchase phase.
+                	System.out.println("Do you want to Purchase cards(Y/N): ");
+                	  decision = input.next().charAt(0);
+                	 
+                }while( decision != 'Y' && decision != 'y' && decision != 'N' && decision != 'n');
+                
+                if (decision == 'Y' || decision == 'y'){
+                	
                 System.out.print("Pick a card by typing the associated integer value: ");
                 
                 // Get the Player's card choice
@@ -670,7 +680,11 @@ public class Game {
                 		input.nextLine();
                 	}
                 }
-                
+                }
+                else if(decision == 'N' || decision == 'n') {
+                	System.out.println("You skipped purchasing cards.");
+                	break;
+                }
                 // Store the card in a variable that the Player selected
                 card = hand.get(cardChoice - 1); // Subtract one to account for 0 index
                 
