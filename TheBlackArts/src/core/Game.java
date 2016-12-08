@@ -121,7 +121,8 @@ public class Game {
                 startPurchasePhase(handOne,
                 		           playerOneInPlayZone,
                 		           playerTwoInPlayZone,
-                		           playerTwoDeadZone);
+                		           playerTwoDeadZone,
+                		           this.playerTwo);
                 
                 // ********************* (6) End *************************
                 startEndPhase();
@@ -159,7 +160,8 @@ public class Game {
             startPurchasePhase(handTwo,
             		           playerTwoInPlayZone,
             		           playerOneInPlayZone,
-            		           playerOneDeadZone);
+            		           playerOneDeadZone,
+            		           this.playerOne);
             
             // ********************* (6) End *************************
             startEndPhase();
@@ -372,8 +374,14 @@ public class Game {
         for (int i = 0, n = attackerInPlayZone.size(); i < n; i++) {
             if (attackerInPlayZone.get(i) instanceof Monster) { // We know there is at least one monster
 
-	            System.out.println("Do you wish to attack (Y/N)");
-	            decideYN = input.next().charAt(0);
+            	do{
+            		System.out.println("Do you wish to attack (Y/N)");
+    	            decideYN = input.next().charAt(0);
+                	 
+                }while( decideYN != 'Y' && decideYN != 'y' && decideYN != 'N' && decideYN != 'n');
+            	
+            	
+            	
 	            if (decideYN == 'Y' || decideYN == 'y') {
 	                
 	            	/* ========================================================
@@ -389,7 +397,7 @@ public class Game {
 	                // TODO: Make this a helper method
 	                for (int j = 0; j < n; j++)
 	                    if (attackerInPlayZone.get(j) instanceof Monster)
-	                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName());
+	                        System.out.println((j + 1) + ": " + attackerInPlayZone.get(j).getCardName() + " "  + ((Monster) attackerInPlayZone.get(j)).getAttack() + " " + ((Monster) attackerInPlayZone.get(j)).getHitPoints());
 	
 	                // Get the input
 	                String attackSelectsStr = input.next();
@@ -436,21 +444,22 @@ public class Game {
 	                        // Determine which of the two ArrayLists are longer
 	                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
 	                            for (int j = 0, as = attackers.size(); j < as; j++) {
-	                                System.out.format("%s %-18s", j, attackers.get(j).getCardName());
+	                                System.out.format("%s %-18s %d %d", j + 1, attackers.get(j).getCardName(), attackers.get(j).getAttack(), attackers.get(j).getHitPoints());
 	                                if (j >= 0 && j < availableDefenders.size()) {
-	                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName());
+	                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName() + " " + availableDefenders.get(j).getAttack() + " " + availableDefenders.get(j).getHitPoints());
 	                                } else {
 	                                    System.out.println();
 	                                }
 	                            }
-	                        } else { // availableDefenders is the bigger ArrayList
+	                        } 
+	                        else { // availableDefenders is the bigger ArrayList
 	                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
 	                                if (k >= 0 && k < attackers.size()) {
-	                                    System.out.format("%s %-18s", k + 1, attackers.get(k).getCardName());
+	                                    System.out.format("%s %-18s %d %d", k + 1, attackers.get(k).getCardName(), attackers.get(k).getAttack(), attackers.get(k).getHitPoints());
 	                                } else {
 	                                    System.out.format("%-20s", "");
 	                                }
-	                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName());
+	                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName() + " " + availableDefenders.get(k).getAttack() + " " + availableDefenders.get(k).getHitPoints());
 	                            }
 	                        }
 	                        break; // since we found one monster for the defender, break out of this loop as
@@ -463,8 +472,12 @@ public class Game {
 	        		String defendString;
 	        		String defendChoice="";
 	        		
-	        		System.out.println("Do you wish to defend (Y/N)");
-	        		decideYN = input.next().charAt(0); 
+	        		do{
+	        			System.out.println("Do you wish to defend (Y/N)");
+		        		decideYN = input.next().charAt(0);
+		        		
+	                }while( decideYN != 'Y' && decideYN != 'y' && decideYN != 'N' && decideYN != 'n');
+	        		 
 	        		if (decideYN == 'Y' || decideYN == 'y' ) {
 	        			System.out.println("How do you want to Defend Ex: (1,2)(2,1)");
 	        			defendString = input.next();
@@ -550,11 +563,34 @@ public class Game {
 		                       // it has served its purpose
 		            }
 	            }
-	        }
-	        System.out.println(attackerInPlayZone);
-	        System.out.println(defenderInPlayZone);
-	        System.out.println(attackerDeadZone);
-	        System.out.println(defenderDeadZone);
+	            System.out.print("Cards in Attacker's Play Zone: ");
+	            for(int j= 0; j < attackerInPlayZone.size(); j++){
+	            	System.out.print(attackerInPlayZone.get(j).getCardName() + " ");
+	            	
+	            }
+	            System.out.println("");
+	            System.out.print("Cards in Defender's Play Zone: ");
+	            for(int j= 0; j < defenderInPlayZone.size(); j++){
+	            	System.out.print(defenderInPlayZone.get(j).getCardName() + " ");
+	            	
+	            }
+	            System.out.println("");
+	            System.out.print("Cards in Attacker's Dead Zone: ");
+	            for(int j= 0; j < attackerDeadZone.size(); j++){
+	            	System.out.print(attackerDeadZone.get(j).getCardName() + " ");
+	            	
+	            }
+	            System.out.println("");
+	            System.out.print("Cards in Defender's Dead Zone: ");
+	            for(int j= 0; j < defenderDeadZone.size(); j++){
+	            	System.out.print(defenderDeadZone.get(j).getCardName() + " ");
+	            	
+	            }
+	            System.out.println("");
+		        
+		        
+            }
+	        
 	        attackPhase = false;
 	        System.out.println("End [ATTACK PHASE]");
 	        }
@@ -603,7 +639,7 @@ public class Game {
      * @param inPlayZone
      */
     public void startPurchasePhase(ArrayList<Card> hand, ArrayList<Card> inPlayZone,
-    		ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone) {
+    		ArrayList<Card> inSelectPlayZone, ArrayList<Card> deadZone, Player defendingPlayer) {
 
     	/*
     	 * We need a way to handle the purchase of Action cards differently than
@@ -726,14 +762,20 @@ public class Game {
                         
                         System.out.println("You played a " + card.getCardName() + " to your play zone.");
                     // Case when it is an Action Card Execute
-                    } else if (card instanceof Execute) {
+                    } 
+                    else if (card instanceof Execute) {
                     	((Execute) card).killSelectMonster(inSelectPlayZone, deadZone);
                     }
-                } else { // Player does not have enough unused gold to pay for the card
+                    else if(card instanceof Damage){
+                    	defendingPlayer.setHitPoints(((Damage) card).damageHitPoints(defendingPlayer));
+                    }
+                } 
+                else { // Player does not have enough unused gold to pay for the card
                     System.out.println("You do not have enough unused gold to pay for " + card.getCardName());
-                    break;
+                    //break;
                 }
-            } else {
+            } 
+        	else {
             	break;
             }
         }
