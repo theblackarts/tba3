@@ -557,8 +557,7 @@ public class Game {
 	        System.out.println(defenderDeadZone);
 	        attackPhase = false;
 	        System.out.println("End [ATTACK PHASE]");
-	        }
-	    			
+	        }			
     }
     
     /**
