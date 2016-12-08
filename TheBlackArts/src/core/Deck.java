@@ -52,18 +52,39 @@ public class Deck {
     	
     		deck = new ArrayList<Card>(DECKSIZE);
 
-        for (int i = 0, n = 20; i < n; i++) {
+        for (int i = 0, n = 25; i < n; i++) {
             deck.add(new Gold());
         }
         
       // The other half of the deck is made of Bear Cards
-        for (int i = 0, n = 20; i < n; i++) {
-            deck.add(new Monster("Bear", 10, 10, 2));
+        for (int i = 0, n = 5; i < n; i++) {
+            deck.add(new Monster("Goblin", 5, 5, 1));
+        }
+        for (int i = 0, n = 4; i < n; i++) {
+            deck.add(new Monster("Chinchilla Scout", 10, 5, 2));
+        }
+        for (int i = 0, n = 4; i < n; i++) {
+            deck.add(new Monster("Chinchilla Gaurdian", 5, 10, 2));
+        }
+        for (int i = 0, n = 4; i < n; i++) {
+            deck.add(new Monster("Siren", 15, 15, 3));
+        }
+        for (int i = 0, n = 2; i < n; i++) {
+            deck.add(new Monster("Little Joker", 25, 5, 3));
         }
         
-        for (int i = 0, n = 12; i<n; i++){
-          deck.add(new Execute("execute",2));
+        deck.add(new Monster("Centaur", 25, 30, 4));
+        
+        
+        for (int i = 0, n = 4; i<n; i++){
+        	deck.add(new Execute("Execute",2));
         }
+        for (int i = 0, n = 2; i<n; i++){
+        	deck.add(new Damage("Damage",2, 10));
+        }
+        
+        deck.add(new Damage("Double Damage",3, 20));
+       
         return deck;
     }
 
