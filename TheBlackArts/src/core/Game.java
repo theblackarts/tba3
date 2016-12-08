@@ -444,7 +444,7 @@ public class Game {
 	                        // Determine which of the two ArrayLists are longer
 	                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
 	                            for (int j = 0, as = attackers.size(); j < as; j++) {
-	                                System.out.format("%s %-18s %d %d", j + 1, attackers.get(j).getCardName(), attackers.get(j).getAttack(), attackers.get(j).getHitPoints());
+	                                System.out.format("%s %s %d %-18d", j + 1, attackers.get(j).getCardName(), attackers.get(j).getAttack(), attackers.get(j).getHitPoints());
 	                                if (j >= 0 && j < availableDefenders.size()) {
 	                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName() + " " + availableDefenders.get(j).getAttack() + " " + availableDefenders.get(j).getHitPoints());
 	                                } else {
@@ -455,7 +455,7 @@ public class Game {
 	                        else { // availableDefenders is the bigger ArrayList
 	                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
 	                                if (k >= 0 && k < attackers.size()) {
-	                                    System.out.format("%s %-18s %d %d", k + 1, attackers.get(k).getCardName(), attackers.get(k).getAttack(), attackers.get(k).getHitPoints());
+	                                    System.out.format("%s %s %d %-18d", k + 1, attackers.get(k).getCardName(), attackers.get(k).getAttack(), attackers.get(k).getHitPoints());
 	                                } else {
 	                                    System.out.format("%-20s", "");
 	                                }
