@@ -20,7 +20,7 @@ public class TestGameMainLoop {
 		System.out.print("Enter player's Two Name: ");
 		playerTwo = input.next();
 		
-		Game game = new Game(new Player(playerOne), new Player(playerTwo));
+		Game game = new Game(new Player(playerOne, 100), new Player(playerTwo, 100));
 		//game.announceGame();
 		game.startGame(game.getPlayerOne(), game.getPlayerTwo());
 

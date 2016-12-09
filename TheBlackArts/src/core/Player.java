@@ -10,7 +10,7 @@ public class Player {
    
     private String firstName;
     private String lastName;
-    private int hitPoints = 1; // change back to 100, this is at 1 for testing win condition
+    private int hitPoints; // change back to 100, this is at 1 for testing win condition
     public static final int OPENINGHANDSIZE = 7;
     
     // Each player has one deck
@@ -74,8 +74,9 @@ public class Player {
     
     }
     
-    public Player(String firstName) {
+    public Player(String firstName, int hitPoints) {
         this.firstName = firstName;
+        this.hitPoints = hitPoints; 
     }
     
     
