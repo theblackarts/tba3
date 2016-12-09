@@ -5,13 +5,16 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Player {
    
-    private String firstName;
-    private String lastName;
-    private int hitPoints = 20; // change back to 100, this is at 1 for testing win condition
     public static final int OPENINGHANDSIZE = 7;
+	private String firstName;
+    private String lastName;
+
+    private int hitPoints = 20;
+
     
     // Each player has one deck
     Deck deckManager = new Deck();
@@ -74,8 +77,9 @@ public class Player {
     
     }
     
-    public Player(String firstName) {
+    public Player(String firstName, int hitPoints) {
         this.firstName = firstName;
+        this.hitPoints = hitPoints; 
     }
     
     
