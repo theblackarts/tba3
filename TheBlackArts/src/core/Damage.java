@@ -7,7 +7,9 @@ public class Damage extends Card{
 		super.setGoldCost(goldCost);
 		this.damageAmount = setdamageAmount; 
 	}
+	
 	public int damageHitPoints(Player defendingPlayer){
+		
 		return defendingPlayer.getHitPoints() - damageAmount;
 	}
 	
