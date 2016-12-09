@@ -439,25 +439,45 @@ public class Game {
 	                         * ------------------------------------------------------------------------ */
 	
 	                        // Print the header
-	                        System.out.format("%-20s%s\n", "Attackers:", "Avail. Defenders:");
-	
+	                        System.out.print("Attackers:");
+	                        for(int k= 0; k < 25; k++){
+                            	System.out.print(" ");
+                            }
+	                        System.out.println("Avail. Defenders:");
 	                        // Determine which of the two ArrayLists are longer
 	                        if (attackers.size() > availableDefenders.size()) { // attackers is the bigger ArrayList
 	                            for (int j = 0, as = attackers.size(); j < as; j++) {
-	                                System.out.format("%d %s %d %-18d", j + 1, attackers.get(j).getCardName(), attackers.get(j).getAttack(), attackers.get(j).getHitPoints());
-	                                if (j >= 0 && j < availableDefenders.size()) {
+	                            	String printStr = (j + 1) + " " + attackers.get(j).getCardName() + " " + attackers.get(j).getAttack() + " " + attackers.get(j).getHitPoints();
+	                            	System.out.print((j + 1) + " " + attackers.get(j).getCardName() + " " + attackers.get(j).getAttack() + " " + attackers.get(j).getHitPoints());
+	                            	int emptySpaces= 35 - printStr.length();
+	                            	for(int k= 0; k < emptySpaces; k++){
+	                                	System.out.print(" ");
+	                                }
+	                            	
+	                            	if (j >= 0 && j < availableDefenders.size()) {
 	                                    System.out.println((j + 1) + " " + availableDefenders.get(j).getCardName() + " " + availableDefenders.get(j).getAttack() + " " + availableDefenders.get(j).getHitPoints());
-	                                } else {
+	                                } 
+	                            	else {
 	                                    System.out.println();
 	                                }
 	                            }
 	                        } 
 	                        else { // availableDefenders is the bigger ArrayList
 	                            for (int k = 0, ads = availableDefenders.size(); k < ads; k++) {
-	                                if (k >= 0 && k < attackers.size()) {
-	                                    System.out.format("%d %s %d %-18d", k + 1, attackers.get(k).getCardName(), attackers.get(k).getAttack(), attackers.get(k).getHitPoints());
-	                                } else {
-	                                    System.out.format("%-20s", "");
+	                            	
+	                            	if (k >= 0 && k < attackers.size()) {
+	                                    String printStr = (k + 1) + " " + attackers.get(k).getCardName()+ " "  + attackers.get(k).getAttack() + " " + attackers.get(k).getHitPoints();
+	                            		System.out.print((k + 1) + " " + attackers.get(k).getCardName()+ " "  + attackers.get(k).getAttack() + " " + attackers.get(k).getHitPoints());
+	                                    int emptySpaces= 35 - printStr.length();
+	                                    for(int j= 0; j < emptySpaces; j++){
+		                                	System.out.print(" ");
+		                                }
+	                            	}
+	                            	
+	                            	else {
+	                            		for(int w= 0; w < 35; w++){
+	                                    	System.out.print(" ");
+	                                    }
 	                                }
 	                                System.out.println((k + 1) + " " + availableDefenders.get(k).getCardName() + " " + availableDefenders.get(k).getAttack() + " " + availableDefenders.get(k).getHitPoints());
 	                            }
@@ -472,12 +492,16 @@ public class Game {
 	        		String defendString;
 	        		String defendChoice="";
 	        		
-	        		do{
-	        			System.out.println("Do you wish to defend (Y/N)");
-		        		decideYN = input.next().charAt(0);
-		        		
-	                }while( decideYN != 'Y' && decideYN != 'y' && decideYN != 'N' && decideYN != 'n');
-	        		 
+	        		if(availableDefenders.size() > 0){
+		        		do{
+		        			System.out.println("Do you wish to defend (Y/N)");
+			        		decideYN = input.next().charAt(0);
+			        		
+		                }while( decideYN != 'Y' && decideYN != 'y' && decideYN != 'N' && decideYN != 'n');
+	        		}
+	        		else{
+	        			decideYN = 'N';
+	        		}
 	        		if (decideYN == 'Y' || decideYN == 'y' ) {
 	        			System.out.println("How do you want to Defend Ex: (1,2)(2,1)");
 	        			defendString = input.next();
@@ -563,37 +587,39 @@ public class Game {
 		                       // it has served its purpose
 		            }
 	            }
-	            System.out.print("Cards in Attacker's Play Zone: ");
-	            for(int j= 0; j < attackerInPlayZone.size(); j++){
-	            	System.out.print(attackerInPlayZone.get(j).getCardName() + " ");
-	            	
-	            }
-	            System.out.println("");
-	            System.out.print("Cards in Defender's Play Zone: ");
-	            for(int j= 0; j < defenderInPlayZone.size(); j++){
-	            	System.out.print(defenderInPlayZone.get(j).getCardName() + " ");
-	            	
-	            }
-	            System.out.println("");
-	            System.out.print("Cards in Attacker's Dead Zone: ");
-	            for(int j= 0; j < attackerDeadZone.size(); j++){
-	            	System.out.print(attackerDeadZone.get(j).getCardName() + " ");
-	            	
-	            }
-	            System.out.println("");
-	            System.out.print("Cards in Defender's Dead Zone: ");
-	            for(int j= 0; j < defenderDeadZone.size(); j++){
-	            	System.out.print(defenderDeadZone.get(j).getCardName() + " ");
-	            	
-	            }
-	            System.out.println("");
+	            
 		        
 		        
             }
+            
+            attackPhase = false;
 	        
-	        attackPhase = false;
-	        System.out.println("End [ATTACK PHASE]");
 	        }
+        System.out.print("Cards in Attacker's Play Zone: ");
+        for(int j= 0; j < attackerInPlayZone.size(); j++){
+        	System.out.print(attackerInPlayZone.get(j).getCardName() + " ");
+        	
+        }
+        System.out.println("");
+        System.out.print("Cards in Defender's Play Zone: ");
+        for(int j= 0; j < defenderInPlayZone.size(); j++){
+        	System.out.print(defenderInPlayZone.get(j).getCardName() + " ");
+        	
+        }
+        System.out.println("");
+        System.out.print("Cards in Attacker's Dead Zone: ");
+        for(int j= 0; j < attackerDeadZone.size(); j++){
+        	System.out.print(attackerDeadZone.get(j).getCardName() + " ");
+        	
+        }
+        System.out.println("");
+        System.out.print("Cards in Defender's Dead Zone: ");
+        for(int j= 0; j < defenderDeadZone.size(); j++){
+        	System.out.print(defenderDeadZone.get(j).getCardName() + " ");
+        	
+        }
+        System.out.println("");
+        System.out.println("End [ATTACK PHASE]");
 	    			
     }
     
@@ -768,6 +794,7 @@ public class Game {
                     }
                     else if(card instanceof Damage){
                     	defendingPlayer.setHitPoints(((Damage) card).damageHitPoints(defendingPlayer));
+                    	System.out.println("Damage has been assigned, " + defendingPlayer.getFirstName() + " you are now at " + defendingPlayer.getHitPoints() + " HP");
                     }
                 } 
                 else { // Player does not have enough unused gold to pay for the card
